@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/Users/david.sapiro/.config/.git'
+let g:netrw_dirhist_4='/Users/david.sapiro/.config/nvim'
+let g:netrw_dirhist_3='/Users/david.sapiro/.config/nvim/session'
+let g:netrw_dirhist_2='/Users/david.sapiro/.config/nvim'
+let g:netrw_dirhist_1='/Users/david.sapiro/dev/completion-templates-js'
+let g:netrw_dirhist_0='/Users/david.sapiro/dev/completion-templates-js/src'
+let g:netrw_dirhist_9='/Users/david.sapiro/dev/completion-templates-js'
+let g:netrw_dirhist_8='/Users/david.sapiro/dev/docupedia-js'
+let g:netrw_dirhist_7='/Users/david.sapiro/dev/document-checks'
+let g:netrw_dirhist_6='/Users/david.sapiro/dev/document-checks/app'
