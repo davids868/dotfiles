@@ -27,6 +27,7 @@ set noshowmode                  " removes  --INSERT--
 set autoread                    " enables aoto reading of files edited outside vim
 " set cursorline
 set synmaxcol=150
+set ttyfast
 
 " highlight search results
 augroup vimrc-incsearch-highlight
@@ -54,8 +55,11 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 augroup highlight_yank
     autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank("IncSearch", 100)
+    au TextYankPost * silent! lua vim.highlight.on_yank { higroup='IncSearch', timeout=200 }
 augroup END
+
+" Polyglot
+let g:polyglot_disabled = ['elm', 'markdown']
 
 " always show signcolumns
 set signcolumn=yes
@@ -64,12 +68,13 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
+Plug 'shumphrey/fugitive-gitlab.vim'
 " Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'stsewd/fzf-checkout.vim'
+Plug 'stsewd/fzf-checkout.vim'
 " Plug 'scrooloose/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
@@ -80,13 +85,22 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-surround'
 Plug 'mg979/vim-visual-multi'
-Plug 'junegunn/goyo.vim'
+" Plug 'junegunn/goyo.vim'
+Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-commentary'
 Plug 'psliwka/vim-smoothie'
+Plug 'nvim-treesitter/nvim-treesitter'
+
+Plug 'elmcast/elm-vim'
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
+" Plug 'svermeulen/vim-easyclip'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 " Plug 'metakirby5/codi.vim'
 
 Plug 'gruvbox-community/gruvbox'
+" Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-gruvbox8'
 Plug 'joshdick/onedark.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'itchyny/lightline.vim'
@@ -98,16 +112,18 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-let g:gruvbox_contrast_dark = 'hard'
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-let g:gruvbox_invert_selection='0'
+" let g:gruvbox_contrast_dark = 'hard'
+" if exists('+termguicolors')
+"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
+" let g:gruvbox_invert_selection='0'
 
 " --- The Greatest plugin of all time.  I am not bias
 " let g:vim_be_good_floating = 0
-colorscheme gruvbox
+"
+let g:gruvbox_plugin_hi_groups = 0
+colorscheme gruvbox8
 set background=dark
 
 if executable('rg')
@@ -124,9 +140,11 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
+" elm format
+let g:elm_format_autosave = 1
+
 " vim airline/lightline
 set showtabline=2
-" let g:airline#extensions#tabline#enabled = 1
 let g:lightline = {
       \ 'colorscheme': 'onedark',
       \ 'active': {
@@ -173,22 +191,27 @@ inoremap jk <Esc>
 inoremap kj <Esc>
 map <C-c> <Esc>
 
-" nnoremap <silent> <TAB> :tabnext<CR>
-" nnoremap <silent> <S-TAB> :tabprevious<CR>
-" nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
+" Yank to end of line
+nnoremap Y y$
+
+" x not override clipboard
+nnoremap x "_x
+nnoremap X "_x
+vnoremap p "_dP
 
 " search
-nnoremap <leader>F :Rg<space>
-" nnoremap <leader>F :Rg <C-R>=expand("<cword>")<CR><CR>
-vnoremap <leader>F :Rg '<,'><CR>
+nnoremap <Leader>F :Rg<space>
 nnoremap <Leader>f :BLines<CR>
-" nnoremap <leader>*f :Rg <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>* :Rg <C-R>=expand("<cword>")<CR><CR>
+" nnoremap <leader>F :Rg <C-R>=expand("<cword>")<CR><CR>
+" vnoremap <Leader>F :Rg '<,'><CR>
 nnoremap <leader>p :GFiles<CR>
 nnoremap <leader>P :Commands<CR>
 nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>r :History<CR>
 nnoremap <Leader>; :History:<CR>
+nnoremap <Leader>/ :History/<CR>
 
 " replace
 " nnoremap <silent>*s :let @/='\<'.expand('<cword>').'\>'<CR>cgn
@@ -206,8 +229,8 @@ inoremap <C-s> <Esc>:w<CR>
 " Use alt + hjkl to resize windows
 nnoremap <silent> <M-j> :resize -2<CR>
 nnoremap <silent> <M-k> :resize +2<CR>
-nnoremap <silent> <M-h> :vertical resize -3<CR>
-nnoremap <silent> <M-l> :vertical resize +3<CR>
+nnoremap <silent> <M-h> :vertical resize -10<CR>
+nnoremap <silent> <M-l> :vertical resize +10<CR>
 
 inoremap <C-h> <C-o>h
 inoremap <C-l> <C-o>a
@@ -224,7 +247,11 @@ vnoremap > >gv
 nnoremap < <<
 nnoremap > >>
 
-nnoremap <leader>u :UndotreeShow<CR>
+" Better incsearch
+cnoremap <c-j> <c-g>
+cnoremap <c-k> <c-t>
+
+nnoremap <leader>u :UndotreeToggle<CR>
 nnoremap <Leader><CR> :source ~/.config/nvim/init.vim<CR>
 
 " Open init.vim in new tab
@@ -234,7 +261,8 @@ nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
 nmap <Leader>n :CocCommand explorer<CR>
 
 " Goyo
-nmap <Leader>z :Goyo<CR>
+" nmap <Leader>z :Goyo<CR>
+nmap <Leader>z :MaximizerToggle<CR>
 
 " run las used macro on selected lines
 vnoremap @@ :normal @@<CR>
@@ -325,13 +353,22 @@ au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <leader>t :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <leader>t :exe "tabn ".g:lasttab<cr>
 
+" restore closed tab
+" noremap <leader>T :tabnew<bar>:Buffers<CR><CR>
+
 " Sweet Sweet FuGITive
+let g:fugitive_gitlab_domains = ['https://gitlab.eu-west-1.mgmt.onfido.xyz/']
+
+map <leader>ge :GBrowse<CR>
 nmap <leader>gl :diffget //3<CR>
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gs :tab G<CR>
 nmap <leader>gb :Git blame<CR>
-nmap <leader>gp :Git push
-nmap <leader>go :GCheckout<CR>
+nmap <leader>gpl :Gpull<CR>
+nmap <leader>gpp :Git push
+nmap <leader>gpf :Git push -f
+" nmap <leader>gpu :Git push -u origin FugitiveHead()
+nmap <leader>go :GBranches<CR>
 nmap <leader>gc :Commits<CR>
 
 fun! TrimWhitespace()
@@ -340,16 +377,34 @@ fun! TrimWhitespace()
     call winrestview(l:save)
 endfun
 
-
 augroup trim_whitespaces
   autocmd BufWritePre * :call TrimWhitespace()
 augroup end
+
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = all,
+  highlight = {
+    enable = true,
+  },
+}
+EOF
 
 " fzf
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1 } }
 let g:fzf_buffers_jump = 1
 
+" firenvim
+if exists('g:started_by_firenvim')
+  set laststatus=0
+  set showtabline=1
+endif
+
 " VimWiki
+let g:vimwiki_key_mappings = { 'table_mappings': 0 }
+au FileType vimwiki inoremap <silent> <buffer> <expr> <CR>   pumvisible() ? "\<CR>"   : "<Esc>:VimwikiReturn 1 5<CR>"
+au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-CR>" : "<Esc>:VimwikiReturn 2 2<CR>"
+
 " set nocompatible
 " filetype plugin on
 " let g:vimwiki_list = [{'auto_diary_index': 1}]
@@ -363,6 +418,23 @@ function! ToggleSpellCheck()
     echo "Spellcheck OFF"
   endif
 endfunction
+
+
+" let g:profiling = 0
+" function! ToggleProfiling()
+"   if g:profiling
+"     let g:profiling = 1
+"     profile start profiling.log
+"     profile file *
+"     profile func *
+"     echo "Profiling ON"
+"   else
+"     let g:profiling = 0
+"     profile stop
+"     echo "Profiling OFF"
+"   endif
+" endfunction
+" command! Profiling call ToggleProfiling()
 
 " Custom commands
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
