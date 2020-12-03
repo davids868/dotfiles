@@ -195,8 +195,8 @@ map <C-c> <Esc>
 nnoremap Y y$
 
 " x not override clipboard
-nnoremap x "_x
-nnoremap X "_x
+noremap x "_x
+noremap X "_x
 vnoremap p "_dP
 
 " search
@@ -259,6 +259,9 @@ nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
 
 " coc explorerc
 nmap <Leader>n :CocCommand explorer<CR>
+
+" Coc yanks
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 " Goyo
 " nmap <Leader>z :Goyo<CR>
@@ -383,7 +386,7 @@ augroup end
 
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = all,
+  ensure_installed = "all",
   highlight = {
     enable = true,
   },
