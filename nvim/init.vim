@@ -92,7 +92,7 @@ Plug 'psliwka/vim-smoothie'
 Plug 'nvim-treesitter/nvim-treesitter'
 
 Plug 'elmcast/elm-vim'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
 
 " Plug 'svermeulen/vim-easyclip'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
@@ -291,6 +291,11 @@ let g:coc_global_extensions = [
   \ 'coc-solargraph',
   \ 'coc-html',
   \ 'coc-explorer'
+  \ 'coc-yank',
+  \ 'coc-tabnine',
+  \ 'coc-stylelint',
+  \ 'coc-css',
+  \ 'coc-go',
   \ ]
 
 if has('nvim')
@@ -398,6 +403,20 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1 } }
 let g:fzf_buffers_jump = 1
 
 " firenvim
+let g:firenvim_config = {
+    \ 'globalSettings': {
+        \ 'alt': 'all',
+    \  },
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'cmdline': 'neovim',
+            \ 'priority': 0,
+            \ 'selector': 'textarea',
+            \ 'takeover': 'never',
+        \ },
+    \ }
+\ }
+au BufEnter gitlab* set filetype=markdown
 if exists('g:started_by_firenvim')
   set laststatus=0
   set showtabline=1
