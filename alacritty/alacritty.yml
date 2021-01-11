@@ -360,6 +360,11 @@ key_bindings:
   - { key: K,        mods: Alt,     chars: "\x1bk"          }
   - { key: H,        mods: Alt,     chars: "\x1bh"          }
   - { key: L,        mods: Alt,     chars: "\x1bl"          }
+
+  - { key: Left,     mods: Alt,     chars: "\x1bb"                       }
+  - { key: Right,    mods: Alt,     chars: "\x1bf"                       }
+  - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
+  - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
   # (Windows, Linux, and BSD only)
   #- { key: V,        mods: Control|Shift, action: Paste            }
   #- { key: C,        mods: Control|Shift, action: Copy             }
@@ -379,7 +384,7 @@ key_bindings:
   #- { key: Add,    mods: CoControl|Shiftmmand,         action: IncreaseFontSize }
   #- { key: Minus,  mods: CoControl|Shiftmmand,         action: DecreaseFontSize }
   #- { key: K,      mods: CoControl|Shiftmmand,         action: ClearHistory     }
-  #- { key: K,      mods: CoControl|Shiftmmand,         chars: "\x0c"            }
+  # - { key: K,      mods: Control|Shift|Command,         chars: "\x0c"            }
   #- { key: V,      mods: CoControl|Shiftmmand,         action: Paste            }
   #- { key: C,      mods: CoControl|Shiftmmand,         action: Copy             }
   #- { key: H,      mods: Command,         action: Hide             }
