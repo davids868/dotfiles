@@ -17,14 +17,11 @@
   "yank.highlight.enable": false,
   "explorer.width": 35,
   "explorer.icon.enableNerdfont": true,
+  "explorer.file.showHiddenFiles": true,
   "explorer.previewAction.onHover": false,
   "explorer.icon.enableVimDevicons": false,
   "explorer.keyMappings.global": {
-    "<cr>": [
-      "expandable?",
-      "expand",
-      "open"
-    ],
+    "<cr>": ["expandable?", "expand", "open"],
     "v": "open:vsplit",
     "i": "tabCD"
   },
@@ -38,12 +35,8 @@
   "languageserver": {
     "elmLS": {
       "command": "elm-language-server",
-      "filetypes": [
-        "elm"
-      ],
-      "rootPatterns": [
-        "elm.json"
-      ],
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
       "initializationOptions": {
         "elmPath": "elm", // optional
         "elmFormatPath": "elm-format", // optional

@@ -75,7 +75,6 @@ Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
-" Plug 'scrooloose/nerdcommenter'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
 Plug 'mhinz/vim-startify'
@@ -85,19 +84,27 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'vimwiki/vimwiki'
 Plug 'tpope/vim-surround'
 Plug 'mg979/vim-visual-multi'
-" Plug 'junegunn/goyo.vim'
+Plug 'chiedo/vim-case-convert'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-commentary'
 Plug 'psliwka/vim-smoothie'
-Plug 'nvim-treesitter/nvim-treesitter'
-
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'svermeulen/vim-cutlass'
 Plug 'elmcast/elm-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
+Plug 'jpalardy/vim-slime'
 
+"-----------------
+" Experimental
+"-----------------
+" Plug 'dbeniamine/cheat.sh-vim'
 " Plug 'svermeulen/vim-easyclip'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 " Plug 'metakirby5/codi.vim'
 
+"-----------------
+" Styles
+"-----------------
 Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
 Plug 'lifepillar/vim-gruvbox8'
@@ -105,10 +112,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'flazz/vim-colorschemes'
-" Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
-
-" devicons sould be the last to loaded
-Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
 
@@ -119,18 +123,13 @@ call plug#end()
 " endif
 " let g:gruvbox_invert_selection='0'
 
-" --- The Greatest plugin of all time.  I am not bias
-" let g:vim_be_good_floating = 0
-"
 let g:gruvbox_plugin_hi_groups = 0
-colorscheme gruvbox8
+colorscheme gruvbox8_hard
 set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-
-let g:ranger_replace_netrw = 1 "// open ranger when vim open a directory
 
 let loaded_matchparen = 1
 let mapleader = " "
@@ -194,19 +193,25 @@ map <C-c> <Esc>
 " Yank to end of line
 nnoremap Y y$
 
-" x not override clipboard
-noremap x "_x
-noremap X "_x
+" Better clipboard, adds m for move
+nnoremap gm m
+nnoremap m d
+xnoremap m d
+nnoremap mm dd
+nnoremap M D
 vnoremap p "_dP
+" noremap x "_x
+" noremap X "_x
 
 " search
+vnoremap / y/\<<C-R>"\>
 nnoremap <Leader>F :Rg<space>
 nnoremap <Leader>f :BLines<CR>
 " nnoremap <leader>* :Rg <C-R>=expand("<cword>")<CR><CR>
 " nnoremap <leader>F :Rg <C-R>=expand("<cword>")<CR><CR>
 " vnoremap <Leader>F :Rg '<,'><CR>
 nnoremap <leader>p :GFiles<CR>
-nnoremap <leader>P :Commands<CR>
+noremap <leader>P :Commands<CR>
 nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>r :History<CR>
@@ -225,6 +230,7 @@ nnoremap <Leader>/ :History/<CR>
 map <leader>q :qa<CR>
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
+nnoremap <leader>e :e<CR>
 
 " Use alt + hjkl to resize windows
 nnoremap <silent> <M-j> :resize -2<CR>
@@ -274,11 +280,6 @@ vnoremap @@ :normal @@<CR>
 let g:gitgutter_terminal_reports_focus=0
 let g:gitgutter_map_keys = 0
 
-" commenter
-" let g:NERDSpaceDelims = 1
-
-" nnoremap <silent><leader>/ <plug>NERDCommenterToggle
-
 " Coc config
 let g:coc_global_extensions = [
   \ 'coc-snippets',
@@ -290,7 +291,7 @@ let g:coc_global_extensions = [
   \ 'coc-elixir',
   \ 'coc-solargraph',
   \ 'coc-html',
-  \ 'coc-explorer'
+  \ 'coc-explorer',
   \ 'coc-yank',
   \ 'coc-tabnine',
   \ 'coc-stylelint',
@@ -334,7 +335,7 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " GoTo code navigation.
 nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>gt <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gr <Plug>(coc-references)
 nmap <F2> <Plug>(coc-rename)
@@ -386,9 +387,11 @@ fun! TrimWhitespace()
 endfun
 
 augroup trim_whitespaces
+  autocmd!
   autocmd BufWritePre * :call TrimWhitespace()
 augroup end
 
+" treesitter
 lua << EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
@@ -396,7 +399,12 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.yaml.used_by = "yml"
 EOF
+
+" slime
+let g:slime_target = "tmux"
 
 " fzf
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1 } }
@@ -423,6 +431,10 @@ if exists('g:started_by_firenvim')
 endif
 
 " VimWiki
+nnoremap <Leader>w<Leader>n :VimwikiDiaryNextDay<CR>
+nnoremap <leader>w<leader>p :VimwikiDiaryPrevDay<CR>
+
+
 let g:vimwiki_key_mappings = { 'table_mappings': 0 }
 au FileType vimwiki inoremap <silent> <buffer> <expr> <CR>   pumvisible() ? "\<CR>"   : "<Esc>:VimwikiReturn 1 5<CR>"
 au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-CR>" : "<Esc>:VimwikiReturn 2 2<CR>"
