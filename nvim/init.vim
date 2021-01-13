@@ -69,7 +69,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'shumphrey/fugitive-gitlab.vim'
-" Plug 'vim-utils/vim-man'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -77,7 +76,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
-Plug 'mhinz/vim-startify'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mattn/emmet-vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -93,25 +91,39 @@ Plug 'svermeulen/vim-cutlass'
 Plug 'elmcast/elm-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
 Plug 'jpalardy/vim-slime'
+Plug 'thaerkh/vim-workspace'
+Plug 'jiangmiao/auto-pairs'
 
 "-----------------
 " Experimental
 "-----------------
+" Plug 'Yggdroot/indentLine'
+" Plug 'vim-utils/vim-man'
+" Plug 'tpope/vim-obsession'
+" Plug 'mhinz/vim-startify'
 " Plug 'dbeniamine/cheat.sh-vim'
 " Plug 'svermeulen/vim-easyclip'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 " Plug 'metakirby5/codi.vim'
 
+" Plug 'nvim-lua/plenary.nvim'
+" Plug 'tjdevries/express_line.nvim'
+
+Plug 'Dualspc/spaceodyssey'
+Plug 'glepnir/galaxyline.nvim'
+
 "-----------------
 " Styles
 "-----------------
-Plug 'gruvbox-community/gruvbox'
+" Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
+" Plug 'colepeters/spacemacs-theme.vim'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'joshdick/onedark.vim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'itchyny/lightline.vim'
+" Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'itchyny/lightline.vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'ayu-theme/ayu-vim'
 Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
@@ -123,9 +135,9 @@ call plug#end()
 " endif
 " let g:gruvbox_invert_selection='0'
 
+set background=dark
 let g:gruvbox_plugin_hi_groups = 0
 colorscheme gruvbox8_hard
-set background=dark
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -142,44 +154,52 @@ let g:netrw_winsize = 25
 " elm format
 let g:elm_format_autosave = 1
 
+" workspace
+let g:workspace_session_directory = $HOME . '/.config/nvim/session/'
+let g:workspace_persist_undo_history = 0
+let g:workspace_autosave = 0
+let g:workspace_autosave_untrailspaces = 0
+let g:workspace_autosave_untrailtabs = 0
+let g:workspace_autosave_always = 0
+
 " vim airline/lightline
 set showtabline=2
-let g:lightline = {
-      \ 'colorscheme': 'onedark',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
+" let g:lightline = {
+"       \ 'colorscheme': 'onedark',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'gitbranch': 'FugitiveHead'
+"       \ },
+"       \ }
 
-" startify
-nnoremap <Leader>s :Startify<CR>
-let g:webdevicons_enable_startify = 1
-let g:startify_change_to_dir = 1
-let g:startify_session_dir = '~/.config/nvim/session'
-let g:startify_session_persistence = 1
-let g:startify_session_before_save = [
-        \ 'echo "Cleaning up before saving.."',
-        \ ]
-let g:startify_lists = [
-          \ { 'type': 'sessions',  'header': ['   Sessions']       },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-          \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-          \ ]
-          " \ { 'type': 'files',     'header': ['   MRU']            },
-          " \ { 'type': 'commands',  'header': ['   Commands']       },
+" " startify
+" nnoremap <Leader>s :Startify<CR>
+" let g:webdevicons_enable_startify = 1
+" let g:startify_change_to_dir = 1
+" let g:startify_session_dir = '~/.config/nvim/session'
+" let g:startify_session_persistence = 1
+" let g:startify_session_before_save = [
+"         \ 'echo "Cleaning up before saving.."',
+"         \ ]
+" let g:startify_lists = [
+"           \ { 'type': 'sessions',  'header': ['   Sessions']       },
+"           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+"           \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+"           \ ]
+"           " \ { 'type': 'files',     'header': ['   MRU']            },
+"           " \ { 'type': 'commands',  'header': ['   Commands']       },
 
-let g:startify_bookmarks = [
-            \ { 'c': '~/.config' },
-            \ { 'd': '~/dev' },
-            \ { '1': '~/dev/document-checks' },
-            \ { '2': '~/dev/docupedia' },
-            \ { '3': '~/dev/docupedia-js' },
-            \ { '4': '~/dev/docupedia-data-scripts' },
-            \ ]
+" let g:startify_bookmarks = [
+"             \ { 'c': '~/.config' },
+"             \ { 'd': '~/dev' },
+"             \ { '1': '~/dev/document-checks' },
+"             \ { '2': '~/dev/docupedia' },
+"             \ { '3': '~/dev/docupedia-js' },
+"             \ { '4': '~/dev/docupedia-data-scripts' },
+"             \ ]
 
 " Tab actions
 nnoremap <C-t> :tabnew<CR>
@@ -263,7 +283,7 @@ nnoremap <Leader><CR> :source ~/.config/nvim/init.vim<CR>
 " Open init.vim in new tab
 nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
 
-" coc explorerc
+" coc explorer
 nmap <Leader>n :CocCommand explorer<CR>
 
 " Coc yanks
@@ -283,7 +303,6 @@ let g:gitgutter_map_keys = 0
 " Coc config
 let g:coc_global_extensions = [
   \ 'coc-snippets',
-  \ 'coc-pairs',
   \ 'coc-tsserver',
   \ 'coc-eslint',
   \ 'coc-prettier',
@@ -303,7 +322,7 @@ if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 endif
 
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
@@ -313,12 +332,6 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
-
-" from readme
-" if hidden is not set, TextEdit might fail.
-set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
-" set updatetime=300
-
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -471,7 +484,6 @@ endfunction
 " command! Profiling call ToggleProfiling()
 
 " Custom commands
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
 command! SpellCheck call ToggleSpellCheck()
 
 " Change the color
