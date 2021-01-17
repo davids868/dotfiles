@@ -106,11 +106,13 @@ Plug 'jiangmiao/auto-pairs'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
 " Plug 'metakirby5/codi.vim'
 
+" Plug 'nvim-lua/popup.nvim'
 " Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 " Plug 'tjdevries/express_line.nvim'
 
 Plug 'Dualspc/spaceodyssey'
-Plug 'glepnir/galaxyline.nvim'
+Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
 
 "-----------------
 " Styles
@@ -119,11 +121,11 @@ Plug 'glepnir/galaxyline.nvim'
 " Plug 'morhetz/gruvbox'
 " Plug 'colepeters/spacemacs-theme.vim'
 Plug 'lifepillar/vim-gruvbox8'
-Plug 'joshdick/onedark.vim'
+" Plug 'joshdick/onedark.vim'
 " Plug 'drewtempelmeyer/palenight.vim'
-" Plug 'itchyny/lightline.vim'
 Plug 'flazz/vim-colorschemes'
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
+Plug 'kyazdani42/nvim-web-devicons' " lua
 Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
@@ -156,24 +158,16 @@ let g:elm_format_autosave = 1
 
 " workspace
 let g:workspace_session_directory = $HOME . '/.config/nvim/session/'
+let g:workspace_session_disable_on_args = 1
 let g:workspace_persist_undo_history = 0
 let g:workspace_autosave = 0
 let g:workspace_autosave_untrailspaces = 0
 let g:workspace_autosave_untrailtabs = 0
 let g:workspace_autosave_always = 0
 
-" vim airline/lightline
 set showtabline=2
-" let g:lightline = {
-"       \ 'colorscheme': 'onedark',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \   'gitbranch': 'FugitiveHead'
-"       \ },
-"       \ }
+set laststatus=2
+lua require('plugins.galaxyline')
 
 " " startify
 " nnoremap <Leader>s :Startify<CR>
@@ -412,7 +406,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 }
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
 parser_config.yaml.used_by = "yml"
 EOF
 
