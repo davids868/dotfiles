@@ -9,7 +9,7 @@ function has_width_gt(cols)
 end
 
 local gls = gl.section
-gl.short_line_list = { 'defx', 'packager', 'vista' }
+gl.short_line_list = { 'coc-explorer', "calendar", 'tagbar' }
 
 local colors = {
   bg = '#1c2023',
@@ -90,6 +90,7 @@ local mode_color = function()
     c = colors.orange,
     V = colors.magenta,
     [''] = colors.magenta,
+    [22] = colors.magenta,
     v = colors.magenta,
     R = colors.red,
     t = colors.yellow,
@@ -104,7 +105,7 @@ local mode_color = function()
     ['!'] = colors.yellow
   }
 
-  return mode_colors[vim.fn.mode()]
+  return mode_colors[vim.fn.mode()] or mode_colors[vim.fn.mode():byte()] or colors.red
 end
 
 -- -- Left side
@@ -117,6 +118,9 @@ gls.left[1] = {
 gls.left[2] = {
   ViMode = {
     provider = function()
+      -- local byte_alias
+      --   22 = "VISUAL-B"
+      -- }
       local alias = {
         n = 'NORMAL',
         i = 'INSERT',
@@ -124,6 +128,7 @@ gls.left[2] = {
         V = 'VISUAL',
         [''] = 'VISUAL',
         v ='VISUAL',
+        [22] = 'VISUAL-B',
         ic  = 'COMMAND-LINE',
         ['r?'] = ':CONFIRM',
         rm = '--MORE',
@@ -132,12 +137,11 @@ gls.left[2] = {
         s  = 'SELECT',
         S  = 'SELECT',
         ['r']  = 'HIT-ENTER',
-        [''] = 'SELECT',
         t  = 'TERMINAL',
         ['!']  = 'SHELL',
       }
       vim.api.nvim_command('hi GalaxyViMode guifg='..mode_color())
-      return alias[vim.fn.mode()]..' '
+      return (alias[vim.fn.mode()] or alias[vim.fn.mode():byte()] or "Unknown")..' '
     end,
     highlight = { colors.bg, colors.bg },
     separator = " ",
@@ -155,7 +159,7 @@ gls.left[4] = {
   GitBranch = {
     provider = 'GitBranch',
     separator = " ▊ ",
-    separator_highlight = {colors.blue, colors.section_bg},
+    separator_highlight = {colors.cyan, colors.section_bg},
     condition = require('galaxyline.provider_vcs').check_git_workspace,
     highlight = {colors.fg,colors.bg},
   }
@@ -257,15 +261,15 @@ gls.right[7] = {
   },
 }
 
+-- gls.short_line_left[1] = {
+--   BufferIcon = {
+--     provider= 'FileName',
+--     highlight = { colors.fg, colors.section_bg },
+--     separator = ' ',
+--     separator_highlight = { colors.section_bg, colors.bg },
+--   }
+-- }
 gls.short_line_left[1] = {
-  BufferIcon = {
-    provider= 'FileName',
-    highlight = { colors.fg, colors.section_bg },
-    separator = ' ',
-    separator_highlight = { colors.section_bg, colors.bg },
-  }
-}
-gls.short_line_right[1] = {
   BufferType = {
     provider = 'FileTypeName',
     highlight = { colors.fg, colors.section_bg },
@@ -286,3 +290,4 @@ gls.short_line_right[2] ={
 
 -- Force manual load so that nvim boots with a status line
 gl.load_galaxyline()
+
