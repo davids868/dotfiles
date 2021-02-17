@@ -12,8 +12,13 @@
     "scss",
     "elixir",
     "elm",
-    "go"
+    "go",
+    "python"
   ],
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.analysis.typeCheckingMode": "off",
   "yank.highlight.enable": false,
   "explorer.width": 35,
   "explorer.icon.enableNerdfont": true,
