@@ -27,16 +27,16 @@ scrolling:
 font:
   # Normal (roman) font face
   normal:
-    family: "Hack Nerd Font"
+    family: "MesloLGSDZ NERD FONT MONO"
     style: Regular
   bold:
-    family: "Hack Nerd Font"
+    family: "MesloLGSDZ NERD FONT MONO"
     style: Bold
   italic:
-    family: "Hack Nerd Font"
+    family: "MesloLGSDZ NERD FONT MONO"
     style: Italic
   bold_italic:
-    family: "Hack Nerd Font"
+    family: "MesloLGSDZ NERD FONT MONO"
     style: Bold Italic
 
   size: 14.0
@@ -279,7 +279,6 @@ live_config_reload: true
 # at once.
 key_bindings:
   - { key: N, mods: Super, action: SpawnNewInstance }
-  - { key: Key3, mods: Alt, chars: "#" }
   - { key: J, mods: Alt, chars: "\ej" }
   - { key: K, mods: Alt, chars: "\ek" }
   - { key: H, mods: Alt, chars: "\eh" }
