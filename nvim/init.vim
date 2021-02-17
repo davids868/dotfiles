@@ -85,7 +85,6 @@ Plug 'mg979/vim-visual-multi'
 Plug 'chiedo/vim-case-convert'
 Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-commentary'
-Plug 'psliwka/vim-smoothie'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'svermeulen/vim-cutlass'
 Plug 'elmcast/elm-vim'
@@ -97,10 +96,14 @@ Plug 'jiangmiao/auto-pairs'
 "-----------------
 " Experimental
 "-----------------
-" Plug 'Yggdroot/indentLine'
+" Plug 'puremourning/vimspector'
+Plug 'Yggdroot/indentLine'
+Plug 'antoinemadec/coc-fzf'
+Plug 'vim-test/vim-test'
+Plug 'mattn/calendar-vim'
+Plug 'preservim/tagbar'
 " Plug 'vim-utils/vim-man'
 " Plug 'tpope/vim-obsession'
-" Plug 'mhinz/vim-startify'
 " Plug 'dbeniamine/cheat.sh-vim'
 " Plug 'svermeulen/vim-easyclip'
 " Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
@@ -124,22 +127,23 @@ Plug 'lifepillar/vim-gruvbox8'
 " Plug 'joshdick/onedark.vim'
 " Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
-" Plug 'ayu-theme/ayu-vim'
+" Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'kyazdani42/nvim-web-devicons' " lua
 Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
 
 " let g:gruvbox_contrast_dark = 'hard'
-" if exists('+termguicolors')
-"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 " let g:gruvbox_invert_selection='0'
 
 set background=dark
 let g:gruvbox_plugin_hi_groups = 0
 colorscheme gruvbox8_hard
+" colorscheme gruvbox8
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -195,6 +199,10 @@ lua require('plugins.galaxyline')
 "             \ { '4': '~/dev/docupedia-data-scripts' },
 "             \ ]
 
+" scrolling
+nnoremap <C-d> 20j
+nnoremap <C-u> 20k
+
 " Tab actions
 nnoremap <C-t> :tabnew<CR>
 nnoremap <C-x> :tabclose<CR>
@@ -218,6 +226,7 @@ vnoremap p "_dP
 " noremap X "_x
 
 " search
+nnoremap L viwy/\<<C-R>"\>
 vnoremap / y/\<<C-R>"\>
 nnoremap <Leader>F :Rg<space>
 nnoremap <Leader>f :BLines<CR>
@@ -231,6 +240,9 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>r :History<CR>
 nnoremap <Leader>; :History:<CR>
 nnoremap <Leader>/ :History/<CR>
+nnoremap <Leader>h :Helptags<CR>
+
+nnoremap <Leader>t :Tagbar<CR>
 
 " replace
 " nnoremap <silent>*s :let @/='\<'.expand('<cword>').'\>'<CR>cgn
@@ -241,7 +253,8 @@ nnoremap <Leader>/ :History/<CR>
 "let g:multi_cursor_start_word_key      = '<C-n>'
 "let g:multi_cursor_quit_key            = '<Esc>'
 
-map <leader>q :qa<CR>
+map <leader>q :q<CR>
+map <leader>Q :qa<CR>
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 nnoremap <leader>e :e<CR>
@@ -277,12 +290,6 @@ nnoremap <Leader><CR> :source ~/.config/nvim/init.vim<CR>
 " Open init.vim in new tab
 nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
 
-" coc explorer
-nmap <Leader>n :CocCommand explorer<CR>
-
-" Coc yanks
-nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-
 " Goyo
 " nmap <Leader>z :Goyo<CR>
 nmap <Leader>z :MaximizerToggle<CR>
@@ -310,13 +317,34 @@ let g:coc_global_extensions = [
   \ 'coc-stylelint',
   \ 'coc-css',
   \ 'coc-go',
+  \ 'coc-lua',
+  \ 'coc-jedi',
+  \ 'coc-pyright',
   \ ]
+
+nnoremap <leader>cr :CocRestart<CR>
+nnoremap <leader>cl :CocFzfList<CR>
+nnoremap <leader>cc :CocFzfList commands<CR>
+nnoremap <leader>ce :CocFzfList extensions<CR>
+nnoremap <leader>cd :CocFzfList diagnostics<CR>
+nnoremap <leader>cb :CocFzfList diagnostics --current-buf<CR>
+nnoremap <Leader>s :CocFzfList outline<CR>
+nnoremap <Leader>cs :CocList -I symbols<CR>
+nnoremap <leader>cf :CocSearch<space>
+nnoremap <space>y  :<C-u>CocFzfList yank<cr>
+nmap <Leader>n :CocCommand explorer<CR>
+augroup highlight_cursor
+    autocmd!
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+augroup end
+noremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 endif
-
-" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
@@ -351,7 +379,6 @@ nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nmap <silent> <leader>. :CocFix<cr>
-nnoremap <leader>cr :CocRestart
 
 " Go to tab by number
 noremap <leader>1 1gt
@@ -366,8 +393,8 @@ noremap <leader>9 9gt
 
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
-nnoremap <silent> <leader>t :exe "tabn ".g:lasttab<cr>
-vnoremap <silent> <leader>t :exe "tabn ".g:lasttab<cr>
+nnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
+vnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
 
 " restore closed tab
 " noremap <leader>T :tabnew<bar>:Buffers<CR><CR>
@@ -376,14 +403,14 @@ vnoremap <silent> <leader>t :exe "tabn ".g:lasttab<cr>
 let g:fugitive_gitlab_domains = ['https://gitlab.eu-west-1.mgmt.onfido.xyz/']
 
 map <leader>ge :GBrowse<CR>
-nmap <leader>gl :diffget //3<CR>
-nmap <leader>gh :diffget //2<CR>
+nmap <leader>dl :diffget //3<CR>
+nmap <leader>dh :diffget //2<CR>
 nmap <leader>gs :tab G<CR>
 nmap <leader>gb :Git blame<CR>
-nmap <leader>gpl :Gpull<CR>
+nmap <leader>gl :Git pull<CR>
 nmap <leader>gpp :Git push
 nmap <leader>gpf :Git push -f
-" nmap <leader>gpu :Git push -u origin FugitiveHead()
+nmap <leader>gpu :Git push -u origin HEAD
 nmap <leader>go :GBranches<CR>
 nmap <leader>gc :Commits<CR>
 
@@ -407,8 +434,17 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
-parser_config.yaml.used_by = "yml"
 EOF
+
+augroup customfiletypes
+  au! BufNewFile,BufRead *.mypy-testing setf python
+augroup end
+
+" indentLine
+let g:indentLine_char = '¦'
+let g:indentLine_enabled = 0
+
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " slime
 let g:slime_target = "tmux"
@@ -460,6 +496,14 @@ function! ToggleSpellCheck()
   endif
 endfunction
 
+function! ToggleRelativeLineNumbers()
+  set relativenumber!
+  if &relativenumber
+    echo "Relative line numbers: ON"
+  else
+    echo "Relative line numbers: OFF"
+  endif
+endfunction
 
 " let g:profiling = 0
 " function! ToggleProfiling()
@@ -479,6 +523,8 @@ endfunction
 
 " Custom commands
 command! SpellCheck call ToggleSpellCheck()
+command! ToggleRelativeLineNumbers call ToggleRelativeLineNumbers()
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " Change the color
 highlight CodiVirtualText guifg=cyan
