@@ -12,7 +12,7 @@ env:
   # available, otherwise `xterm-256color` is used.
   # TERM: alacritty
   # TERM: xterm-256color
-  TERM: screen-256color
+  TERM: xterm-256color
 
 window:
   padding:
@@ -279,6 +279,7 @@ live_config_reload: true
 # at once.
 key_bindings:
   - { key: N, mods: Super, action: SpawnNewInstance }
+  - { key: L, mods: Super, action: ClearLogNotice }
   - { key: J, mods: Alt, chars: "\ej" }
   - { key: K, mods: Alt, chars: "\ek" }
   - { key: H, mods: Alt, chars: "\eh" }
