@@ -227,25 +227,6 @@ vnoremap p "_dP
 " noremap x "_x
 " noremap X "_x
 
-" search
-nnoremap L viwy/\<<C-R>"\>
-vnoremap / y/\<<C-R>"\>
-nnoremap <Leader>F :Rg<space>
-nnoremap <Leader>f :BLines<CR>
-" nnoremap <leader>* :Rg <C-R>=expand("<cword>")<CR><CR>
-" nnoremap <leader>F :Rg <C-R>=expand("<cword>")<CR><CR>
-" vnoremap <Leader>F :Rg '<,'><CR>
-nnoremap <leader>p :GFiles<CR>
-noremap <leader>P :Commands<CR>
-nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>b :Buffers<CR>
-nnoremap <Leader>r :History<CR>
-nnoremap <Leader>; :History:<CR>
-nnoremap <Leader>/ :History/<CR>
-nnoremap <Leader>h :Helptags<CR>
-
-nnoremap <Leader>t :Tagbar<CR>
-
 " replace
 " nnoremap <silent>*s :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 
@@ -325,15 +306,6 @@ let g:coc_global_extensions = [
   \ ]
 
 nnoremap <leader>cr :CocRestart<CR>
-nnoremap <leader>cl :CocFzfList<CR>
-nnoremap <leader>cc :CocFzfList commands<CR>
-nnoremap <leader>ce :CocFzfList extensions<CR>
-nnoremap <leader>cd :CocFzfList diagnostics<CR>
-nnoremap <leader>cb :CocFzfList diagnostics --current-buf<CR>
-nnoremap <Leader>s :CocFzfList outline<CR>
-nnoremap <Leader>cs :CocList -I symbols<CR>
-nnoremap <leader>cf :CocSearch<space>
-nnoremap <space>y  :<C-u>CocFzfList yank<cr>
 nmap <Leader>n :CocCommand explorer<CR>
 augroup highlight_cursor
     autocmd!
