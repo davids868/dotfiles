@@ -497,3 +497,9 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " Change the color
 highlight CodiVirtualText guifg=cyan
 let g:codi#virtual_text_prefix = "❯ "
+
+augroup vimrc_help
+  autocmd!
+  autocmd BufEnter *.txt if &buftype == 'help' | wincmd H | endif
+augroup END
+
