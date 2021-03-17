@@ -439,14 +439,16 @@ if exists('g:started_by_firenvim')
   set showtabline=1
 endif
 
-" VimWiki
-nnoremap <Leader>w<Leader>n :VimwikiDiaryNextDay<CR>
-nnoremap <leader>w<leader>p :VimwikiDiaryPrevDay<CR>
-
-
 let g:vimwiki_key_mappings = { 'table_mappings': 0 }
-au FileType vimwiki inoremap <silent> <buffer> <expr> <CR>   pumvisible() ? "\<CR>"   : "<Esc>:VimwikiReturn 1 5<CR>"
-au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-CR>" : "<Esc>:VimwikiReturn 2 2<CR>"
+augroup vimwiki
+    autocmd!
+    au FileType calendar set nornu signcolumn=no
+    au FileType vimwiki inoremap <silent> <buffer> <expr> <CR> pumvisible() ? "\<C-y>" : "<Esc>:VimwikiReturn 1 5<CR>"
+    " au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-C-y>" : "<Esc>:VimwikiReturn 2 2<CR>"
+    au FileType vimwiki set synmaxcol=400
+    au FileType vimwiki let g:vista_echo_cursor=0
+augroup END
+
 
 " set nocompatible
 " filetype plugin on
