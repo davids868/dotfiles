@@ -574,3 +574,6 @@ augroup fmt
   autocmd BufWritePre * if index(blacklist, &ft) < 0 | undojoin | Neoformat
 augroup END
 
+lua require('plugins.compe')
+lua require('plugins.lsp')
+lua require('plugins.saga')
