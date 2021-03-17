@@ -160,9 +160,7 @@ endif
 " let g:gruvbox_invert_selection='0'
 
 set background=dark
-let g:gruvbox_plugin_hi_groups = 0
 colorscheme gruvbox8_hard
-" colorscheme gruvbox8
 
 if executable('rg')
     let g:rg_derive_root='true'
