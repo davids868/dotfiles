@@ -70,7 +70,6 @@ Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
-Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-css-color'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mattn/emmet-vim'
@@ -94,20 +93,40 @@ Plug 'jiangmiao/auto-pairs'
 "-----------------
 " Plug 'puremourning/vimspector'
 Plug 'Yggdroot/indentLine'
-Plug 'antoinemadec/coc-fzf'
+" Plug 'antoinemadec/coc-fzf'
 Plug 'vim-test/vim-test'
 Plug 'mattn/calendar-vim'
-Plug 'preservim/tagbar'
+Plug 'sbdchd/neoformat'
+
+Plug 'airblade/vim-gitgutter'
+" Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'liuchengxu/vista.vim'
+" Plug 'psliwka/vim-smoothie'
 " Plug 'vim-utils/vim-man'
 " Plug 'tpope/vim-obsession'
 " Plug 'dbeniamine/cheat.sh-vim'
 " Plug 'svermeulen/vim-easyclip'
-" Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'vn-ki/coc-clap'
 " Plug 'metakirby5/codi.vim'
+" " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
 
-" Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/lsp_extensions.nvim'
+" Plug 'alexaandru/nvim-lspupdate'
+Plug 'hrsh7th/nvim-compe'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+Plug 'junegunn/gv.vim'
+
+" Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'tjdevries/express_line.nvim'
 
 Plug 'Dualspc/spaceodyssey'
@@ -118,11 +137,15 @@ Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
 "-----------------
 " Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
+
 " Plug 'colepeters/spacemacs-theme.vim'
 Plug 'lifepillar/vim-gruvbox8'
 " Plug 'joshdick/onedark.vim'
-" Plug 'drewtempelmeyer/palenight.vim'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'sainnhe/sonokai'
+
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'kyazdani42/nvim-web-devicons' " lua
 Plug 'ryanoasis/vim-devicons' " Last to load
