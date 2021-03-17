@@ -503,3 +503,61 @@ augroup vimrc_help
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd H | endif
 augroup END
 
+" vista
+let g:vista#renderer#ctags='default'
+let g:vista_echo_cursor_delay=0
+let g:vista_cursor_delay=0
+" let g:vista_echo_cursor_strategy='floating_win'
+" let g:vista_floating_delay=100
+let g:vista_sidebar_keepalt=1
+let g:vista_executive_for = {
+  \ 'vimwiki': 'markdown'
+  \ }
+
+nnoremap <Leader>t :Vista show<CR>
+
+" clap
+" let g:clap_layout = { 'relative': 'editor', 'width': '45%', 'col': '5%' }
+let g:clap_insert_mode_only = v:true
+let g:clap_theme = 'atom_dark'
+let g:clap_provider_yanks_max_entries = 300
+let g:clap_provider_yanks_history = '~/.clap_yanks.history'
+let g:clap_layout = { 'relative': 'editor', 'width': '80%', 'col': '10%', 'height': '30%', 'row': '10%'}
+let g:clap_preview_direction = 'UD'
+
+" let g:clap_provider_git_branches = {
+"     \ 'source': '!git branch --all | grep -v HEAD',
+"     \ 'sink': 'Git checkout',
+"     \ }
+
+" let g:clap#provider#git_branches = g:clap_provider_git_branches
+
+augroup clap
+  autocmd!
+  autocmd FileType clap_input call compe#setup({'enabled': v:false}, 0)
+  autocmd FileType clap_input inoremap <silent> <buffer> jk jk
+  autocmd FileType clap_input inoremap <silent> <buffer> kj kj
+  autocmd FileType clap_input inoremap <silent> <buffer> <C-n> <C-R>=clap#navigation#linewise('down')<CR>
+  autocmd FileType clap_input inoremap <silent> <buffer> <C-p> <C-R>=clap#navigation#linewise('up')<CR>
+augroup END
+
+nnoremap <silent><Leader>cl :Clap<CR>
+vnoremap <silent><Leader>F :Clap grep ++query=@visual<CR>
+nnoremap <silent><Leader>f :Clap blines<CR>
+nnoremap <silent><Leader>F :Clap grep<CR>
+nnoremap <silent><Leader>G :Clap grep2<CR>
+nnoremap <silent><leader>p :Clap gfiles<CR>
+nnoremap <silent><leader>P :Clap command<CR>
+nnoremap <silent><Leader>o :Clap files<CR>
+nnoremap <silent><Leader>b :Clap buffers<CR>
+nnoremap <silent><Leader>hp :Clap history<CR>
+nnoremap <silent><Leader>h; :Clap command_history<CR>
+nnoremap <silent><Leader>h/ :Clap search_history<CR>
+nnoremap <silent><Leader>ht :Clap help_tags<CR>
+nnoremap <silent><Leader>s :Clap tags<CR>
+nnoremap <silent><Leader>S :Clap proj_tags<CR>
+nnoremap <silent><Leader>y :Clap yanks<CR>
+nnoremap <silent><Leader>hj :Clap jumps<CR>
+nnoremap <silent><leader>gc :GV<CR>
+nnoremap <silent><leader>cc :Clap coc_commands<CR>
+nnoremap <silent><leader>cd :Clap coc_diagnostics<CR>
