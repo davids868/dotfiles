@@ -190,32 +190,6 @@ set showtabline=2
 set laststatus=2
 lua require('plugins.galaxyline')
 
-" " startify
-" nnoremap <Leader>s :Startify<CR>
-" let g:webdevicons_enable_startify = 1
-" let g:startify_change_to_dir = 1
-" let g:startify_session_dir = '~/.config/nvim/session'
-" let g:startify_session_persistence = 1
-" let g:startify_session_before_save = [
-"         \ 'echo "Cleaning up before saving.."',
-"         \ ]
-" let g:startify_lists = [
-"           \ { 'type': 'sessions',  'header': ['   Sessions']       },
-"           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
-"           \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
-"           \ ]
-"           " \ { 'type': 'files',     'header': ['   MRU']            },
-"           " \ { 'type': 'commands',  'header': ['   Commands']       },
-
-" let g:startify_bookmarks = [
-"             \ { 'c': '~/.config' },
-"             \ { 'd': '~/dev' },
-"             \ { '1': '~/dev/document-checks' },
-"             \ { '2': '~/dev/docupedia' },
-"             \ { '3': '~/dev/docupedia-js' },
-"             \ { '4': '~/dev/docupedia-data-scripts' },
-"             \ ]
-
 " scrolling
 nnoremap <C-d> 20j
 nnoremap <C-u> 20k
