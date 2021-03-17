@@ -235,9 +235,9 @@ vnoremap p "_dP
 "let g:multi_cursor_start_word_key      = '<C-n>'
 "let g:multi_cursor_start_word_key      = '<C-n>'
 "let g:multi_cursor_quit_key            = '<Esc>'
-
-map <leader>q :q<CR>
-map <leader>Q :qa<CR>
+map Q q
+nnoremap <leader>q :q<CR>
+nnoremap <leader>Q :qa<CR>
 nnoremap <C-s> :w<CR>
 inoremap <C-s> <Esc>:w<CR>
 nnoremap <leader>e :e<CR>
@@ -247,11 +247,6 @@ nnoremap <silent> <M-j> :resize -2<CR>
 nnoremap <silent> <M-k> :resize +2<CR>
 nnoremap <silent> <M-h> :vertical resize -10<CR>
 nnoremap <silent> <M-l> :vertical resize +10<CR>
-
-inoremap <C-h> <C-o>h
-inoremap <C-l> <C-o>a
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
 
 " Increase/Decrease
 nnoremap + <C-a>
@@ -313,9 +308,6 @@ augroup highlight_cursor
 augroup end
 noremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-" nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
-
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 endif
@@ -340,19 +332,20 @@ inoremap <silent><expr> <TAB>
             \ coc#refresh()
 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" inoremap <silent><expr> <C-space> coc#refresh()
 
 " GoTo code navigation.
-nmap <leader>gd <Plug>(coc-definition)
+nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gt <Plug>(coc-type-definition)
 nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
+nmap <leader>gr <Plug>(coc-references-used)
 nmap <F2> <Plug>(coc-rename)
 nmap <leader>g[ <Plug>(coc-diagnostic-prev)
 nmap <leader>g] <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
 nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
 nmap <silent> <leader>. :CocFix<cr>
+nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
+vmap <silent> <leader>a <Plug>(coc-codeaction-selected)
 
 " Go to tab by number
 noremap <leader>1 1gt
@@ -377,6 +370,7 @@ vnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
 let g:fugitive_gitlab_domains = ['https://gitlab.eu-west-1.mgmt.onfido.xyz/']
 
 map <leader>ge :GBrowse<CR>
+nmap <leader>dm :Gvdiffsplit origin/master<CR>
 nmap <leader>dl :diffget //3<CR>
 nmap <leader>dh :diffget //2<CR>
 nmap <leader>gs :tab G<CR>
@@ -387,6 +381,7 @@ nmap <leader>gpf :Git push -f
 nmap <leader>gpu :Git push -u origin HEAD
 nmap <leader>go :GBranches<CR>
 nmap <leader>gc :Commits<CR>
+nnoremap <leader>gh :GitGutterPreviewHunk<CR>
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -422,10 +417,6 @@ let g:indentLine_enabled = 0
 
 " slime
 let g:slime_target = "tmux"
-
-" fzf
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 1 } }
-let g:fzf_buffers_jump = 1
 
 " firenvim
 let g:firenvim_config = {
