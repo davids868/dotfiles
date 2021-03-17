@@ -561,3 +561,16 @@ nnoremap <silent><Leader>hj :Clap jumps<CR>
 nnoremap <silent><leader>gc :GV<CR>
 nnoremap <silent><leader>cc :Clap coc_commands<CR>
 nnoremap <silent><leader>cd :Clap coc_diagnostics<CR>
+
+nnoremap <leader>L :Neoformat<CR>
+let g:neoformat_ruby_enabled = ["rubocop"]
+let g:neoformat_python_black = {
+            \ 'exe': 'poetry run black'
+            \ }
+
+augroup fmt
+  autocmd!
+  let blacklist = ['ruby', 'yml', 'yaml']
+  autocmd BufWritePre * if index(blacklist, &ft) < 0 | undojoin | Neoformat
+augroup END
+

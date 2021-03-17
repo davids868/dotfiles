@@ -1,20 +1,5 @@
 {
   "suggest.noselect": false,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "json",
-    "javascriptreact",
-    "typescript.tsx",
-    "javascript.tsx",
-    "graphql",
-    "scss",
-    "elixir",
-    "elm",
-    "go",
-    "python"
-  ],
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
