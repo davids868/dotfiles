@@ -198,13 +198,24 @@ nnoremap <C-u> 20k
 nnoremap <C-t> :tabnew<CR>
 nnoremap <C-x> :tabclose<CR>
 
+" Begging/End of line
+noremap H 0
+noremap L $
+
 " Better Esc mappings
 inoremap jk <Esc>
 inoremap kj <Esc>
 map <C-c> <Esc>
 
-" Yank to end of line
+nnoremap ; :
+
+" Yanks
 nnoremap Y y$
+nnoremap <leader>Y ggyG<C-o>
+
+" Move code blocks
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " Better clipboard, adds m for move
 nnoremap gm m
