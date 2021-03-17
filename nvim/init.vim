@@ -406,7 +406,8 @@ local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
 EOF
 
 augroup customfiletypes
-  au! BufNewFile,BufRead *.mypy-testing setf python
+  autocmd!
+  autocmd BufNewFile,BufRead *.mypy-testing setf python
 augroup end
 
 " indentLine
