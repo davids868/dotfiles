@@ -48,19 +48,31 @@ end
 
 local util = require "lspconfig/util"
 nvim_lsp.solargraph.setup {on_attach = on_attach}
-nvim_lsp.pyright.setup {on_attach = on_attach}
-nvim_lsp.vimls.setup {on_attach = on_attach}
-nvim_lsp.jedi_language_server.setup {on_attach = on_attach}
-nvim_lsp.pyls.setup {
+nvim_lsp.pyright.setup {
     on_attach = on_attach,
-    enable = true,
-    plugins = {
-        pyls_mypy = {
-            enabled = true,
-            live_mode = false
+    -- cmd = {"poetry", "run pyright-langserver --stdio"},
+    settings = {
+        python = {
+            -- pythonPath = "/Users/david.sapiro/Library/Caches/pypoetry/virtualenvs/document-orchestrator-v2_8hdZA-py3.7/bin/python",
+            venvPath = "/Users/david.sapiro/Library/Caches/pypoetry/virtualenvs/",
+            analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true
+            }
         }
     }
 }
+nvim_lsp.vimls.setup {on_attach = on_attach}
+-- nvim_lsp.jedi_language_server.setup {on_attach = on_attach}
+-- nvim_lsp.pyls.setup {
+--     on_attach = on_attach,
+--     enable = true,
+--     plugins = {
+--         pyls_mypy = {
+--             enabled = true
+--         }
+--     }
+-- }
 
 local sumneko_root_path = "/Users/david.sapiro/personal/lua-language-server"
 local sumneko_binary = sumneko_root_path .. "/bin/macOS/lua-language-server"

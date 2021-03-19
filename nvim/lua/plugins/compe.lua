@@ -1,6 +1,7 @@
 vim.o.completeopt = "menuone,noselect,noinsert"
-local ignored_filetypes = {ignored_filetypes = {"clap_input"}}
+local opts = {ignored_filetypes = {"clap_input"}}
 
+require("lspkind").init()
 require "compe".setup {
     enabled = true,
     autocomplete = true,
@@ -15,8 +16,8 @@ require "compe".setup {
     max_menu_width = 100,
     documentation = false,
     source = {
-        path = ignored_filetypes,
-        buffer = ignored_filetypes,
+        path = opts,
+        buffer = {ignored_filetypes = opts.ignored_filetypes, priority = 100},
         calc = true,
         vsnip = false,
         nvim_lsp = {
@@ -25,9 +26,13 @@ require "compe".setup {
         nvim_lua = true,
         spell = false,
         tags = false,
-        snippets_nvim = false,
+        snippets_nvim = true,
         treesitter = false,
-        omni = false
+        omni = false,
+        tabnine = {
+            max_line = 1000,
+            max_num_results = 5
+        }
     }
 }
 

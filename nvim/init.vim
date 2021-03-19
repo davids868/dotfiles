@@ -86,7 +86,7 @@ Plug 'elmcast/elm-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
 Plug 'jpalardy/vim-slime'
 Plug 'thaerkh/vim-workspace'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 
 "-----------------
 " Experimental
@@ -98,7 +98,7 @@ Plug 'vim-test/vim-test'
 Plug 'mattn/calendar-vim'
 Plug 'sbdchd/neoformat'
 
-Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'kyazdani42/nvim-tree.lua'
 
 " Plug 'airblade/vim-gitgutter'
 Plug 'lewis6991/gitsigns.nvim'
@@ -120,7 +120,9 @@ Plug 'vn-ki/coc-clap'
 " Plug 'nvim-lua/lsp_extensions.nvim'
 " Plug 'alexaandru/nvim-lspupdate'
 Plug 'hrsh7th/nvim-compe'
+Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
 
+Plug 'onsails/lspkind-nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 
@@ -413,6 +415,7 @@ EOF
 augroup customfiletypes
   autocmd!
   autocmd BufNewFile,BufRead *.mypy-testing setf python
+  autocmd FileType tf set formatprg=terraform
 augroup end
 
 " indentLine
@@ -555,7 +558,7 @@ nnoremap <silent><leader>p :Clap gfiles<CR>
 nnoremap <silent><leader>P :Clap command<CR>
 nnoremap <silent><Leader>o :Clap files<CR>
 nnoremap <silent><Leader>b :Clap buffers<CR>
-nnoremap <silent><Leader>hp :Clap history<CR>
+nnoremap <silent><Leader>r :Clap history<CR>
 nnoremap <silent><Leader>h; :Clap command_history<CR>
 nnoremap <silent><Leader>h/ :Clap search_history<CR>
 nnoremap <silent><Leader>ht :Clap help_tags<CR>
@@ -568,10 +571,16 @@ nnoremap <silent><leader>cc :Clap coc_commands<CR>
 nnoremap <silent><leader>cd :Clap coc_diagnostics<CR>
 
 nnoremap <leader>L :Neoformat<CR>
-let g:neoformat_ruby_enabled = ["rubocop"]
-let g:neoformat_python_black = {
-            \ 'exe': 'poetry run black'
-            \ }
+let g:neoformat_enabled_ruby = ["rubocop"]
+let g:neoformat_enabled_yaml = ["prettier"]
+let g:neoformat_enabled_python = ["black"]
+" let g:neoformat_python_black = {
+"             \ 'exe': 'poetry',
+"             \ 'args': 'run black'
+"             \ }
+
+nnoremap <space>n :CocCommand explorer --reveal<CR>
+nnoremap <silent> <leader>lg :LazyGit<CR>
 
 nnoremap <space>n :CocCommand explorer<CR>
 nnoremap <silent> <leader>lg :LazyGit<CR>
@@ -599,6 +608,4 @@ lua require('plugins.gitsigns')
 "     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
 " augroup END
 "
-" let g:nvim_tree_git_hl = 1
-let g:coc_enabled = 0
-" autocmd FileType * let b:coc_enabled=0
+autocmd VimEnter * CocDisable
