@@ -46,6 +46,7 @@ local on_attach = function(client, bufnr)
     end
 end
 
+local util = require "lspconfig/util"
 nvim_lsp.solargraph.setup {on_attach = on_attach}
 nvim_lsp.pyright.setup {on_attach = on_attach}
 nvim_lsp.vimls.setup {on_attach = on_attach}

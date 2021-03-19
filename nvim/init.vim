@@ -98,8 +98,12 @@ Plug 'vim-test/vim-test'
 Plug 'mattn/calendar-vim'
 Plug 'sbdchd/neoformat'
 
-Plug 'airblade/vim-gitgutter'
-" Plug 'lewis6991/gitsigns.nvim'
+Plug 'kyazdani42/nvim-tree.lua'
+
+" Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
+
+Plug 'kdheepak/lazygit.nvim'
 
 Plug 'liuchengxu/vista.vim'
 " Plug 'psliwka/vim-smoothie'
@@ -126,7 +130,6 @@ Plug 'nvim-telescope/telescope.nvim'
 
 Plug 'junegunn/gv.vim'
 
-" Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'tjdevries/express_line.nvim'
 
 Plug 'Dualspc/spaceodyssey'
@@ -135,12 +138,12 @@ Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
 "-----------------
 " Styles
 "-----------------
-" Plug 'gruvbox-community/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 
 " Plug 'colepeters/spacemacs-theme.vim'
-Plug 'lifepillar/vim-gruvbox8'
+" Plug 'lifepillar/vim-gruvbox8'
 " Plug 'joshdick/onedark.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
@@ -152,15 +155,17 @@ Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
 
-" let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_contrast_dark = 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 " let g:gruvbox_invert_selection='0'
 
+let g:gruvbox_material_palette = "mix"
+
 set background=dark
-colorscheme gruvbox8_hard
+colorscheme gruvbox
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -379,7 +384,7 @@ nmap <leader>gl :Git pull<CR>
 nmap <leader>gpp :Git push
 nmap <leader>gpf :Git push -f
 nmap <leader>gpu :Git push -u origin HEAD
-nmap <leader>go :GBranches<CR>
+nmap <leader>go :Telescope git_branches<CR>
 nmap <leader>gc :Commits<CR>
 nnoremap <leader>gh :GitGutterPreviewHunk<CR>
 
@@ -397,7 +402,7 @@ augroup end
 " treesitter
 lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",
+  ensure_installed = "maintained",
   highlight = {
     enable = true,
   },
@@ -568,12 +573,32 @@ let g:neoformat_python_black = {
             \ 'exe': 'poetry run black'
             \ }
 
+nnoremap <space>n :CocCommand explorer<CR>
+nnoremap <silent> <leader>lg :LazyGit<CR>
+
 augroup fmt
   autocmd!
   let blacklist = ['ruby', 'yml', 'yaml']
-  autocmd BufWritePre * if index(blacklist, &ft) < 0 | undojoin | Neoformat
+  " autocmd BufWritePre * if index(blacklist, &ft) < 0 | undojoin | Neoformat
+  autocmd BufWritePre * if index(blacklist, &ft) < 0 | Neoformat
 augroup END
 
+" let g:nvim_tree_disable_netrw = 0
+" Use <Tab> and <S-Tab> to navigate through popup menu
+" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 lua require('plugins.compe')
 lua require('plugins.lsp')
 lua require('plugins.saga')
+" lua require('plugins.tree')
+lua require('plugins.gitsigns')
+
+" augroup hints
+"     autocmd!
+"     autocmd BufWritePre * %s/\s\+$//e
+"     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
+" augroup END
+"
+" let g:nvim_tree_git_hl = 1
+let g:coc_enabled = 0
+" autocmd FileType * let b:coc_enabled=0
