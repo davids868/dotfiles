@@ -86,56 +86,54 @@ Plug 'elmcast/elm-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
 Plug 'jpalardy/vim-slime'
 Plug 'thaerkh/vim-workspace'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
+Plug 'vn-ki/coc-clap'
+Plug 'kdheepak/lazygit.nvim'
+Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
+Plug 'nvim-telescope/telescope.nvim'
+
+"-----------------
+" required by other plugins
+"-----------------
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+
+"-----------------
+" LSP + Completion
+"-----------------
+Plug 'hrsh7th/nvim-compe'
+" Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
+Plug 'onsails/lspkind-nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+
+"-----------------
+"  Fixing
+"-----------------
 " Plug 'jiangmiao/auto-pairs'
+" Plug 'kyazdani42/nvim-tree.lua'
 
 "-----------------
 " Experimental
 "-----------------
 " Plug 'puremourning/vimspector'
 Plug 'Yggdroot/indentLine'
-" Plug 'antoinemadec/coc-fzf'
 Plug 'vim-test/vim-test'
 Plug 'mattn/calendar-vim'
 Plug 'sbdchd/neoformat'
-
-" Plug 'kyazdani42/nvim-tree.lua'
-
-" Plug 'airblade/vim-gitgutter'
-Plug 'lewis6991/gitsigns.nvim'
-
-Plug 'kdheepak/lazygit.nvim'
-
-Plug 'liuchengxu/vista.vim'
-" Plug 'psliwka/vim-smoothie'
-" Plug 'vim-utils/vim-man'
-" Plug 'tpope/vim-obsession'
-" Plug 'dbeniamine/cheat.sh-vim'
-" Plug 'svermeulen/vim-easyclip'
-Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-Plug 'vn-ki/coc-clap'
-" Plug 'metakirby5/codi.vim'
-" " Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
-
-" Plug 'nvim-lua/completion-nvim'
-" Plug 'nvim-lua/lsp_extensions.nvim'
-" Plug 'alexaandru/nvim-lspupdate'
-Plug 'hrsh7th/nvim-compe'
-Plug 'tzachar/compe-tabnine', { 'do': './install.sh' }
-
-Plug 'onsails/lspkind-nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'glepnir/lspsaga.nvim'
-
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
+Plug 'brooth/far.vim'
 Plug 'junegunn/gv.vim'
+Plug 'kevinhwang91/nvim-bqf'
 
-" Plug 'tjdevries/express_line.nvim'
+"-----------------
+" Test
+"-----------------
+" Plug 'puremourning/vimspector'
+" Plug 'vim-utils/vim-man'
+" Plug 'metakirby5/codi.vim'
 
-Plug 'Dualspc/spaceodyssey'
-Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
 
 "-----------------
 " Styles
@@ -144,12 +142,13 @@ Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 
-" Plug 'colepeters/spacemacs-theme.vim'
+" lug 'colepeters/spacemacs-theme.vim'
 " Plug 'lifepillar/vim-gruvbox8'
 " Plug 'joshdick/onedark.vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'sainnhe/sonokai'
+Plug 'Dualspc/spaceodyssey'
 
 " Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'kyazdani42/nvim-web-devicons' " lua
@@ -580,9 +579,6 @@ let g:neoformat_enabled_python = ["black"]
 "             \ }
 
 nnoremap <space>n :CocCommand explorer --reveal<CR>
-nnoremap <silent> <leader>lg :LazyGit<CR>
-
-nnoremap <space>n :CocCommand explorer<CR>
 nnoremap <silent> <leader>lg :LazyGit<CR>
 
 augroup fmt
