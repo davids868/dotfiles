@@ -180,6 +180,8 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
+let g:far#enable_undo=1
+
 " elm format
 let g:elm_format_autosave = 1
 
