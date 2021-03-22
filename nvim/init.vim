@@ -134,7 +134,6 @@ Plug 'kevinhwang91/nvim-bqf'
 " Plug 'vim-utils/vim-man'
 " Plug 'metakirby5/codi.vim'
 
-
 "-----------------
 " Styles
 "-----------------
@@ -289,71 +288,8 @@ let g:gitgutter_map_keys = 0
 
 " Coc config
 let g:coc_global_extensions = [
-  \ 'coc-snippets',
-  \ 'coc-tsserver',
-  \ 'coc-eslint',
-  \ 'coc-prettier',
-  \ 'coc-json',
-  \ 'coc-elixir',
-  \ 'coc-solargraph',
-  \ 'coc-html',
   \ 'coc-explorer',
-  \ 'coc-yank',
-  \ 'coc-tabnine',
-  \ 'coc-stylelint',
-  \ 'coc-css',
-  \ 'coc-go',
-  \ 'coc-lua',
-  \ 'coc-jedi',
-  \ 'coc-pyright',
   \ ]
-
-nnoremap <leader>cr :CocRestart<CR>
-nmap <Leader>n :CocCommand explorer<CR>
-augroup highlight_cursor
-    autocmd!
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-augroup end
-noremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-endif
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
-
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-" GoTo code navigation.
-nmap <leader>gd <Plug>(coc-declaration)
-nmap <leader>gt <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references-used)
-nmap <F2> <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nmap <silent> <leader>. :CocFix<cr>
-nmap <silent> <leader>a <Plug>(coc-codeaction-cursor)
-vmap <silent> <leader>a <Plug>(coc-codeaction-selected)
 
 " Go to tab by number
 noremap <leader>1 1gt
