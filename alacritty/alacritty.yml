@@ -39,7 +39,7 @@ font:
     family: "MesloLGSDZ NERD FONT MONO"
     style: Bold Italic
 
-  size: 14.0
+  size: 13.5
   # Visual Bell
   #
   # Any time the BEL code is received, Alacritty "rings" the visual bell. Once
@@ -286,7 +286,7 @@ key_bindings:
   - { key: L, mods: Alt, chars: "\el" }
 
   - { key: Left, mods: Alt, chars: "\eb" }
-  - { key: Right, mods: Alt, chars: "\ef" }
+  - { key: Right, mods: Alt, chars: "\ee" }
   - {
       key: Left,
       mods: Command,
