@@ -1,0 +1,6 @@
+require("plugins.galaxyline")
+require("plugins.compe")
+require("plugins.lsp")
+require("plugins.saga")
+require("plugins.gitsigns")
+require("plugins.telescope")
