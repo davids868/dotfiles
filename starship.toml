@@ -1,0 +1,16 @@
+add_newline = false
+
+[character]
+success_symbol = "[➜](bold bright-green)"
+error_symbol = "[➜](bold bright-red)"
+vicmd_symbol = "[V](bold bright-green)"
+# vicmd_symbol = "[←](bold bright-green)"
+
+#[directory]
+#style = "bold blue"
+
+
+#[git_status]
+#ahead = "⇡${count}"
+#diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+#behind = "⇣${count}"
