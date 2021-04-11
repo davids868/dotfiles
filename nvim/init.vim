@@ -25,9 +25,12 @@ set scrolloff=8
 set clipboard=unnamedplus
 set noshowmode                  " removes  --INSERT--
 set autoread                    " enables aoto reading of files edited outside vim
+au CursorHold * checktime
 " set cursorline
 set synmaxcol=150
 set ttyfast
+set nocompatible
+filetype plugin on
 
 " highlight search results
 augroup vimrc-incsearch-highlight
@@ -69,7 +72,6 @@ Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mbbill/undotree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'stsewd/fzf-checkout.vim'
 Plug 'ap/vim-css-color'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mattn/emmet-vim'
@@ -112,8 +114,9 @@ Plug 'glepnir/lspsaga.nvim'
 "-----------------
 "  Fixing
 "-----------------
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 " Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'wellle/context.vim'
 
 "-----------------
 " Experimental
@@ -126,6 +129,22 @@ Plug 'sbdchd/neoformat'
 Plug 'brooth/far.vim'
 Plug 'junegunn/gv.vim'
 Plug 'kevinhwang91/nvim-bqf'
+Plug 'tpope/vim-repeat'
+Plug 'reedes/vim-pencil'
+Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['vimwiki', 'markdown', 'vim-plug']}
+Plug 'andymass/vim-matchup'
+Plug 'tweekmonster/startuptime.vim'
+Plug 'junegunn/goyo.vim'
+" Plug 'godlygeek/tabular'
+
+"-----------------
+" Fennel
+"-----------------
+" Plug 'Olical/conjure', {'tag': 'v4.17.0'}
+Plug 'Olical/aniseed', { 'tag': 'v3.16.0' }
+Plug 'bakpakin/fennel.vim'
+" Plug 'tami5/compe-conjure'
 
 "-----------------
 " Test
@@ -141,6 +160,7 @@ Plug 'gruvbox-community/gruvbox'
 " Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 
+
 " lug 'colepeters/spacemacs-theme.vim'
 " Plug 'lifepillar/vim-gruvbox8'
 " Plug 'joshdick/onedark.vim'
@@ -148,10 +168,11 @@ Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'sainnhe/sonokai'
 Plug 'Dualspc/spaceodyssey'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
-" Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'kyazdani42/nvim-web-devicons' " lua
-Plug 'ryanoasis/vim-devicons' " Last to load
+" Plug 'yamatsum/nvim-web-nonicons'
+" Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
 
@@ -166,6 +187,7 @@ let g:gruvbox_material_palette = "mix"
 
 set background=dark
 colorscheme gruvbox
+" palenight sonokai onehalfdar gruvbox
 
 if executable('rg')
     let g:rg_derive_root='true'
@@ -195,15 +217,17 @@ let g:workspace_autosave_always = 0
 
 set showtabline=2
 set laststatus=2
-lua require('plugins.galaxyline')
 
 " scrolling
 nnoremap <C-d> 20j
 nnoremap <C-u> 20k
 
 " Tab actions
-nnoremap <C-t> :tabnew<CR>
-nnoremap <C-x> :tabclose<CR>
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>tq :tabclose<CR>
+
+" visual search
+vnoremap / y/<C-r>0
 
 " Begging/End of line
 noremap H 0
@@ -213,8 +237,6 @@ noremap L $
 inoremap jk <Esc>
 inoremap kj <Esc>
 map <C-c> <Esc>
-
-nnoremap ; :
 
 " Yanks
 nnoremap Y y$
@@ -231,6 +253,7 @@ xnoremap m d
 nnoremap mm dd
 nnoremap M D
 vnoremap p "_dP
+vnoremap P "_dp
 " noremap x "_x
 " noremap X "_x
 
@@ -275,9 +298,9 @@ nnoremap <Leader><CR> :source ~/.config/nvim/init.vim<CR>
 " Open init.vim in new tab
 nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
 
-" Goyo
-" nmap <Leader>z :Goyo<CR>
-nmap <Leader>z :MaximizerToggle<CR>
+nnoremap <silent><Leader>z :MaximizerToggle<CR>
+vnoremap <silent><Leader>z :MaximizerToggle<CR>gv
+
 
 " run las used macro on selected lines
 vnoremap @@ :normal @@<CR>
@@ -305,7 +328,7 @@ noremap <leader>9 9gt
 " Go to last active tab
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
-vnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
+vnoremap <silent> <leader><tab> <esc>:exe "tabn ".g:lasttab<cr>
 
 " restore closed tab
 " noremap <leader>T :tabnew<bar>:Buffers<CR><CR>
@@ -323,7 +346,6 @@ nmap <leader>gl :Git pull<CR>
 nmap <leader>gpp :Git push
 nmap <leader>gpf :Git push -f
 nmap <leader>gpu :Git push -u origin HEAD
-nmap <leader>go :Telescope git_branches<CR>
 nmap <leader>gc :Commits<CR>
 nnoremap <leader>gh :GitGutterPreviewHunk<CR>
 
@@ -384,20 +406,25 @@ if exists('g:started_by_firenvim')
   set showtabline=1
 endif
 
-let g:vimwiki_key_mappings = { 'table_mappings': 0 }
+" WIKI
 augroup vimwiki
     autocmd!
     au FileType calendar set nornu signcolumn=no
     au FileType vimwiki inoremap <silent> <buffer> <expr> <CR> pumvisible() ? "\<C-y>" : "<Esc>:VimwikiReturn 1 5<CR>"
     " au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-C-y>" : "<Esc>:VimwikiReturn 2 2<CR>"
-    au FileType vimwiki set synmaxcol=400
+    " au BufEnter *.wiki set synmaxcol=400
+    au FileType vimwiki,md set synmaxcol=400
     au FileType vimwiki let g:vista_echo_cursor=0
 augroup END
 
-
-" set nocompatible
-" filetype plugin on
+" let g:vimwiki_global_ext = 0
+let g:vimwiki_key_mappings = { 'table_mappings': 0 }
 " let g:vimwiki_list = [{'auto_diary_index': 1}]
+let g:vimwiki_list = [{'path': '~/vimwiki/'},
+      \{'path': '~/md_wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_ext2syntax = { '.md': 'markdown','.markdown': 'markdown' }
+let g:vimwiki_markdown_link_ext = 1
+
 
 " Functions
 function! ToggleSpellCheck()
@@ -459,7 +486,7 @@ let g:vista_executive_for = {
   \ 'vimwiki': 'markdown'
   \ }
 
-nnoremap <Leader>t :Vista show<CR>
+nnoremap <Leader>v :Vista show<CR>
 
 " clap
 " let g:clap_layout = { 'relative': 'editor', 'width': '45%', 'col': '5%' }
@@ -495,7 +522,7 @@ nnoremap <silent><leader>p :Clap gfiles<CR>
 nnoremap <silent><leader>P :Clap command<CR>
 nnoremap <silent><Leader>o :Clap files<CR>
 nnoremap <silent><Leader>b :Clap buffers<CR>
-nnoremap <silent><Leader>r :Clap history<CR>
+nnoremap <silent><Leader>rr :Clap history<CR>
 nnoremap <silent><Leader>h; :Clap command_history<CR>
 nnoremap <silent><Leader>h/ :Clap search_history<CR>
 nnoremap <silent><Leader>ht :Clap help_tags<CR>
@@ -516,8 +543,11 @@ let g:neoformat_enabled_python = ["black"]
 "             \ 'args': 'run black'
 "             \ }
 
-nnoremap <space>n :CocCommand explorer --reveal<CR>
+nnoremap <silent> <space>n :CocCommand explorer --reveal<CR>
 nnoremap <silent> <leader>lg :LazyGit<CR>
+
+let g:mkdp_command_for_global = 1
+
 
 augroup fmt
   autocmd!
@@ -530,16 +560,16 @@ augroup END
 " Use <Tab> and <S-Tab> to navigate through popup menu
 " inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-lua require('plugins.compe')
-lua require('plugins.lsp')
-lua require('plugins.saga')
-" lua require('plugins.tree')
-lua require('plugins.gitsigns')
+lua require('plugins')
+lua require('utils')
 
-" augroup hints
-"     autocmd!
-"     autocmd BufWritePre * %s/\s\+$//e
-"     autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
-" augroup END
-"
+highlight MatchParen ctermfg=red ctermbg=white
+set showmatch
+
 autocmd VimEnter * CocDisable
+nnoremap <silent><leader>co :copen<CR>
+command! Preview :MarkdownPreview
+
+" Fennel
+" let g:aniseed#env = { "module": "fnl.init", "output": "/lua/fnl" }
+let maplocalleader = ","
