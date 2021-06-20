@@ -1,0 +1,6 @@
+--exclude=__generated__
+--exclude=.mypy_cache
+--exclude=node_modules
+--exclude=dist
+--exclude=.cache
+--exclude=.git
