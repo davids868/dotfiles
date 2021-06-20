@@ -1,5 +1,5 @@
 vim.o.completeopt = "menuone,noselect,noinsert"
-local opts = {ignored_filetypes = {"clap_input"}}
+local ignored_filetypes = {"clap_input"}
 
 require "compe".setup {
     enabled = true,
@@ -14,11 +14,11 @@ require "compe".setup {
     max_menu_width = 500,
     documentation = true,
     source = {
-        path = opts,
-        buffer = {ignored_filetypes = opts.ignored_filetypes},
+        nvim_lsp = {priority = 1000},
+        buffer = {ignored_filetypes = ignored_filetypes},
         calc = true,
         vsnip = false,
-        nvim_lsp = {priority = 1000},
+        path = true,
         nvim_lua = true,
         spell = false,
         tags = false,
@@ -26,7 +26,7 @@ require "compe".setup {
         treesitter = false,
         omni = false,
         conjure = true
-        -- of due to very bad performanc
+        -- off due to very bad performanc
         -- tabnine = {
         --     max_line = 1000,
         --     max_num_results = 5

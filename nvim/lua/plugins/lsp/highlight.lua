@@ -1,9 +1,9 @@
 local setup = function()
     vim.api.nvim_exec(
         [[
-                hi default link LspReferenceRead  CursorColumn
-                hi default link LspReferenceText  CursorColumn
-                hi default link lspreferencewrite  CursorColumn
+                hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
+                hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
+                hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
                 augroup lsp_document_highlight
                   autocmd! * <buffer>
                   autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
