@@ -1,7 +1,9 @@
+.DS_Store
 .netrwhist
 yarn
 coc*/
 .mypy_cache
+*.log
 bpytop
 configstore
 fish
@@ -17,4 +19,7 @@ nnn
 pudb
 nvim/session
 nvim/lua/fnl
+git
 AWSVPNClient
+zoxide_bin
+.undodir

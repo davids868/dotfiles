@@ -3,7 +3,6 @@
 --         signs = {
 --             add = {hl = "GitGutterAdd", text = "┃"},
 --             change = {hl = "GitGutterChange", text = "┃"},
-.env.local
 --             delete = {hl = "GitGutterDelete", text = "┃"},
 --             topdelete = {hl = "GitGutterDeleteChange", text = "┃"},
 --             changedelete = {hl = "GitGutterChange", text = "┃"}

@@ -41,7 +41,7 @@ augroup END
 
 set ttimeout
 set ttimeoutlen=100
-set timeoutlen=3000
+set timeoutlen=2000
 
 " Give more space for displaying messages.
 set cmdheight=1
@@ -70,8 +70,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-fugitive'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'mbbill/undotree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'ap/vim-css-color'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'mattn/emmet-vim'
@@ -84,17 +82,22 @@ Plug 'szw/vim-maximizer'
 Plug 'tpope/vim-commentary'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'svermeulen/vim-cutlass'
-Plug 'elmcast/elm-vim'
 Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(1) } }
 Plug 'jpalardy/vim-slime'
 Plug 'thaerkh/vim-workspace'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'liuchengxu/vista.vim'
 Plug 'liuchengxu/vim-clap', { 'do': ':Clap install-binary!' }
-Plug 'vn-ki/coc-clap'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'glepnir/galaxyline.nvim', {'branch': 'main'}
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'sbdchd/neoformat'
+Plug 'tpope/vim-repeat'
+Plug 'kevinhwang91/nvim-bqf'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'folke/todo-comments.nvim'
+Plug 'sindrets/diffview.nvim'
+Plug 'dstein64/vim-startuptime'
+Plug 'junegunn/gv.vim'
 
 "-----------------
 " required by other plugins
@@ -110,33 +113,38 @@ Plug 'hrsh7th/nvim-compe'
 Plug 'onsails/lspkind-nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
+Plug 'folke/lsp-trouble.nvim'
+Plug 'jose-elias-alvarez/nvim-lsp-ts-utils'
+Plug 'folke/lsp-colors.nvim'
+Plug 'windwp/nvim-ts-autotag'
 
 "-----------------
 "  Fixing
 "-----------------
-Plug 'jiangmiao/auto-pairs'
 " Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'wellle/context.vim'
+" Plug 'michaelb/sniprun', {'do': 'bash install.sh'}
+"
+
+"-----------------
+"  Compare
+"-----------------
+Plug 'brooth/far.vim'
+Plug 'windwp/nvim-spectre'
 
 "-----------------
 " Experimental
 "-----------------
-" Plug 'puremourning/vimspector'
-Plug 'Yggdroot/indentLine'
-Plug 'vim-test/vim-test'
+Plug 'jiangmiao/auto-pairs'
 Plug 'mattn/calendar-vim'
-Plug 'sbdchd/neoformat'
-Plug 'brooth/far.vim'
-Plug 'junegunn/gv.vim'
-Plug 'kevinhwang91/nvim-bqf'
-Plug 'tpope/vim-repeat'
 Plug 'reedes/vim-pencil'
 Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['vimwiki', 'markdown', 'vim-plug']}
-Plug 'andymass/vim-matchup'
-Plug 'tweekmonster/startuptime.vim'
-Plug 'junegunn/goyo.vim'
-" Plug 'godlygeek/tabular'
+Plug 'jparise/vim-graphql'
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'folke/zen-mode.nvim'
+Plug 'rafcamlet/nvim-luapad'
+
 
 "-----------------
 " Fennel
@@ -149,6 +157,7 @@ Plug 'bakpakin/fennel.vim'
 "-----------------
 " Test
 "-----------------
+" dap
 " Plug 'puremourning/vimspector'
 " Plug 'vim-utils/vim-man'
 " Plug 'metakirby5/codi.vim'
@@ -156,44 +165,53 @@ Plug 'bakpakin/fennel.vim'
 "-----------------
 " Styles
 "-----------------
-Plug 'gruvbox-community/gruvbox'
-" Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
+Plug 'npxbr/gruvbox.nvim'
+Plug 'eddyekofo94/gruvbox-flat.nvim'
 
-
-" lug 'colepeters/spacemacs-theme.vim'
-" Plug 'lifepillar/vim-gruvbox8'
-" Plug 'joshdick/onedark.vim'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'tjdevries/gruvbuddy.nvim'
+"
+Plug 'shaunsingh/nord.nvim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'rktjmp/lush.nvim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'sainnhe/sonokai'
 Plug 'Dualspc/spaceodyssey'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'folke/tokyonight.nvim'
+Plug 'glepnir/zephyr-nvim'
 
 Plug 'kyazdani42/nvim-web-devicons' " lua
-" Plug 'yamatsum/nvim-web-nonicons'
-" Plug 'ryanoasis/vim-devicons' " Last to load
 
 call plug#end()
 
-let g:gruvbox_contrast_dark = 'hard'
-if exists('+termguicolors')
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
-" let g:gruvbox_invert_selection='0'
+" let g:gruvbox_contrast_dark = 'hard'
+" if exists('+termguicolors')
+"     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+"     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
 
+let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_palette = "mix"
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_diagnostic_virtual_text = 'colored'
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_visual = 'reverse'
+colorscheme gruvbox-material
+
+" colorscheme gruvbox-flat
+" let g:gruvbox_flat_style = "dark"
 
 set background=dark
-colorscheme gruvbox
-" palenight sonokai onehalfdar gruvbox
 
+let g:far#enable_undo=1
 if executable('rg')
+    let g:far#source='rg'
     let g:rg_derive_root='true'
 endif
 
-let loaded_matchparen = 1
 let mapleader = " "
 
 let g:netrw_browse_split = 2
@@ -202,9 +220,6 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
 let g:far#enable_undo=1
-
-" elm format
-let g:elm_format_autosave = 1
 
 " workspace
 let g:workspace_session_directory = $HOME . '/.config/nvim/session/'
@@ -224,6 +239,7 @@ nnoremap <C-u> 20k
 
 " Tab actions
 nnoremap <leader>tn :tabnew<CR>
+" nnoremap <silent><leader>tn :lua new_tab()<CR>
 nnoremap <leader>tq :tabclose<CR>
 
 " visual search
@@ -254,17 +270,7 @@ nnoremap mm dd
 nnoremap M D
 vnoremap p "_dP
 vnoremap P "_dp
-" noremap x "_x
-" noremap X "_x
 
-" replace
-" nnoremap <silent>*s :let @/='\<'.expand('<cword>').'\>'<CR>cgn
-
-" multiple cursors
-"let g:multi_cursor_use_default_mapping=0
-"let g:multi_cursor_start_word_key      = '<C-n>'
-"let g:multi_cursor_start_word_key      = '<C-n>'
-"let g:multi_cursor_quit_key            = '<Esc>'
 map Q q
 nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :qa<CR>
@@ -292,22 +298,21 @@ nnoremap > >>
 cnoremap <c-j> <c-g>
 cnoremap <c-k> <c-t>
 
+" navigating command mode
+cnoremap <c-h> <left>
+cnoremap <c-l> <right>
+
 nnoremap <leader>u :UndotreeToggle<CR>
 nnoremap <Leader><CR> :source ~/.config/nvim/init.vim<CR>
 
-" Open init.vim in new tab
-nnoremap <Leader>, :tabnew ~/.config/nvim/init.vim<CR>
-
+" maximizer
+let g:maximizer_restore_on_winleave = 1
+set winminwidth=5
 nnoremap <silent><Leader>z :MaximizerToggle<CR>
 vnoremap <silent><Leader>z :MaximizerToggle<CR>gv
 
-
-" run las used macro on selected lines
+" run last used macro on selected lines
 vnoremap @@ :normal @@<CR>
-
-" gitgutter
-let g:gitgutter_terminal_reports_focus=0
-let g:gitgutter_map_keys = 0
 
 " Coc config
 let g:coc_global_extensions = [
@@ -330,14 +335,12 @@ au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <leader><tab> :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <leader><tab> <esc>:exe "tabn ".g:lasttab<cr>
 
-" restore closed tab
-" noremap <leader>T :tabnew<bar>:Buffers<CR><CR>
-
-" Sweet Sweet FuGITive
+" git
 let g:fugitive_gitlab_domains = ['https://gitlab.eu-west-1.mgmt.onfido.xyz/']
 
 map <leader>ge :GBrowse<CR>
 nmap <leader>dm :Gvdiffsplit origin/master<CR>
+nmap <leader>dv :DiffviewToggle<CR>
 nmap <leader>dl :diffget //3<CR>
 nmap <leader>dh :diffget //2<CR>
 nmap <leader>gs :tab G<CR>
@@ -346,8 +349,7 @@ nmap <leader>gl :Git pull<CR>
 nmap <leader>gpp :Git push
 nmap <leader>gpf :Git push -f
 nmap <leader>gpu :Git push -u origin HEAD
-nmap <leader>gc :Commits<CR>
-nnoremap <leader>gh :GitGutterPreviewHunk<CR>
+nnoremap <silent><leader>gc :GV<CR>
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -365,12 +367,6 @@ augroup customfiletypes
   autocmd BufNewFile,BufRead *.mypy-testing setf python
   autocmd FileType tf set formatprg=terraform
 augroup end
-
-" indentLine
-let g:indentLine_char = '¦'
-let g:indentLine_enabled = 0
-
-" let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 
 " slime
 let g:slime_target = "tmux"
@@ -400,8 +396,6 @@ augroup vimwiki
     autocmd!
     au FileType calendar set nornu signcolumn=no
     au FileType vimwiki inoremap <silent> <buffer> <expr> <CR> pumvisible() ? "\<C-y>" : "<Esc>:VimwikiReturn 1 5<CR>"
-    " au FileType vimwiki inoremap <silent> <buffer> <expr> <S-CR> pumvisible() ? "\<S-C-y>" : "<Esc>:VimwikiReturn 2 2<CR>"
-    " au BufEnter *.wiki set synmaxcol=400
     au FileType vimwiki,md set synmaxcol=400
     au FileType vimwiki let g:vista_echo_cursor=0
 augroup END
@@ -434,48 +428,27 @@ function! ToggleRelativeLineNumbers()
   endif
 endfunction
 
-" let g:profiling = 0
-" function! ToggleProfiling()
-"   if g:profiling
-"     let g:profiling = 1
-"     profile start profiling.log
-"     profile file *
-"     profile func *
-"     echo "Profiling ON"
-"   else
-"     let g:profiling = 0
-"     profile stop
-"     echo "Profiling OFF"
-"   endif
-" endfunction
-" command! Profiling call ToggleProfiling()
+let g:diffopen = v:false
+function! DiffviewToggle()
+  if g:diffopen
+    let g:diffopen = v:false
+    execute 'DiffviewClose'
+  else
+    let g:diffopen = v:true
+    execute 'DiffviewOpen'
+  endif
+endfunction
 
 " Custom commands
 command! SpellCheck call ToggleSpellCheck()
+command! DiffviewToggle call DiffviewToggle()
 command! ToggleRelativeLineNumbers call ToggleRelativeLineNumbers()
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-" Change the color
-highlight CodiVirtualText guifg=cyan
-let g:codi#virtual_text_prefix = "❯ "
 
 augroup vimrc_help
   autocmd!
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd H | endif
 augroup END
-
-" vista
-let g:vista#renderer#ctags='default'
-let g:vista_echo_cursor_delay=0
-let g:vista_cursor_delay=0
-" let g:vista_echo_cursor_strategy='floating_win'
-" let g:vista_floating_delay=100
-let g:vista_sidebar_keepalt=1
-let g:vista_executive_for = {
-  \ 'vimwiki': 'markdown'
-  \ }
-
-nnoremap <Leader>v :Vista show<CR>
 
 " clap
 " let g:clap_layout = { 'relative': 'editor', 'width': '45%', 'col': '5%' }
@@ -485,13 +458,6 @@ let g:clap_provider_yanks_max_entries = 300
 let g:clap_provider_yanks_history = '~/.clap_yanks.history'
 let g:clap_layout = { 'relative': 'editor', 'width': '80%', 'col': '10%', 'height': '30%', 'row': '10%'}
 let g:clap_preview_direction = 'UD'
-
-" let g:clap_provider_git_branches = {
-"     \ 'source': '!git branch --all | grep -v HEAD',
-"     \ 'sink': 'Git checkout',
-"     \ }
-
-" let g:clap#provider#git_branches = g:clap_provider_git_branches
 
 augroup clap
   autocmd!
@@ -503,62 +469,49 @@ augroup clap
 augroup END
 
 nnoremap <silent><Leader>cl :Clap<CR>
-vnoremap <silent><Leader>F :Clap grep ++query=@visual<CR>
-nnoremap <silent><Leader>f :Clap blines<CR>
-nnoremap <silent><Leader>F :Clap grep<CR>
 nnoremap <silent><Leader>G :Clap grep2<CR>
-nnoremap <silent><leader>p :Clap gfiles<CR>
-nnoremap <silent><leader>P :Clap command<CR>
-nnoremap <silent><Leader>o :Clap files<CR>
-nnoremap <silent><Leader>b :Clap buffers<CR>
-nnoremap <silent><Leader>rr :Clap history<CR>
-nnoremap <silent><Leader>h; :Clap command_history<CR>
-nnoremap <silent><Leader>h/ :Clap search_history<CR>
-nnoremap <silent><Leader>ht :Clap help_tags<CR>
-nnoremap <silent><Leader>s :Clap tags<CR>
-nnoremap <silent><Leader>S :Clap proj_tags<CR>
 nnoremap <silent><Leader>y :Clap yanks<CR>
-nnoremap <silent><Leader>hj :Clap jumps<CR>
-nnoremap <silent><leader>gc :GV<CR>
-nnoremap <silent><leader>cc :Clap coc_commands<CR>
-nnoremap <silent><leader>cd :Clap coc_diagnostics<CR>
 
 nnoremap <leader>L :Neoformat<CR>
 let g:neoformat_enabled_ruby = ["rubocop"]
 let g:neoformat_enabled_yaml = ["prettier"]
 let g:neoformat_enabled_python = ["black"]
-" let g:neoformat_python_black = {
-"             \ 'exe': 'poetry',
-"             \ 'args': 'run black'
-"             \ }
 
 nnoremap <silent> <space>n :CocCommand explorer --reveal<CR>
 nnoremap <silent> <leader>lg :LazyGit<CR>
 
 let g:mkdp_command_for_global = 1
 
-
 augroup fmt
   autocmd!
   let blacklist = ['ruby', 'yml', 'yaml']
-  " autocmd BufWritePre * if index(blacklist, &ft) < 0 | undojoin | Neoformat
   autocmd BufWritePre * if index(blacklist, &ft) < 0 | Neoformat
 augroup END
 
-" let g:nvim_tree_disable_netrw = 0
-" Use <Tab> and <S-Tab> to navigate through popup menu
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-lua require('plugins')
-lua require('utils')
-
-highlight MatchParen ctermfg=red ctermbg=white
-set showmatch
+lua require('init')
 
 autocmd VimEnter * CocDisable
-nnoremap <silent><leader>co :copen<CR>
+
 command! Preview :MarkdownPreview
 
 " Fennel
 " let g:aniseed#env = { "module": "fnl.init", "output": "/lua/fnl" }
 let maplocalleader = ","
+
+if has('macunix')
+  function! OpenURLUnderCursor()
+    let s:uri = matchstr(getline('.'), '[a-z]*:\/\/[^ >,;()]*')
+    let s:uri = shellescape(s:uri, 1)
+    if s:uri != ''
+      silent exec "!open '".s:uri."'"
+      :redraw!
+    endif
+  endfunction
+  nnoremap gx :call OpenURLUnderCursor()<CR>
+endif
+
+if isdirectory($PWD .'/node_modules')
+    let $PATH .= ':' . $PWD . '/node_modules/.bin'
+endif
+
+let g:gutentags_enabled = 0
