@@ -360,17 +360,6 @@ augroup trim_whitespaces
   autocmd BufWritePre * :call TrimWhitespace()
 augroup end
 
-" treesitter
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  highlight = {
-    enable = true,
-  },
-}
-local parser_config = require"nvim-treesitter.parsers".get_parser_configs()
-EOF
-
 augroup customfiletypes
   autocmd!
   autocmd BufNewFile,BufRead *.mypy-testing setf python
