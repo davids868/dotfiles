@@ -65,12 +65,6 @@ require("telescope").setup {
         fzf_writer = {
             use_highlighter = false,
             minimum_grep_characters = 6
-        },
-        frecency = {
-            workspaces = {
-                ["conf"] = "/home/tj/.config/nvim/",
-                ["nvim"] = "/home/tj/build/neovim"
-            }
         }
     }
 }
@@ -81,6 +75,8 @@ pcall(require("telescope").load_extension, "gh")
 pcall(require("telescope").load_extension, "cheat")
 pcall(require("telescope").load_extension, "dap")
 pcall(require("telescope").load_extension, "arecibo")
+
+-- require("telescope").load_extension("fzf")
 
 local M = {}
 
@@ -122,9 +118,9 @@ function M.edit_zsh()
     }
 end
 
-function M.commands()
-    require("telescope.builtin").commands(dropdown)
-end
+-- function M.commands()
+--     require("telescope.builtin").commands(dropdown)
+-- end
 
 function M.builtin()
     require("telescope.builtin").builtin(dropdown)
@@ -141,13 +137,13 @@ function M.lsp_code_actions()
     require("telescope.builtin").lsp_code_actions(dropdown)
 end
 
-function M.live_grep()
-    require("telescope").extensions.fzf_writer.staged_grep {
-        shorten_path = true,
-        previewer = false,
-        fzf_separator = "|>"
-    }
-end
+-- function M.live_grep()
+--     require("telescope").extensions.fzf_writer.staged_grep {
+--         shorten_path = true,
+--         previewer = false,
+--         fzf_separator = "|>"
+--     }
+-- end
 
 function M.grep_prompt()
     require("telescope.builtin").grep_string {
@@ -159,13 +155,18 @@ end
 function M.grep_visual_selection(opts)
     opts = opts or {}
 
-    vim.cmd([[ norm! gv"fy ]])
-    local register = vim.fn.getreg("f")
-    dump(register)
+    -- vim.cmd([[ norm! gv"fy ]])
+    -- local register = vim.fn.getreg("f")
+    -- dump(register)
+
+    local start = vim.fn.getpos("'<")
+    local finish = vim.fn.getpos("'>")
+
+    dump({start, finish})
 
     opts.shorten_path = true
     -- opts.word_match = "-w"
-    opts.search = register
+    -- opts.search = register
     opts.layout_strategy = "vertical"
 
     require("telescope.builtin").grep_string(opts)
@@ -186,15 +187,15 @@ function M.grep_last_search(opts)
     require("telescope.builtin").grep_string(opts)
 end
 
-function M.oldfiles()
-    if true then
-        require("telescope").extensions.frecency.frecency()
-    end
-    if pcall(require("telescope").load_extension, "frecency") then
-    else
-        require("telescope.builtin").oldfiles {layout_strategy = "vertical"}
-    end
-end
+-- function M.oldfiles()
+--     if true then
+--         require("telescope").extensions.frecency.frecency()
+--     end
+--     if pcall(require("telescope").load_extension, "frecency") then
+--     else
+--         require("telescope.builtin").oldfiles {layout_strategy = "vertical"}
+--     end
+-- end
 
 function M.my_plugins()
     require("telescope.builtin").find_files {
@@ -212,7 +213,7 @@ function M.project_search()
     require("telescope.builtin").find_files {
         previewer = false,
         layout_strategy = "vertical",
-        cwd = require("nvim_lsp.util").root_pattern(".git")(vim.fn.expand("%:p"))
+        cwd = require("lspconfig/util").root_pattern(".git")(vim.fn.expand("%:p"))
     }
 end
 
@@ -223,7 +224,8 @@ function M.buffers()
 end
 
 function M.buffer_lines()
-    require("telescope.builtin").current_buffer_fuzzy_find(dropdown)
+    -- require("telescope.builtin").current_buffer_fuzzy_find(dropdown)
+    require("telescope.builtin").current_buffer_fuzzy_find()
 end
 
 function M.help_tags()
@@ -244,6 +246,16 @@ function M.file_browser()
         scroll_strategy = "cycle",
         prompt_position = "top"
     }
+end
+
+function M.lsp_dynamic_workspace_symbols()
+    require("telescope.builtin").lsp_dynamic_workspace_symbols {
+        file_ignore_patterns = {"node_modules/.*"}
+    }
+end
+
+function M.lsp_document_symbols()
+    require("telescope.builtin").lsp_document_symbols()
 end
 
 for k, v in pairs(M) do

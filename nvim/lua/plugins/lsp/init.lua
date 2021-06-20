@@ -26,12 +26,6 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 local on_attach = function(client)
-    require("lsp_signature").on_attach {
-        bind = true,
-        doc_lines = 10,
-        use_lspsaga = true
-    }
-
     if (client.name == "tsserver") then
         local ts_utils = require("nvim-lsp-ts-utils")
     -- ts_utils.setup_client(client)
