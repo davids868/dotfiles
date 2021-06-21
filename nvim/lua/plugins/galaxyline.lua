@@ -1,10 +1,10 @@
 local gl = require("galaxyline")
 
-function is_buffer_empty()
+local function is_buffer_empty()
     return vim.fn.empty(vim.fn.expand("%:t")) == 1
 end
 
-function has_width_gt(cols)
+local function has_width_gt(cols)
     return vim.fn.winwidth(0) / 2 > cols
 end
 
@@ -12,9 +12,10 @@ local gls = gl.section
 gl.short_line_list = {"coc-explorer", "calendar", "tagbar"}
 
 local colors = {
-    bg = "#1c2023",
+    -- bg = "#1c2023",
+    bg = "#1f2335",
     fg = "#eaebed",
-    section_bg = "#1c2023",
+    -- section_bg = "#1c2023",
     yellow = "#ebcb8b",
     cyan = "#96b5b4",
     green = "#a3be8c",
@@ -118,7 +119,7 @@ gls.left[1] = {
         provider = function()
             return "  "
         end,
-        highlight = {colors.cyan, colors.section_bg}
+        highlight = {colors.cyan, colors.bg}
     }
 }
 gls.left[2] = {
@@ -151,7 +152,7 @@ gls.left[2] = {
         end,
         highlight = {colors.bg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.bg, colors.section_bg}
+        separator_highlight = {colors.bg, colors.bg}
     }
 }
 gls.left[3] = {
@@ -167,7 +168,7 @@ gls.left[4] = {
     GitBranch = {
         provider = "GitBranch",
         separator = " ▊ ",
-        separator_highlight = {colors.cyan, colors.section_bg},
+        separator_highlight = {colors.cyan, colors.bg},
         condition = require("galaxyline.provider_vcs").check_git_workspace,
         highlight = {colors.fg, colors.bg}
     }
@@ -176,9 +177,9 @@ gls.left[5] = {
     FileName = {
         provider = get_current_file_path,
         condition = buffer_not_empty,
-        highlight = {colors.fg, colors.section_bg},
+        highlight = {colors.fg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.section_bg, colors.bg}
+        separator_highlight = {colors.bg, colors.bg}
     }
 }
 gls.left[6] = {
@@ -211,7 +212,7 @@ gls.right[1] = {
     DiagnosticError = {
         provider = "DiagnosticError",
         icon = " ",
-        highlight = {colors.red, colors.section_bg}
+        highlight = {colors.red, colors.bg}
     }
 }
 gls.right[2] = {
@@ -219,17 +220,17 @@ gls.right[2] = {
         provider = "DiagnosticWarn",
         icon = "ﰣ ",
         separator = " ",
-        separator_highlight = {colors.fg, colors.section_bg},
-        highlight = {colors.orange, colors.section_bg}
+        separator_highlight = {colors.fg, colors.bg},
+        highlight = {colors.orange, colors.bg}
     }
 }
 gls.right[3] = {
     DiagnosticInfo = {
         provider = "DiagnosticInfo",
         icon = " ",
-        highlight = {colors.blue, colors.section_bg},
+        highlight = {colors.blue, colors.bg},
         separator = " ",
-        separator_highlight = {colors.fg, colors.section_bg}
+        separator_highlight = {colors.fg, colors.bg}
     }
 }
 
@@ -238,36 +239,36 @@ gls.right[4] = {
         provider = function()
             return vim.bo.filetype
         end,
-        highlight = {colors.fg, colors.section_bg},
+        highlight = {colors.fg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.fg, colors.section_bg}
+        separator_highlight = {colors.fg, colors.bg}
     }
 }
 gls.right[5] = {
     FileIcon = {
         provider = "FileIcon",
         condition = buffer_not_empty,
-        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.section_bg},
+        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.bg},
         separator = " ",
-        separator_highlight = {colors.fg, colors.section_bg}
+        separator_highlight = {colors.fg, colors.bg}
     }
 }
 
 gls.right[6] = {
     LineInfo = {
         provider = "LineColumn",
-        highlight = {colors.fg, colors.section_bg},
+        highlight = {colors.fg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.bg, colors.section_bg}
+        separator_highlight = {colors.bg, colors.bg}
     }
 }
 
 gls.right[7] = {
     ScrollBar = {
         provider = "ScrollBar",
-        highlight = {colors.fg, colors.section_bg},
+        highlight = {colors.fg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.bg, colors.section_bg}
+        separator_highlight = {colors.bg, colors.bg}
     }
 }
 
@@ -282,9 +283,9 @@ gls.right[7] = {
 gls.short_line_left[1] = {
     BufferType = {
         provider = "FileTypeName",
-        highlight = {colors.fg, colors.section_bg},
+        highlight = {colors.fg, colors.bg},
         separator = " ",
-        separator_highlight = {colors.section_bg, colors.bg}
+        separator_highlight = {colors.bg, colors.bg}
     }
 }
 
@@ -292,9 +293,9 @@ gls.short_line_right[2] = {
     FileIcon = {
         provider = "FileIcon",
         condition = buffer_not_empty,
-        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.section_bg},
+        highlight = {require("galaxyline.provider_fileinfo").get_file_icon_color, colors.bg},
         separator = " ",
-        separator_highlight = {colors.fg, colors.section_bg}
+        separator_highlight = {colors.fg, colors.bg}
     }
 }
 
