@@ -1,40 +1,40 @@
-local mapper = function(t)
-    local lhs = t[1] or t.lhs
-    local rhs = t[2] or t.rhs
-    local opts = t[3] or t.opts or {noremap = true, silent = true}
-    local is_global = t[4] or t.is_global or true
-    local mode = t[5] or t.mode or "n"
+local mapper = function(t, mode)
+    local defaults = {noremap = true, silent = true}
+    local opts = t[3] or defaults
 
-    if mode == "v" then
-        rhs = "<cmd>'<,'>lua " .. rhs .. "<CR>"
-    else
-        rhs = "<cmd>lua " .. rhs .. "<CR>"
-    end
-
-    if is_global then
-        vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
-    else
-        vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts)
-    end
+    vim.api.nvim_set_keymap(mode, t[1], t[2], opts)
 end
 
 local nnoremap = function(t)
-    t.mode = "n"
-    mapper(t)
+    mapper(t, "n")
 end
 
 local inoremap = function(t)
-    t.mode = "i"
-    mapper(t)
+    mapper(t, "i")
 end
 
 local vnoremap = function(t)
-    t.mode = "v"
-    mapper(t)
+    mapper(t, "v")
+end
+
+local xnoremap = function(t)
+    mapper(t, "x")
+end
+
+local cnoremap = function(t)
+    mapper(t, "c")
+end
+
+local map = function(t)
+    t[3] = {silent = true}
+    mapper(t, "")
 end
 
 return {
+    map = map,
     nnoremap = nnoremap,
     inoremap = inoremap,
-    vnoremap = vnoremap
+    vnoremap = vnoremap,
+    xnoremap = xnoremap,
+    cnoremap = cnoremap
 }

@@ -40,29 +40,26 @@ local on_attach = function(client)
     -- Mappings.
     telemmaper("n", "<leader>gr", "lsp_references")
 
-    nnoremap {"gr", "vim.lsp.buf.references()"}
-    nnoremap {"<leader>gd", "vim.lsp.buf.definition()"}
-    nnoremap {"<leader>gt", "vim.lsp.buf.type_definition()"}
-    nnoremap {"<leader>rn", "vim.lsp.buf.rename()"}
-    -- nnoremap {"<leader>i", "vim.lsp.diagnostic.show_line_diagnostics()"}
-    nnoremap {"<leader>gq", "vim.lsp.diagnostic.set_loclist()"}
+    nnoremap {"gr", "<cmd>lua vim.lsp.buf.references()<CR>"}
+    nnoremap {"<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>"}
+    nnoremap {"<leader>gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>"}
+    nnoremap {"<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>"}
+    -- nnoremap {"<leader>i", "vim.lsp.diagnostic.show_line_diagnostics()<CR>"}
+    nnoremap {"<leader>gq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>"}
 
-    nnoremap {"<leader>gi", "require('lspsaga.provider').lsp_finder()"}
-    -- nnoremap {"K", "require('lspsaga.hover').render_hover_doc()"}
-    nnoremap {"K", "vim.lsp.buf.hover()"}
-    nnoremap {"<leader>i", "require('lspsaga.signaturehelp').signature_help()"}
-    nnoremap {"gp", "require'lspsaga.provider'.preview_definition()"}
+    nnoremap {"<leader>gi", "<cmd>lua require('lspsaga.provider').lsp_finder()<CR>"}
+    nnoremap {"K", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>"}
+    -- nnoremap {"K", "vim.lsp.buf.hover()"}
+    nnoremap {"<leader>i", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>"}
+    nnoremap {"gp", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>"}
 
-    nnoremap {"<F2>", "require('lspsaga.rename').rename()"}
-    nnoremap {"<leader>a", "require('lspsaga.codeaction').code_action()"}
-    vnoremap {"<leader>a", "require('lspsaga.codeaction').range_code_action()"}
+    nnoremap {"<leader>rN", "<cmd>lua require('lspsaga.rename').rename()<CR>"}
+    nnoremap {"<leader>a", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>"}
+    vnoremap {"<leader>a", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>"}
 
-    nnoremap {"<leader>dd", "require'lspsaga.diagnostic'.show_line_diagnostics()"}
-    nnoremap {"[d", "require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()"}
-    nnoremap {"]d", "require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()"}
-    -- mapper("n", "[d", "vim.lsp.diagnostic.goto_prev()")
-    -- mapper("n", "]d", "vim.lsp.diagnostic.goto_next()")
-
+    nnoremap {"<leader>dd", "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>"}
+    nnoremap {"[d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>"}
+    nnoremap {"]d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>"}
     -- nnoremap {"<C-u>", "require('lspsaga.action').smart_scroll_with_saga(-1)"}
     -- nnoremap {"<C-d>", "require('lspsaga.action').smart_scroll_with_saga(1)"}
 end

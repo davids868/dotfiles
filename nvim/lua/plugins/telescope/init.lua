@@ -22,9 +22,10 @@ require("telescope").setup {
         prompt_prefix = "❯ ",
         selection_caret = "❯ ",
         winblend = 10,
-        preview_cutoff = 120,
         layout_strategy = "horizontal",
-        layout_defaults = {
+        layout_config = {
+            prompt_position = "top",
+            preview_cutoff = 120,
             horizontal = {
                 width_padding = 0.1,
                 height_padding = 0.1,
@@ -39,16 +40,12 @@ require("telescope").setup {
         selection_strategy = "reset",
         sorting_strategy = "ascending",
         scroll_strategy = "cycle",
-        prompt_position = "top",
         color_devicons = true,
         mappings = {
             i = {
                 ["<C-x>"] = false,
                 ["<esc>"] = actions.close,
-                ["<C-q>"] = actions.send_to_qflist + actions.open_qflist
-                -- Experimental
-                -- ["<tab>"] = actions.toggle_selection,
-                -- ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist
+                ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
             }
         },
         borderchars = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},

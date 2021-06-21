@@ -75,7 +75,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     nvim_lsp.solargraph.setup {on_attach = on_attach, capabilities = capabilities}
     -- nvim_lsp.sorbet.setup {on_attach = on_attach, capabilities = capabilities}
     nvim_lsp.jsonls.setup {on_attach = on_attach, capabilities = capabilities}
-    nvim_lsp.graphql.setup {on_attach = on_attach, capabilities = capabilities}
+    -- nvim_lsp.graphql.setup {on_attach = on_attach, capabilities = capabilities}
 
     -- setup_diagls(nvim_lsp, on_attach)
 
@@ -94,6 +94,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     -- }
 
     nvim_lsp.cssls.setup {
+        cmd = {"css-languageserver", "--stdio"},
         capabilities = capabilities,
         on_attach = on_attach,
         settings = {
