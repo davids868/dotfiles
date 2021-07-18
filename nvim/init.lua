@@ -1,4 +1,4 @@
-local modules = {"core", "plugins", "config", "ui", "utils"}
+local modules = {"core", "plugins", "config", "utils"}
 
 local load = require
 
@@ -20,5 +20,4 @@ end
 -- require("core")
 -- require("config")
 -- require("plugins")
--- require("ui")
 -- require("utils")
