@@ -1,17 +1,10 @@
-require("lspkind").init()
-require("lspsaga").init_lsp_saga {
-    error_sign = "", -- 
-    warn_sign = "",
-    hint_sign = "",
-    infor_sign = ""
-}
-
-require("plugins.lsp.tsserver")() -- also define the commands for lsp-utils so thy are available in telescope
+require("config.lsp.tsserver")() -- also define the commands for lsp-utils so thy are available in telescope
+require("config.lsp.diagnostics")
 local nvim_lsp = require("lspconfig")
 
 vim.g.completion_matching_strategy_list = {"exact", "substring", "fuzzy"}
 
-local telemmaper = require("plugins.telescope.mapping")
+local telemap = require("utils.mappers").telemap
 local nnoremap = require("utils.mappers").nnoremap
 local vnoremap = require("utils.mappers").vnoremap
 
@@ -34,11 +27,11 @@ local on_attach = function(client)
     vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
     if client.resolved_capabilities.document_highlight then
-        require("plugins.lsp.highlight").setup()
+        require("config.lsp.highlight").setup()
     end
 
     -- Mappings.
-    telemmaper("n", "<leader>gr", "lsp_references")
+    telemap("n", "<leader>gr", "lsp_references")
 
     nnoremap {"gr", "<cmd>lua vim.lsp.buf.references()<CR>"}
     nnoremap {"<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>"}
@@ -64,7 +57,7 @@ local on_attach = function(client)
     -- nnoremap {"<C-d>", "require('lspsaga.action').smart_scroll_with_saga(1)"}
 end
 
-require("plugins.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
+require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
 
 return {
     on_attach = on_attach,

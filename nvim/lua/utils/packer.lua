@@ -1,8 +1,8 @@
 local M = {}
 
-local has = function(x)
-    return vim.fn.has(x) == 1
-end
+-- local has = function(x)
+--     return vim.fn.has(x) == 1
+-- end
 
 local bootstrap = function()
     local fn = vim.fn

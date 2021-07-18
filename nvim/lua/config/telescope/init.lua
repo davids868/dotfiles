@@ -6,6 +6,8 @@ local actions = require("telescope.actions")
 local sorters = require("telescope.sorters")
 local themes = require("telescope.themes")
 
+local builtin = require("telescope.builtin")
+
 local dropdown =
     themes.get_dropdown {
     winblend = 10,
@@ -78,7 +80,7 @@ pcall(require("telescope").load_extension, "arecibo")
 local M = {}
 
 function M.edit_neovim()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         prompt_title = "~ dotfiles ~",
         shorten_path = false,
         cwd = "~/.config/nvim",
@@ -90,7 +92,7 @@ function M.edit_neovim()
 end
 
 function M.find_nvim_source()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         prompt_title = "~ nvim ~",
         shorten_path = false,
         cwd = "~/build/neovim/",
@@ -103,7 +105,7 @@ function M.find_nvim_source()
 end
 
 function M.edit_zsh()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         shorten_path = false,
         cwd = "~/.config/zsh/",
         prompt = "~ dotfiles ~",
@@ -116,11 +118,11 @@ function M.edit_zsh()
 end
 
 -- function M.commands()
---     require("telescope.builtin").commands(dropdown)
+--     builtin.commands(dropdown)
 -- end
 
 function M.builtin()
-    require("telescope.builtin").builtin(dropdown)
+    builtin.builtin(dropdown)
 end
 
 function M.git_files()
@@ -131,7 +133,7 @@ function M.git_files()
 end
 
 function M.lsp_code_actions()
-    require("telescope.builtin").lsp_code_actions(dropdown)
+    builtin.lsp_code_actions(dropdown)
 end
 
 -- function M.live_grep()
@@ -143,7 +145,7 @@ end
 -- end
 
 function M.grep_prompt()
-    require("telescope.builtin").grep_string {
+    builtin.grep_string {
         shorten_path = true,
         search = vim.fn.input("Grep String > ")
     }
@@ -166,7 +168,7 @@ function M.grep_visual_selection(opts)
     -- opts.search = register
     opts.layout_strategy = "vertical"
 
-    require("telescope.builtin").grep_string(opts)
+    builtin.grep_string(opts)
 end
 
 function M.grep_last_search(opts)
@@ -176,12 +178,12 @@ function M.grep_last_search(opts)
     -- -> Subs out the search things
     local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
 
-    opts.shorten_path = true
+    opts.path_display = "shorten"
     -- opts.word_match = "-w"
     opts.search = register
     opts.layout_strategy = "vertical"
 
-    require("telescope.builtin").grep_string(opts)
+    builtin.grep_string(opts)
 end
 
 -- function M.oldfiles()
@@ -190,24 +192,24 @@ end
 --     end
 --     if pcall(require("telescope").load_extension, "frecency") then
 --     else
---         require("telescope.builtin").oldfiles {layout_strategy = "vertical"}
+--         builtin.oldfiles {layout_strategy = "vertical"}
 --     end
 -- end
 
 function M.my_plugins()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         cwd = "~/plugins/"
     }
 end
 
 function M.installed_plugins()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         cwd = vim.fn.stdpath("data") .. "/site/pack/packer/start/"
     }
 end
 
 function M.project_search()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         previewer = false,
         layout_strategy = "vertical",
         cwd = require("lspconfig/util").root_pattern(".git")(vim.fn.expand("%:p"))
@@ -215,30 +217,30 @@ function M.project_search()
 end
 
 function M.buffers()
-    require("telescope.builtin").buffers {
+    builtin.buffers {
         shorten_path = false
     }
 end
 
 function M.buffer_lines()
-    -- require("telescope.builtin").current_buffer_fuzzy_find(dropdown)
-    require("telescope.builtin").current_buffer_fuzzy_find()
+    -- builtin.current_buffer_fuzzy_find(dropdown)
+    builtin.current_buffer_fuzzy_find()
 end
 
 function M.help_tags()
-    require("telescope.builtin").help_tags {
+    builtin.help_tags {
         show_version = true
     }
 end
 
 function M.search_all_files()
-    require("telescope.builtin").find_files {
+    builtin.find_files {
         find_command = {"rg", "--no-ignore", "--files"}
     }
 end
 
 function M.file_browser()
-    require("telescope.builtin").file_browser {
+    builtin.file_browser {
         sorting_strategy = "ascending",
         scroll_strategy = "cycle",
         prompt_position = "top"
@@ -246,18 +248,18 @@ function M.file_browser()
 end
 
 function M.lsp_dynamic_workspace_symbols()
-    require("telescope.builtin").lsp_dynamic_workspace_symbols {
+    builtin.lsp_dynamic_workspace_symbols {
         file_ignore_patterns = {"node_modules/.*"}
     }
 end
 
 function M.lsp_document_symbols()
-    require("telescope.builtin").lsp_document_symbols()
+    builtin.lsp_document_symbols()
 end
 
 for k, v in pairs(M) do
-    if require("telescope.builtin")[k] == nil then
-        require("telescope.builtin")[k] = v
+    if builtin[k] == nil then
+        builtin[k] = v
     end
 end
 
@@ -268,7 +270,7 @@ return setmetatable(
             if M[k] then
                 return M[k]
             else
-                return require("telescope.builtin")[k]
+                return builtin[k]
             end
         end
     }

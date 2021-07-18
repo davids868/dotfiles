@@ -1,4 +1,3 @@
-local nnoremap = require("utils.mappers").nnoremap
 local g = vim.g
 local cmd = vim.cmd
 
@@ -9,8 +8,6 @@ g.vimwiki_key_mappings = {table_mappings = 0}
 g.vimwiki_list = {{path = "~/vimwiki/"}, {path = "~/md_wiki/", syntax = "markdown", ext = ".md"}}
 g.vimwiki_ext2syntax = {[".md"] = "markdown", [".markdown"] = "markdown"}
 g.vimwiki_markdown_link_ext = 1
-
-nnoremap {"<leader>L", ":Neoformat<CR>"}
 
 cmd(
     [[

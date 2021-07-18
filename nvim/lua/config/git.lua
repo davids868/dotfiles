@@ -19,3 +19,5 @@ nnoremap {"<leader>gb", ":Git blame<CR>"}
 -- nnoremap{"<leader>gpf",":Git push -f"}
 -- nnoremap{"<leader>gpu",":Git push -u origin HEAD"}
 nnoremap {"<leader>gc", ":GV<CR>"}
+nnoremap {"<leader>dv", ":DiffviewOpen<CR>"}
+nnoremap {"<leader>lg", ":LazyGit<CR>"}

@@ -16,10 +16,6 @@ nnoremap {"<leader>tq", ":tabclose<CR>"}
 -- visual search
 vnoremap {"/", "y/<C-R>0"}
 
--- Begging/End of line
-nnoremap {"H", "0"}
-nnoremap {"L", "$"}
-
 -- Better Esc mappings
 inoremap {"jk", "<Esc>"}
 inoremap {"kj", "<Esc>"}
@@ -75,7 +71,7 @@ cnoremap {"<c-h>", "<left>"}
 cnoremap {"<c-l>", "<right>"}
 
 -- resource
-nnoremap {"<Leader><CR>", ":source ~/.config/nvim/init.lua<CR>"}
+nnoremap {"<Leader><CR>", ":luafile ~/.config/nvim/init.lua<CR>"}
 
 -- run last used macro on selected lines
 vnoremap {"@@", ":normal @@<CR>"}
@@ -94,10 +90,3 @@ nnoremap {"<leader>9", "9gt"}
 -- Go to last active tab
 nnoremap {"<leader><tab>", ":exe 'tabn '.g:lasttab<cr>"}
 vnoremap {"<leader><tab>", "<esc>:exe 'tabn '.g:lasttab<cr>"}
-
--- Plugin keymaps
-nnoremap {"<leader>u", ":UndotreeToggle<CR>"}
-nnoremap {"<leader>z", ":ZenMode<CR>"}
-nnoremap {"<leader>dv", ":DiffviewOpen<CR>"}
-nnoremap {"<leader>lg", ":LazyGit<CR>"}
-nnoremap {"<leader>n", ":NvimTreeFindFile<CR>"}

@@ -1,4 +1,3 @@
-local nnoremap = require("utils.mappers").nnoremap
 local g = vim.g
 local cmd = vim.cmd
 
