@@ -35,7 +35,10 @@ local on_attach = function(client)
 
     nnoremap {"gr", "<cmd>lua vim.lsp.buf.references()<CR>"}
     nnoremap {"<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>"}
-    nnoremap {"<leader>gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>"}
+    nnoremap {"<leader>gv", ":vsp<cr> <cmd>lua vim.lsp.buf.definition()<CR>"}
+    nnoremap {"<leader>gx", ":sp<cr> <cmd>lua vim.lsp.buf.definition()<CR>"}
+    nnoremap {"<leader>gt", ":tab split<cr><cmd>lua vim.lsp.buf.definition()<CR>"}
+    -- nnoremap {"<leader>gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>"}
     nnoremap {"<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>"}
     -- nnoremap {"<leader>i", "vim.lsp.diagnostic.show_line_diagnostics()<CR>"}
     nnoremap {"<leader>gq", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>"}
