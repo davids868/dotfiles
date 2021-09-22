@@ -13,7 +13,8 @@ local dropdown =
     winblend = 10,
     border = true,
     previewer = false,
-    shorten_path = false
+    shorten_path = false,
+    layout_config = {width = 0.5}
 }
 
 -- local action_set = require('telescope.actions.set')
@@ -45,7 +46,7 @@ require("telescope").setup {
         color_devicons = true,
         mappings = {
             i = {
-                ["<C-x>"] = false,
+                -- ["<C-x>"] = false,
                 ["<esc>"] = actions.close,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
             }
@@ -132,9 +133,9 @@ function M.git_files()
     end
 end
 
-function M.lsp_code_actions()
-    builtin.lsp_code_actions(dropdown)
-end
+-- function M.lsp_code_actions()
+--     builtin.lsp_code_actions(dropdown)
+-- end
 
 -- function M.live_grep()
 --     require("telescope").extensions.fzf_writer.staged_grep {
