@@ -71,7 +71,8 @@ cnoremap {"<c-h>", "<left>"}
 cnoremap {"<c-l>", "<right>"}
 
 -- resource
-nnoremap {"<Leader><CR>", ":luafile ~/.config/nvim/init.lua<CR>"}
+nnoremap {"<Leader><CR>", ":source % | PackerCompile<CR>"}
+-- nnoremap {"<Leader>cc", ":PackerCompile "}
 
 -- run last used macro on selected lines
 vnoremap {"@@", ":normal @@<CR>"}

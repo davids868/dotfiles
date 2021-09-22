@@ -2,6 +2,7 @@ local packer = require "utils.packer"
 
 local function plugins(use)
     use {"wbthomason/packer.nvim"}
+    use {"lewis6991/impatient.nvim", config = [[require('impatient').enable_profile()]]}
 
     use {
         "kyazdani42/nvim-web-devicons",
@@ -50,13 +51,13 @@ local function plugins(use)
             require("config.compe")
         end,
         requires = {
+            "rafamadriz/friendly-snippets",
             {
                 "L3MON4D3/LuaSnip",
                 config = function()
                     require("config.snippets")
                 end
             },
-            "rafamadriz/friendly-snippets",
             {
                 "windwp/nvim-autopairs",
                 config = function()
@@ -64,6 +65,13 @@ local function plugins(use)
                 end
             }
         }
+    }
+
+    use {
+        "ggandor/lightspeed.nvim",
+        config = function()
+            require("config.lightspeed")
+        end
     }
 
     -- Find and replace
@@ -108,6 +116,7 @@ local function plugins(use)
     use {"rafcamlet/nvim-luapad"}
     use "jparise/vim-graphql"
     use "sunjon/Shade.nvim"
+    -- use { "vuki656/package-info.nvim", config = {"require('package-info').setup()"} }
 
     -- Markdown
     use "mattn/calendar-vim"
@@ -120,6 +129,8 @@ local function plugins(use)
         end,
         ft = {"vimwiki", "markdown", "vim-plug"}
     }
+    -- use {"npxbr/glow.nvim", run = "GlowInstall"}
+
     use {"vimwiki/vimwiki", config = [[require("config.markdown")]]}
 
     use(
@@ -166,7 +177,10 @@ local function plugins(use)
         run = ":TSUpdate",
         opt = true,
         event = "BufRead",
-        config = [[require("config.treesitter")]]
+        config = [[require("config.treesitter")]],
+        requires = {
+            "JoosepAlviste/nvim-ts-context-commentstring"
+        }
     }
 
     use {"windwp/nvim-ts-autotag", opt = true, after = "nvim-treesitter"}
@@ -199,50 +213,81 @@ local function plugins(use)
     use "bakpakin/fennel.vim"
 
     -- color schemes
+    -- use {
+    -- "shaunsingh/nord.nvim",
+    -- "shaunsingh/moonlight.nvim",
+    -- { "olimorris/onedark.nvim", requires = "rktjmp/lush.nvim" },
+    -- "joshdick/onedark.vim",
+    -- "wadackel/vim-dogrun",
+    -- { "npxbr/gruvbox.nvim", requires = "rktjmp/lush.nvim" },
+    -- "bluz71/vim-nightfly-guicolors",
+    -- { "marko-cerovac/material.nvim" },
+    -- "sainnhe/edge",
+    -- { "embark-theme/vim", as = "embark" },
+    -- "norcalli/nvim-base16.lua",
+    -- "RRethy/nvim-base16",
+    -- "novakne/kosmikoa.nvim",
+    -- "glepnir/zephyr-nvim",
+    -- "ghifarit53/tokyonight-vim"
+    -- "sainnhe/sonokai",
+    -- "morhetz/gruvbox",
+    -- "arcticicestudio/nord-vim",
+    -- "drewtempelmeyer/palenight.vim",
+    -- "Th3Whit3Wolf/onebuddy",
+    -- "christianchiarulli/nvcode-color-schemes.vim",
+    -- "Th3Whit3Wolf/one-nvim"
+    --
+    -- Plug 'sainnhe/gruvbox-material'
+    -- Plug 'npxbr/gruvbox.nvim'
+    -- Plug 'eddyekofo94/gruvbox-flat.nvim'
+
+    -- Plug 'tjdevries/colorbuddy.vim'
+    -- Plug 'tjdevries/gruvbuddy.nvim'
+    -- "
+    -- Plug 'shaunsingh/nord.nvim'
+    -- Plug 'ayu-theme/ayu-vim'
+    -- Plug 'rktjmp/lush.nvim'
+    -- Plug 'drewtempelmeyer/palenight.vim'
+    -- Plug 'flazz/vim-colorschemes'
+    -- Plug 'sainnhe/sonokai'
+    -- Plug 'Dualspc/spaceodyssey'
+    -- Plug 'sonph/onehalf', { 'rtp': 'vim' }
+    -- Plug 'glepnir/zephyr-nvim'
+    -- Plug 'rafamadriz/neon'
+
+    -- "eddyekofo94/gruvbox-flat.nvim",
+    -- "folke/tokyonight.nvim"
+    -- config = [[vim.cmd("colorscheme tokyonight")]]
+    -- }
+
     use {
-        -- "shaunsingh/nord.nvim",
-        -- "shaunsingh/moonlight.nvim",
-        -- { "olimorris/onedark.nvim", requires = "rktjmp/lush.nvim" },
-        -- "joshdick/onedark.vim",
-        -- "wadackel/vim-dogrun",
-        -- { "npxbr/gruvbox.nvim", requires = "rktjmp/lush.nvim" },
-        -- "bluz71/vim-nightfly-guicolors",
-        -- { "marko-cerovac/material.nvim" },
-        -- "sainnhe/edge",
-        -- { "embark-theme/vim", as = "embark" },
-        -- "norcalli/nvim-base16.lua",
-        -- "RRethy/nvim-base16",
-        -- "novakne/kosmikoa.nvim",
-        -- "glepnir/zephyr-nvim",
-        -- "ghifarit53/tokyonight-vim"
-        -- "sainnhe/sonokai",
-        -- "morhetz/gruvbox",
-        -- "arcticicestudio/nord-vim",
-        -- "drewtempelmeyer/palenight.vim",
-        -- "Th3Whit3Wolf/onebuddy",
-        -- "christianchiarulli/nvcode-color-schemes.vim",
-        -- "Th3Whit3Wolf/one-nvim"
-        --
-        -- Plug 'sainnhe/gruvbox-material'
-        -- Plug 'npxbr/gruvbox.nvim'
-        -- Plug 'eddyekofo94/gruvbox-flat.nvim'
-
-        -- Plug 'tjdevries/colorbuddy.vim'
-        -- Plug 'tjdevries/gruvbuddy.nvim'
-        -- "
-        -- Plug 'shaunsingh/nord.nvim'
-        -- Plug 'ayu-theme/ayu-vim'
-        -- Plug 'rktjmp/lush.nvim'
-        -- Plug 'drewtempelmeyer/palenight.vim'
-        -- Plug 'flazz/vim-colorschemes'
-        -- Plug 'sainnhe/sonokai'
-        -- Plug 'Dualspc/spaceodyssey'
-        -- Plug 'sonph/onehalf', { 'rtp': 'vim' }
-        -- Plug 'glepnir/zephyr-nvim'
-        -- Plug 'rafamadriz/neon'
-
         "folke/tokyonight.nvim",
-        config = [[vim.cmd("colorscheme tokyonight")]]
+        config = function()
+            vim.g.tokyonight_style = "night"
+            vim.cmd("colorscheme tokyonight")
+        end
+    }
+
+    use {
+        "eddyekofo94/gruvbox-flat.nvim"
+        -- config = function()
+        --     vim.g.gruvbox_flat_style = "dark"
+        --     vim.g.gruvbox_flat_style = "hard"
+        --     vim.g.gruvbox_theme = {TabLineSel = {bg = "black", fg = "blue"}}
+        --     vim.cmd("colorscheme gruvbox-flat")
+        -- end
+    }
+
+    use {
+        "glepnir/zephyr-nvim"
+        -- config = function()
+        --     require("zephyr")
+        --     local zephyr = require("zephyr")
+        --     zephyr.highlight("Tabline", {fg = zephyr.base6, bg = zephyr.base2})
+        --     zephyr.highlight("TabLineFill", {fg = zephyr.base6, bg = zephyr.base2})
+        --     zephyr.highlight("TabLineSel", {fg = zephyr.blue, bg = zephyr.bg})
+        --     vim.cmd("colorscheme zephyr")
+        -- end
     }
 
     --  Should check
@@ -316,8 +361,6 @@ local function plugins(use)
     --     }
     -- )
 
-    -- use({"mbbill/undotree", cmd = "UndotreeToggle"})
-
     -- use({"mjlbach/babelfish.nvim", module = "babelfish"})
 
     use {
@@ -378,8 +421,8 @@ local disable_distribution_plugins = function()
     vim.g.loaded_rrhelper = 1
     -- vim.g.loaded_netrw = 1 -- needed for GBrowse
     -- vim.g.loaded_netrwPlugin = 1
-    vim.g.loaded_netrwSettings = 1
-    vim.g.loaded_netrwFileHandlers = 1
+    -- vim.g.loaded_netrwSettings = 1
+    -- vim.g.loaded_netrwFileHandlers = 1
 end
 
 local load_plugins = function()

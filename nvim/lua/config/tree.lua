@@ -6,6 +6,7 @@ vim.g.nvim_tree_quit_on_open = 1
 vim.g.nvim_tree_follow = 1
 vim.g.nvim_tree_follow = 1
 vim.g.nvim_tree_disable_netrw = 0
+vim.g.nvim_tree_hijack_netrw = 0
 
 function NvimTreeOSOpen()
     local lib = require "nvim-tree.lib"

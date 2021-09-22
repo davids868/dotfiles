@@ -12,6 +12,7 @@ opt.belloff = "all" -- turn the bell off
 opt.wrap = false
 opt.ignorecase = true -- ignore case when searching...
 opt.incsearch = true -- makes search act like search in modern browsers
+opt.inccommand = "nosplit"
 opt.smartcase = true -- don't ignore if there is capital letter in the query
 opt.swapfile = false
 opt.backup = false
@@ -54,6 +55,12 @@ g.maplocalleader = ","
 
 -- plugin globals
 g.slime_target = "tmux"
-g.gutentags_enabled = 0
+-- g.gutentags_enabled= 0
 g.startuptime_tries = 5
 g.startuptime_exe_args = {"-u", "~/.config/nvim/startuptime.vim"}
+
+g.mkdp_command_for_global = 1
+
+if vim.fn.isdirectory(vim.env.PWD .. "/node_modules") then
+    vim.env.PATH = vim.env.PATH .. ":" .. vim.env.PWD .. "/node_modules/.bin"
+end

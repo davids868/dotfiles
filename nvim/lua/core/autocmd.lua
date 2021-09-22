@@ -28,7 +28,8 @@ local function load_autocmds()
         },
         ft = {
             {"BufNewFile,BufRead", "*.toml", " setf toml"},
-            {"BufNewFile,BufRead", "*.mypy-testing", " setf python"}
+            {"BufNewFile,BufRead", "*.mypy-testing", " setf python"},
+            {"BufNewFile,BufRead", "Dockerfile.local", " setf dockerfile"}
         },
         yank = {
             {"TextYankPost", [[* silent! lua vim.highlight.on_yank({higroup="IncSearch", timeout=250})]]}

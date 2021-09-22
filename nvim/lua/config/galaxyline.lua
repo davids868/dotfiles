@@ -9,10 +9,10 @@ local function has_width_gt(cols)
 end
 
 local gls = gl.section
-gl.short_line_list = {"coc-explorer", "calendar", "tagbar"}
+gl.short_line_list = {"nvimtree", "calendar", "tagbar"}
 
 local colors = {
-    -- bg = "#1c2023",
+    -- bg = "#1c2023", -- gruvbox
     bg = "#1f2335",
     fg = "#eaebed",
     -- section_bg = "#1c2023",
