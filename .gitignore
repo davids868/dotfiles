@@ -24,3 +24,5 @@ AWSVPNClient
 zoxide_bin
 .undodir
 nvim/spell
+lazygit/**/*.patch
+lazygit/state.yml
