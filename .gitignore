@@ -26,3 +26,5 @@ zoxide_bin
 nvim/spell
 lazygit/**/*.patch
 lazygit/state.yml
+packer_compiled.vim
+packer_compiled.lua
