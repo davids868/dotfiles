@@ -21,8 +21,8 @@ function M.setup()
             info = utils.get_highlight("DiagnosticInfo").fg
         },
         git = {
-            del = utils.get_highlight("diffDeleted").fg,
-            add = utils.get_highlight("diffAdde").fg,
+            del = utils.get_highlight("diffDelete").fg,
+            add = utils.get_highlight("diffAdded").fg,
             change = utils.get_highlight("diffChanged").fg
         }
     }
@@ -271,21 +271,21 @@ function M.setup()
         hl = {fg = colors.green, style = "bold"}
     }
 
-    local LSPMessages = {
-        provider = function()
-            local status = require("lsp-status").status()
-            if status ~= " " then
-                return status
-            end
-        end,
-        hl = {fg = colors.gray}
-    }
+    -- local LSPMessages = {
+    --     provider = function()
+    --         local status = require("lsp-status").status()
+    --         if status ~= " " then
+    --             return status
+    --         end
+    --     end,
+    --     hl = {fg = colors.gray}
+    -- }
 
-    local Gps = {
-        condition = require("nvim-gps").is_available,
-        provider = require("nvim-gps").get_location,
-        hl = {fg = colors.gray}
-    }
+    -- local Gps = {
+    --     condition = require("nvim-gps").is_available,
+    --     provider = require("nvim-gps").get_location,
+    --     hl = {fg = colors.gray}
+    -- }
 
     local Diagnostics = {
         condition = conditions.has_diagnostics,
@@ -398,59 +398,59 @@ function M.setup()
         hl = {fg = colors.red, syle = "bold"}
     }
 
-    local DAPMessages = {
-        condition = function()
-            local session = require("dap").session()
-            if session then
-                local filename = vim.api.nvim_buf_get_name(0)
-                if session.config then
-                    local progname = session.config.program
-                    return filename == progname
-                end
-            end
-            return false
-        end,
-        provider = function()
-            return " " .. require("dap").status()
-        end,
-        hl = {fg = utils.get_highlight("Debug").fg}
-    }
+    -- local DAPMessages = {
+    --     condition = function()
+    --         local session = require("dap").session()
+    --         if session then
+    --             local filename = vim.api.nvim_buf_get_name(0)
+    --             if session.config then
+    --                 local progname = session.config.program
+    --                 return filename == progname
+    --             end
+    --         end
+    --         return false
+    --     end,
+    --     provider = function()
+    --         return " " .. require("dap").status()
+    --     end,
+    --     hl = {fg = utils.get_highlight("Debug").fg}
+    -- }
 
-    local UltTest = {
-        condition = function()
-            return vim.api.nvim_call_function("ultest#is_test_file", {}) ~= 0
-        end,
-        static = {
-            passed_icon = vim.fn.sign_getdefined("test_pass")[1].text,
-            failed_icon = vim.fn.sign_getdefined("test_fail")[1].text,
-            passed_hl = {fg = utils.get_highlight("UltestPass").fg},
-            failed_hl = {fg = utils.get_highlight("UltestFail").fg}
-        },
-        init = function(self)
-            self.status = vim.api.nvim_call_function("ultest#status", {})
-        end,
-        {
-            provider = function(self)
-                return self.passed_icon .. self.status.passed .. " "
-            end,
-            hl = function(self)
-                return self.passed_hl
-            end
-        },
-        {
-            provider = function(self)
-                return self.failed_icon .. self.status.failed .. " "
-            end,
-            hl = function(self)
-                return self.failed_hl
-            end
-        },
-        {
-            provider = function(self)
-                return "of " .. self.status.tests - 1
-            end
-        }
-    }
+    -- local UltTest = {
+    --     condition = function()
+    --         return vim.api.nvim_call_function("ultest#is_test_file", {}) ~= 0
+    --     end,
+    --     static = {
+    --         passed_icon = vim.fn.sign_getdefined("test_pass")[1].text,
+    --         failed_icon = vim.fn.sign_getdefined("test_fail")[1].text,
+    --         passed_hl = {fg = utils.get_highlight("UltestPass").fg},
+    --         failed_hl = {fg = utils.get_highlight("UltestFail").fg}
+    --     },
+    --     init = function(self)
+    --         self.status = vim.api.nvim_call_function("ultest#status", {})
+    --     end,
+    --     {
+    --         provider = function(self)
+    --             return self.passed_icon .. self.status.passed .. " "
+    --         end,
+    --         hl = function(self)
+    --             return self.passed_hl
+    --         end
+    --     },
+    --     {
+    --         provider = function(self)
+    --             return self.failed_icon .. self.status.failed .. " "
+    --         end,
+    --         hl = function(self)
+    --             return self.failed_hl
+    --         end
+    --     },
+    --     {
+    --         provider = function(self)
+    --             return "of " .. self.status.tests - 1
+    --         end
+    --     }
+    -- }
 
     local WorkDir = {
         provider = function()
@@ -503,14 +503,14 @@ function M.setup()
         Space,
         Diagnostics,
         Align,
-        Gps,
-        DAPMessages,
+        -- Gps,
+        -- DAPMessages,
         Align,
         LSPActive,
         Space,
-        LSPMessages,
+        -- LSPMessages,
         Space,
-        UltTest,
+        -- UltTest,
         Space,
         FileType,
         Space,
@@ -579,15 +579,6 @@ function M.setup()
 
     require("heirline").setup(StatusLines)
 end
-
-vim.cmd(
-    [[
-augroup heirline
-    autocmd!
-    autocmd ColorScheme * lua require'heirline'.reset_highlights(); require'plugins.heirline'.setup()
-augroup END
-]]
-)
 
 M.setup()
 return M
