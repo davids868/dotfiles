@@ -183,7 +183,15 @@ local function plugins(use)
     use {"sbdchd/neoformat", config = [[require("config.format")]]}
     use {"mbbill/undotree", cmd = "UndotreeToggle"}
     use "ludovicchabant/vim-gutentags"
-    use "christoomey/vim-tmux-navigator"
+    -- use "christoomey/vim-tmux-navigator"
+    use {
+        "aserowy/tmux.nvim",
+        event = {"VimEnter"},
+        config = function()
+            require("config.tmux")
+        end
+    }
+
     use "tpope/vim-repeat"
     use "tpope/vim-surround"
     use "kevinhwang91/nvim-bqf"
