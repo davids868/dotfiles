@@ -1,23 +1,53 @@
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Download Znap, if it's not there yet.
+export ZNAP_PATH="$HOME/personal/zsh-snap"
 
-# foo
+[[ -f $ZNAP_PATH/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git $ZNAP_PATH
+
+source $ZNAP_PATH/znap.zsh  # Start Znap
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# zstyle ':autocomplete:*' fzf-completion yes
+zstyle ':autocomplete:*' recent-dirs zoxide
+zstyle ':autocomplete:*' min-input 1
+zstyle ':autocomplete:*' insert-unambiguous yes
+zstyle ':autocomplete:*' widget-style menu-select
+
+
+znap source marlonrichert/zsh-autocomplete
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+
+zmodload zsh/zprof
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export MANPAGER=more
+
 # fancy prompt
-# eval "$(starship init zsh)"
+znap eval starship 'starship init zsh --print-full-init'
 
 # simple prompt
-autoload -U colors && colors	# Load colors
-# Load version control information
-# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}"$'\n'"$%b "
+# autoload -U colors && colors	# Load colors
+# PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}"$'\n'"$%b "
+
+znap prompt
 
 # setopt autocd		# Automatically cd into typed directory.
 # stty stop undef		# Disable ctrl-s to freeze terminal.
 # setopt interactive_comments
 
 # History in cache directory:
-HISTSIZE=10000000
-SAVEHIST=10000000
+export HISTSIZE=1000000   # the number of items for the internal history list
+export SAVEHIST=1000000   # maximum number of items for the history file
+
+# The meaning of these options can be found in man page of `zshoptions`.
 setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_ALL_DUPS  # do not put duplicated command into history list
+setopt HIST_SAVE_NO_DUPS  # do not save duplicated command
+setopt HIST_REDUCE_BLANKS  # remove unnecessary blanks
+setopt INC_APPEND_HISTORY_TIME  # append command to history file immediately after execution
+setopt EXTENDED_HISTORY  # record command start time
 
 # User configuration
 ulimit -S -n 200048
@@ -26,34 +56,6 @@ bindkey "^B" beginning-of-line
 bindkey "^E" end-of-line
 bindkey "^P" up-line-or-history
 bindkey "^N" down-line-or-history
-
-# bindkey -M viins 'jk' vi-cmd-mode
-# bindkey -M viins 'kj' vi-cmd-mode
-
-
-# Change cursor shape for different vi modes.
-# function zle-keymap-select () {
-#     case $KEYMAP in
-#         vicmd) echo -ne '\e[1 q';;      # block
-#         viins|main) echo -ne '\e[5 q';; # beam
-#     esac
-# }
-# zle -N zle-keymap-select
-# zle-line-init() {
-#     zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-#     echo -ne "\e[5 q"
-# }
-# zle -N zle-line-init
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-
-
-
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -67,17 +69,11 @@ export XDG_CONFIG_HOME=$HOME/.config
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
-
 # 10ms for key sequences
 KEYTIMEOUT=10
 
 source "/Users/david.sapiro/Library/Application Support/creds/nexus"
 
-# tab completion
-zstyle ':completion:*' menu select
-zmodload zsh/complist
-_comp_options+=(globdots)
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -87,15 +83,6 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
-
-# #compdef creds
-# _creds() {
-#   eval $(env COMMANDLINE="${words[1,$CURRENT]}" _CREDS_COMPLETE=complete-zsh  creds)
-# }
-# if [[ "$(basename -- ${(%):-%x})" != "_creds" ]]; then
-#   compdef _creds creds
-# fi
-
 
 # nnn
 export NNN_PLUG='d:diff;v:imgview;p:preview-tui;z:autojump;e:dragdrop'
@@ -116,7 +103,7 @@ n ()
     # export NNN_TMPFILE to cdquit by default - now it is mapped to ^G
     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
 
-    nnn "$@"
+    nnn "$@" -dH
 
     if [ -f "$NNN_TMPFILE" ]; then
             . "$NNN_TMPFILE"
@@ -133,19 +120,23 @@ export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 
-
 # erlang
 export KERL_BUILD_DOCS="yes"
 
 # python
 export PYTHONBREAKPOINT=ipdb.set_trace
-eval "$(pyenv init -)"
+
+venv() {
+  export VIRTUAL_PYTHON_PATH=$(poetry env info --path)/bin/python
+}
 
 # ruby
+export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
 eval "$(rbenv init -)"
 
 # lua
-eval "$(luarocks path --bin)"
+znap function _luarocks luarocks 'eval "$(luarocks path --bin)"'
+compctl -K    _luarocks luarocks
 
 export BAT_THEME="TwoDark"
 
@@ -250,10 +241,6 @@ eval "$(direnv hook zsh)"
 . /usr/local/opt/asdf/libexec/asdf.sh
 fpath=(${ASDF_DIR}/completions $fpath)
 
-# completion
-autoload -Uz compinit
-compinit
-
 # Aliases
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -263,7 +250,6 @@ alias la='exa -lbasnew'
 alias kk='k9s -c ctx'
 # alias cat=bat
 alias conf='cd ~/.config'
-alias venv='export VIRTUAL_PYTHON_PATH=$(poetry env info --path)/bin/python'
 alias wiki='nvim -c VimwikiIndex'
 alias lg=lazygit
 alias cdr="cd $(git rev-parse --show-toplevel)"
@@ -293,10 +279,3 @@ alias dcstart='docker compose start'
 
 
 export PATH="$HOME/.poetry/bin:$PATH"
-
-# Plugins
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# source ~/.config/zsh/fzf-tab/fzf-tab.plugin.zsh
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source <(kubectl completion zsh)

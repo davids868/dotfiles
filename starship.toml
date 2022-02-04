@@ -11,7 +11,7 @@ vicmd_symbol = "[V](bold bright-green)"
 #style = "bold blue"
 
 
-#[git_status]
-#ahead = "⇡${count}"
-#diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-#behind = "⇣${count}"
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
