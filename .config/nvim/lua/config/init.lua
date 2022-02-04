@@ -4,6 +4,8 @@ end
 
 local bind_mappings = function()
     local nnoremap = require("utils.mappers").nnoremap
+    local vnoremap = require("utils.mappers").vnoremap
+    local cnoremap = require("utils.mappers").cnoremap
 
     nnoremap {"<leader>u", ":UndotreeToggle<CR>"}
     nnoremap {"<leader>z", ":ZenMode<CR>"}
@@ -26,6 +28,10 @@ local bind_mappings = function()
     nnoremap {"<leader>hr", ":lua require('harpoon.ui').nav_file(4)<CR>"}
 
     nnoremap {"<leader>v", ":SymbolsOutline<CR>"}
+
+    nnoremap {"s", "<cmd>Pounce<CR>"}
+    nnoremap {"S", "<cmd>PounceRepeat<CR>"}
+    vnoremap {"s", "<cmd>Pounce<CR>"}
 end
 
 local load_config = function()

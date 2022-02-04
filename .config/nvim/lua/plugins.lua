@@ -109,9 +109,10 @@ local function plugins(use)
     }
 
     use {
-        "ggandor/lightspeed.nvim",
+        "rlane/pounce.nvim",
+        cmd = {"Pounce", "PounceRepeat"},
         config = function()
-            require("config.lightspeed")
+            require("pounce")
         end
     }
 
