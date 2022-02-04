@@ -22,7 +22,7 @@ local dropdown =
 
 require("telescope").setup {
     defaults = {
-        prompt_prefix = "❯ ",
+        prompt_prefix = "   ",
         selection_caret = "❯ ",
         winblend = 10,
         layout_strategy = "horizontal",
