@@ -26,7 +26,6 @@ local function plugins(use)
             "folke/lua-dev.nvim"
         }
     }
-    use {"onsails/lspkind-nvim", config = [[ require("lspkind").init() ]]}
     use {
         "folke/trouble.nvim",
         event = "BufReadPre",
@@ -83,7 +82,7 @@ local function plugins(use)
         event = "InsertEnter",
         opt = true,
         config = function()
-            require("config.compe")
+            require("config.cmp")
         end,
         wants = {"LuaSnip"},
         requires = {
