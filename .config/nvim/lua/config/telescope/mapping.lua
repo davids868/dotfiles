@@ -11,13 +11,13 @@ vim.api.nvim_set_keymap("c", "<c-r><c-r>", "<Plug>(TelescopeFuzzyCommandSearch)"
 telemap("v", "<leader>F", "grep_visual_selection")
 telemap("n", "<leader>fl", "buffer_lines")
 telemap("n", "<leader>fp", "grep_prompt")
--- map_tele("n", "<leader>G", "live_grep")
 telemap(
     "n",
     "<leader>fw",
     "grep_string",
     {
         short_path = true,
+        hidden = true,
         word_match = "-w",
         only_sort_text = true,
         sorter = sorters.get_fzy_sorter()

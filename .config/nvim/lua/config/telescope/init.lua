@@ -139,10 +139,8 @@ end
 -- end
 
 -- function M.live_grep()
---     require("telescope").extensions.fzf_writer.staged_grep {
---         shorten_path = true,
---         previewer = false,
---         fzf_separator = "|>"
+--     builtin.live_grep {
+--         hidden = true
 --     }
 -- end
 
@@ -152,6 +150,13 @@ function M.grep_prompt()
         search = vim.fn.input("Grep String > ")
     }
 end
+
+-- function M.grep_string()
+--     builtin.grep_string {
+--         shorten_path = true,
+--         search = vim.fn.input("Grep String > ")
+--     }
+-- end
 
 function M.grep_visual_selection(opts)
     opts = opts or {}
