@@ -16,6 +16,8 @@ local bind_mappings = function()
     nnoremap {"<C-w>m", ":WinShift<CR>"}
     nnoremap {"<C-w><C-m>", ":WinShift<CR>"}
 
+    nnoremap {"<leader>mp", ":MarkdownPreview<CR>"}
+
     nnoremap {"<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>"}
     nnoremap {"<leader>ha", ":lua require('harpoon.mark').add_file()<CR>"}
     nnoremap {"<leader>h1", ":lua require('harpoon.ui').nav_file(1)<CR>"}
