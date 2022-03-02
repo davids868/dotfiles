@@ -5,7 +5,6 @@ end
 local bind_mappings = function()
     local nnoremap = require("utils.mappers").nnoremap
     local vnoremap = require("utils.mappers").vnoremap
-    local cnoremap = require("utils.mappers").cnoremap
 
     nnoremap {"<leader>u", ":UndotreeToggle<CR>"}
     nnoremap {"<leader>z", ":ZenMode<CR>"}
@@ -20,14 +19,15 @@ local bind_mappings = function()
 
     nnoremap {"<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>"}
     nnoremap {"<leader>ha", ":lua require('harpoon.mark').add_file()<CR>"}
-    nnoremap {"<leader>h1", ":lua require('harpoon.ui').nav_file(1)<CR>"}
-    nnoremap {"<leader>h2", ":lua require('harpoon.ui').nav_file(2)<CR>"}
-    nnoremap {"<leader>h3", ":lua require('harpoon.ui').nav_file(3)<CR>"}
-    nnoremap {"<leader>h4", ":lua require('harpoon.ui').nav_file(4)<CR>"}
-    nnoremap {"<leader>hq", ":lua require('harpoon.ui').nav_file(1)<CR>"}
-    nnoremap {"<leader>hw", ":lua require('harpoon.ui').nav_file(2)<CR>"}
-    nnoremap {"<leader>he", ":lua require('harpoon.ui').nav_file(3)<CR>"}
-    nnoremap {"<leader>hr", ":lua require('harpoon.ui').nav_file(4)<CR>"}
+    nnoremap {"<leader>hm", ":lua require('harpoon.ui').nav_file(1)<CR>"}
+    nnoremap {"<leader>h,", ":lua require('harpoon.ui').nav_file(2)<CR>"}
+    nnoremap {"<leader>h.", ":lua require('harpoon.ui').nav_file(3)<CR>"}
+    nnoremap {"<leader>hj", ":lua require('harpoon.ui').nav_file(4)<CR>"}
+    nnoremap {"<leader>hk", ":lua require('harpoon.ui').nav_file(5)<CR>"}
+    nnoremap {"<leader>hl", ":lua require('harpoon.ui').nav_file(6)<CR>"}
+    nnoremap {"<leader>hu", ":lua require('harpoon.ui').nav_file(7)<CR>"}
+    nnoremap {"<leader>hi", ":lua require('harpoon.ui').nav_file(8)<CR>"}
+    nnoremap {"<leader>ho", ":lua require('harpoon.ui').nav_file(9)<CR>"}
 
     nnoremap {"<leader>v", ":SymbolsOutline<CR>"}
 
