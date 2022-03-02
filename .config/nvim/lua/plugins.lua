@@ -325,6 +325,14 @@ local function plugins(use)
     )
 
     use {
+        "gelguy/wilder.nvim",
+        config = function()
+            require("config.wilder")
+        end,
+        requires = {{"romgrk/fzy-lua-native", after = "wilder.nvim"}}
+    }
+
+    use {
         "glacambre/firenvim",
         run = function()
             vim.fn["firenvim#install"](0)
