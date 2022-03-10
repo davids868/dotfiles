@@ -15,3 +15,6 @@ yarn
 
 */lazygit/**/*.patch
 */lazygit/state.yml
+
+*/raycast/extensions
+*/raycast/node_modules
