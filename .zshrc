@@ -21,7 +21,7 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 
 zmodload zsh/zprof
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export MANPAGER=more
 
 # fancy prompt
@@ -112,7 +112,7 @@ n ()
 }
 
 # C
-export CC=/usr/local/Cellar/gcc/11.2.0_1/bin/gcc-11
+export CC=/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11
 
 # golang
 export GOPATH=$HOME/dev/go
@@ -129,10 +129,6 @@ export PYTHONBREAKPOINT=ipdb.set_trace
 venv() {
   export VIRTUAL_PYTHON_PATH=$(poetry env info --path)/bin/python
 }
-
-# ruby
-export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
-eval "$(rbenv init -)"
 
 # lua
 znap function _luarocks luarocks 'eval "$(luarocks path --bin)"'
