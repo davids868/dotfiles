@@ -159,19 +159,19 @@ gcho() {
 stag_pod_shell() {
   kubectx dev
   pod=$(kubectl -n development top pod --sort-by cpu | grep $1 | sort -k 2 | head -n1 | awk '{print $1}')
-  kubectl -n development exec -it ${pod} -c ${2-main} bash;
+  kubectl -n development exec ${pod} -it -c ${2-main} -- bash;
 }
 
 prod_pod_shell () {
   kubectx prod-eu
   pod=$(kubectl -n production top pod --sort-by cpu | grep $1 | sort -k 2 | head -n1 | awk '{print $1}')
-  kubectl -n production exec -it ${pod} -c ${2-main} bash;
+  kubectl -n production exec ${pod} -it -c ${2-main} -- bash;
 }
 
 pre_prod_pod_shell () {
   kubectx pre-prod
   pod=$(kubectl -n pre-prod top pod --sort-by cpu | grep $1 | sort -k 2 | head -n1 | awk '{print $1}')
-  kubectl -n pre-prod exec -it ${pod} -c ${2-main} bash;
+  kubectl -n pre-prod exec ${pod} -it -c ${2-main} -- bash;
 }
 
 creds_aws_login_all() {
