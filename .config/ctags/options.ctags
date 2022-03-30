@@ -4,3 +4,4 @@
 --exclude=dist
 --exclude=.cache
 --exclude=.git
+--exclude=~/keyboards
