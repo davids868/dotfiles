@@ -4,7 +4,7 @@ local g = vim.g
 opt.mouse = "a"
 opt.showmode = false
 opt.showmatch = true -- show matching brackets when text indicator is over them
-opt.relativenumber = true -- Show line numbers
+opt.relativenumber = false -- Show line numbers
 opt.number = true -- but show the actual number for the line we're on
 opt.hlsearch = false
 opt.hidden = true -- keep buffers hidden
@@ -32,7 +32,7 @@ opt.signcolumn = "yes"
 -- opt.winminwidth = 5
 opt.background = "dark"
 opt.showtabline = 2
-opt.laststatus = 2
+opt.laststatus = 3
 
 -- needs testing
 opt.shortmess = opt.shortmess + "c" -- Don't pass messages to |ins-completion-menu|.
