@@ -21,7 +21,7 @@ function M.setup()
             info = utils.get_highlight("DiagnosticInfo").fg
         },
         git = {
-            del = utils.get_highlight("diffDelete").fg,
+            del = utils.get_highlight("diffDeleted").fg,
             add = utils.get_highlight("diffAdded").fg,
             change = utils.get_highlight("diffChanged").fg
         }
@@ -44,7 +44,7 @@ function M.setup()
                 no = "N?",
                 nov = "N?",
                 noV = "N?",
-                ["no"] = "N?",
+                ["no\22"] = "N?",
                 niI = "Ni",
                 niR = "Nr",
                 niV = "Nv",
@@ -53,11 +53,11 @@ function M.setup()
                 vs = "Vs",
                 V = "V_",
                 Vs = "Vs",
-                [""] = "^V",
-                ["s"] = "^V",
+                ["\22"] = "^V",
+                ["\22s"] = "^V",
                 s = "S",
                 S = "S_",
-                [""] = "^S",
+                ["\19"] = "^S",
                 i = "I",
                 ic = "Ic",
                 ix = "Ix",
@@ -80,11 +80,11 @@ function M.setup()
                 i = colors.green,
                 v = colors.cyan,
                 V = colors.cyan,
-                [""] = colors.cyan, -- this is an actual ^V, type <C-v><C-v> in insert mode
+                ["\22"] = colors.cyan, -- this is an actual ^V, type <C-v><C-v> in insert mode
                 c = colors.orange,
                 s = colors.purple,
                 S = colors.purple,
-                [""] = colors.purple, -- this is an actual ^S, type <C-v><C-s> in insert mode
+                ["\19"] = colors.purple, -- this is an actual ^S, type <C-v><C-s> in insert mode
                 R = colors.orange,
                 r = colors.orange,
                 ["!"] = colors.red,
@@ -132,21 +132,26 @@ function M.setup()
     }
 
     local FileName = {
-        provider = function(self)
-            -- first, trim the pattern relative to the current directory. For other
-            -- options, see :h filename-modifers
-            local filename = vim.fn.fnamemodify(self.filename, ":.")
-            if filename == "" then
-                return "[No Name]"
+        init = function(self)
+            self.lfilename = vim.fn.fnamemodify(self.filename, ":.")
+            if self.lfilename == "" then
+                self.lfilename = "[No Name]"
             end
-            -- now, if the filename would occupy more than 1/4th of the available
-            -- space, we trim the file path to its initials
-            if not conditions.width_percent_below(#filename, 0.25) then
-                filename = vim.fn.pathshorten(filename)
-            end
-            return filename
         end,
-        hl = {fg = utils.get_highlight("Directory").fg}
+        hl = {fg = utils.get_highlight("Directory").fg},
+        utils.make_flexible_component(
+            2,
+            {
+                provider = function(self)
+                    return self.lfilename
+                end
+            },
+            {
+                provider = function(self)
+                    return vim.fn.pathshorten(self.lfilename)
+                end
+            }
+        )
     }
 
     local FileFlags = {
@@ -168,11 +173,6 @@ function M.setup()
         }
     }
 
-    -- Now, let's say that we want the filename color to change if the buffer is
-    -- modified. Of course, we could do that directly using the FileName.hl field,
-    -- but we'll see how easy it is to alter existing components using a "modifier"
-    -- component
-
     local FileNameModifer = {
         hl = function()
             if vim.bo.modified then
@@ -188,8 +188,8 @@ function M.setup()
         FileNameBlock,
         FileIcon,
         utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
-        unpack(FileFlags), -- A small optimisation, since their parent does nothing
-        {provider = "%<"} -- this means that the statusline is cut here when there's not enough space
+        unpack(FileFlags) -- A small optimisation, since their parent does nothing
+        -- { provider = "%<" } -- this means that the statusline is cut here when there's not enough space
     )
 
     local FileType = {
@@ -230,7 +230,7 @@ function M.setup()
     local FileLastModified = {
         -- did you know? Vim is full of functions!
         provider = function()
-            local ftime = vim.fn.getftime(vim.api.nvim_buf_gett_name(0))
+            local ftime = vim.fn.getftime(vim.api.nvim_buf_get_name(0))
             return (ftime > 0) and os.date("%c", ftime)
         end
     }
@@ -278,7 +278,7 @@ function M.setup()
     --             return status
     --         end
     --     end,
-    --     hl = {fg = colors.gray}
+    --     hl = { fg = colors.gray },
     -- }
 
     -- local Gps = {
@@ -301,9 +301,10 @@ function M.setup()
             self.hints = #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.HINT})
             self.info = #vim.diagnostic.get(0, {severity = vim.diagnostic.severity.INFO})
         end,
-        {
-            provider = "!["
-        },
+        -- {
+        --     provider = "!(",
+        --     hl = { fg = colors.gray, style = "bold" },
+        -- },
         {
             provider = function(self)
                 return self.errors > 0 and (self.error_icon .. self.errors .. " ")
@@ -327,10 +328,11 @@ function M.setup()
                 return self.hints > 0 and (self.hint_icon .. self.hints)
             end,
             hl = {fg = colors.diag.hint}
-        },
-        {
-            provider = "]"
         }
+        -- {
+        --     provider = ")",
+        --     hl = { fg = colors.gray, style = "bold" },
+        -- },
     }
 
     -- DiagBlock = utils.surround({"![", "]"}, nil, DiagBlock)
@@ -391,8 +393,9 @@ function M.setup()
             return vim.tbl_contains({"s", "i"}, vim.fn.mode())
         end,
         provider = function()
-            local forward = (vim.fn["UltiSnips#CanJumpForwards"]() == 1) and "" or ""
-            local backward = (vim.fn["UltiSnips#CanJumpBackwards"]() == 1) and " " or ""
+            local ls = require("luasnip")
+            local forward = ls.jumpable(1) and "" or ""
+            local backward = ls.jumpable(1) and " " or ""
             return backward .. forward
         end,
         hl = {fg = colors.red, syle = "bold"}
@@ -453,17 +456,31 @@ function M.setup()
     -- }
 
     local WorkDir = {
-        provider = function()
-            local icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. " "
+        provider = function(self)
+            self.icon = (vim.fn.haslocaldir(0) == 1 and "l" or "g") .. " " .. " "
             local cwd = vim.fn.getcwd(0)
-            cwd = vim.fn.fnamemodify(cwd, ":~")
-            if not conditions.width_percent_below(#cwd, 0.25) then
-                cwd = vim.fn.pathshorten(cwd)
-            end
-            local trail = cwd:sub(-1) == "/" and "" or "/"
-            return icon .. cwd .. trail
+            self.cwd = vim.fn.fnamemodify(cwd, ":~")
         end,
-        hl = {fg = colors.blue, style = "bold"}
+        hl = {fg = colors.blue, style = "bold"},
+        utils.make_flexible_component(
+            1,
+            {
+                provider = function(self)
+                    local trail = self.cwd:sub(-1) == "/" and "" or "/"
+                    return self.icon .. self.cwd .. trail .. " "
+                end
+            },
+            {
+                provider = function(self)
+                    local cwd = vim.fn.pathshorten(self.cwd)
+                    local trail = self.cwd:sub(-1) == "/" and "" or "/"
+                    return self.icon .. cwd .. trail .. " "
+                end
+            },
+            {
+                provider = ""
+            }
+        )
     }
 
     local HelpFilename = {
@@ -489,6 +506,14 @@ function M.setup()
         hl = {fg = colors.blue, style = "bold"}
     }
 
+    local Spell = {
+        condition = function()
+            return vim.wo.spell
+        end,
+        provider = "SPELL ",
+        hl = {style = "bold", fg = colors.orange}
+    }
+
     ViMode = utils.surround({"", ""}, colors.bright_bg, {ViMode, Snippets})
 
     local Align = {provider = "%="}
@@ -497,18 +522,26 @@ function M.setup()
     local DefaultStatusline = {
         ViMode,
         Space,
+        Spell,
+        WorkDir,
         FileNameBlock,
+        {provider = "%<"},
         Space,
         Git,
+        -- {
+        --     static = { name = "culo", toggle = true },
+        --     condition = function(self)
+        --         return self.toggle
+        --     end,
+        --     provider = 'culooooo',
+        -- },
         Space,
         Diagnostics,
         Align,
-        -- Gps,
+        -- utils.make_flexible_component(3, Gps, {provider = ""}),
         -- DAPMessages,
         Align,
         LSPActive,
-        Space,
-        -- LSPMessages,
         Space,
         -- UltTest,
         Space,
@@ -523,9 +556,9 @@ function M.setup()
         condition = function()
             return not conditions.is_active()
         end,
-        FileType,
-        Space,
+        {hl = {fg = colors.gray, force = true}, WorkDir},
         FileNameBlock,
+        {provider = "%<"},
         Align
     }
 
@@ -533,7 +566,7 @@ function M.setup()
         condition = function()
             return conditions.buffer_matches(
                 {
-                    buftype = {"nofile", "help", "quickfix"},
+                    buftype = {"nofile", "prompt", "help", "quickfix"},
                     filetype = {"^git.*", "fugitive"}
                 }
             )
@@ -570,7 +603,7 @@ function M.setup()
                 }
             end
         end,
-        stop_at_first = true,
+        init = utils.pick_child_on_condition,
         SpecialStatusline,
         TerminalStatusline,
         InactiveStatusline,
@@ -579,6 +612,15 @@ function M.setup()
 
     require("heirline").setup(StatusLines)
 end
+
+vim.cmd(
+    [[
+augroup heirline
+    autocmd!
+    autocmd ColorScheme * lua require'heirline'.reset_highlights(); require'plugins.heirline'.setup()
+augroup END
+]]
+)
 
 M.setup()
 return M
