@@ -52,6 +52,17 @@ require("telescope").setup {
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
             }
         },
+        vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--hidden"
+            -- "--glob='!.git/*'"
+        },
         borderchars = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
         file_sorter = sorters.get_fzy_sorter,
         file_previewer = require("telescope.previewers").vim_buffer_cat.new,
@@ -127,6 +138,10 @@ function M.builtin()
     builtin.builtin(dropdown)
 end
 
+function M.find_files()
+    builtin.find_files {no_ignore = true}
+end
+
 function M.git_files()
     local ok = pcall(require "telescope.builtin".git_files, dropdown)
     if not ok then
@@ -138,11 +153,11 @@ end
 --     builtin.lsp_code_actions(dropdown)
 -- end
 
--- function M.live_grep()
---     builtin.live_grep {
---         hidden = true
---     }
--- end
+function M.live_grep()
+    builtin.live_grep {
+        file_ignore_patterns = {".git/*"}
+    }
+end
 
 function M.grep_prompt()
     builtin.grep_string {
@@ -237,12 +252,6 @@ end
 function M.help_tags()
     builtin.help_tags {
         show_version = true
-    }
-end
-
-function M.search_all_files()
-    builtin.find_files {
-        find_command = {"rg", "--no-ignore", "--files", "--hidden"}
     }
 end
 

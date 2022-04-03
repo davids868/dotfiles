@@ -21,8 +21,9 @@ cmp.setup {
         {name = "luasnip"},
         {name = "buffer"},
         {name = "path"},
-        {name = "neorg"}
-        -- {name = "orgmode"}
+        {name = "fuzzy_buffer"},
+        {name = "neorg"},
+        {name = "orgmode"}
     },
     formatting = {
         format = require("config.kind").cmp_format()
