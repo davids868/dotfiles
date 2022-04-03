@@ -1,41 +1,32 @@
-local set = vim.keymap.set
+local M = {}
 
-local defaults = {silent = true}
-
-local mapper = function(t, mode)
-    local opts = t[3] or defaults
-
-    set(mode, t[1], t[2], opts)
+M.nnoremap = function(t)
+    vim.keymap.set("n", t[1], t[2], t[3])
 end
 
-local nnoremap = function(t)
-    mapper(t, "n")
+M.inoremap = function(t)
+    vim.keymap.set("i", t[1], t[2], t[3])
 end
 
-local inoremap = function(t)
-    mapper(t, "i")
+M.vnoremap = function(t)
+    vim.keymap.set("v", t[1], t[2], t[3])
 end
 
-local vnoremap = function(t)
-    mapper(t, "v")
+M.xnoremap = function(t)
+    vim.keymap.set("x", t[1], t[2], t[3])
 end
 
-local xnoremap = function(t)
-    mapper(t, "x")
+M.cnoremap = function(t)
+    vim.keymap.set("c", t[1], t[2], t[3])
 end
 
-local cnoremap = function(t)
-    mapper(t, "c")
-end
-
-local map = function(t)
-    t[3] = {silent = true}
-    mapper(t, "")
+M.map = function(t)
+    vim.keymap.set("", t[1], t[2], {silent = true})
 end
 
 TelescopeMapArgs = TelescopeMapArgs or {}
 
-local telemap = function(mode, key, f, options, buffer)
+M.telemap = function(mode, key, f, options, buffer)
     local map_key = vim.api.nvim_replace_termcodes(key .. f, true, true, true)
 
     TelescopeMapArgs[map_key] = options or {}
@@ -43,18 +34,10 @@ local telemap = function(mode, key, f, options, buffer)
     local rhs = string.format("<cmd>lua require('config.telescope')['%s'](TelescopeMapArgs['%s'])<CR>", f, map_key)
 
     if not buffer then
-        set(mode, key, rhs, defaults)
+        vim.keymap.set(mode, key, rhs)
     else
-        set(0, mode, key, rhs, {silent = true, buffer = 0})
+        vim.keymap.set(mode, key, rhs, {silent = true, buffer = 0})
     end
 end
 
-return {
-    map = map,
-    nnoremap = nnoremap,
-    inoremap = inoremap,
-    vnoremap = vnoremap,
-    xnoremap = xnoremap,
-    cnoremap = cnoremap,
-    telemap = telemap
-}
+return M
