@@ -1,5 +1,5 @@
 local parent_module = "dap"
-local modules = {"core", "plugins", "config", "utils"}
+local modules = {"core", "plugins", "utils"}
 
 local load = require
 

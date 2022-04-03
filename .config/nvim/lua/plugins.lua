@@ -2,7 +2,12 @@ local packer = require "utils.packer"
 
 local function plugins(use)
     use {"wbthomason/packer.nvim"}
-    use {"lewis6991/impatient.nvim", config = [[require('impatient').enable_profile()]]}
+    use {
+        "lewis6991/impatient.nvim",
+        config = function()
+            require("impatient").enable_profile()
+        end
+    }
 
     use {
         "kyazdani42/nvim-web-devicons",
@@ -26,6 +31,7 @@ local function plugins(use)
             "folke/lua-dev.nvim"
         }
     }
+
     use {
         "folke/trouble.nvim",
         event = "BufReadPre",
@@ -50,6 +56,7 @@ local function plugins(use)
         end
     }
 
+    -- TODO: look into refactoring plugin
     -- use {
     --     "ThePrimeagen/refactoring.nvim",
     --     requires = {
@@ -60,22 +67,29 @@ local function plugins(use)
     --     --     require("config.refactoring")
     --     -- end
     -- }
-
+    --
     use {
         "ThePrimeagen/harpoon",
+        keys = {"<space>hh"},
         requires = {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim"},
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            nnoremap {"<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>"}
+            nnoremap {"<leader>ha", ":lua require('harpoon.mark').add_file()<CR>"}
+            nnoremap {"<leader>hm", ":lua require('harpoon.ui').nav_file(1)<CR>"}
+            nnoremap {"<leader>h,", ":lua require('harpoon.ui').nav_file(2)<CR>"}
+            nnoremap {"<leader>h.", ":lua require('harpoon.ui').nav_file(3)<CR>"}
+            nnoremap {"<leader>hj", ":lua require('harpoon.ui').nav_file(4)<CR>"}
+            nnoremap {"<leader>hk", ":lua require('harpoon.ui').nav_file(5)<CR>"}
+            nnoremap {"<leader>hl", ":lua require('harpoon.ui').nav_file(6)<CR>"}
+            nnoremap {"<leader>hu", ":lua require('harpoon.ui').nav_file(7)<CR>"}
+            nnoremap {"<leader>hi", ":lua require('harpoon.ui').nav_file(8)<CR>"}
+            nnoremap {"<leader>ho", ":lua require('harpoon.ui').nav_file(9)<CR>"}
+        end,
         config = function()
             require("harpoon").setup()
         end
     }
-
-    -- use {
-    --     "ray-x/navigator.lua",
-    --     requires = {"ray-x/guihua.lua", run = "cd lua/fzy && make"},
-    --     config = function()
-    --         require("navigator").setup()
-    --     end
-    -- }
 
     use {
         "hrsh7th/nvim-cmp",
@@ -89,14 +103,19 @@ local function plugins(use)
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
+            -- {
+            --     "tzachar/cmp-fuzzy-buffer",
+            --     wants = "tzachar/fuzzy.nvim"
+            -- },
             "saadparwaiz1/cmp_luasnip",
             {
                 "L3MON4D3/LuaSnip",
                 wants = "friendly-snippets",
                 config = function()
-                    require("config.snippets")
+                    require("config.snips")
                 end
             },
+            "tzachar/fuzzy.nvim",
             "rafamadriz/friendly-snippets",
             {
                 "windwp/nvim-autopairs",
@@ -110,19 +129,29 @@ local function plugins(use)
     use {
         "rlane/pounce.nvim",
         cmd = {"Pounce", "PounceRepeat"},
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            local vnoremap = require("utils.mappers").vnoremap
+            nnoremap {"s", "<cmd>Pounce<CR>"}
+            nnoremap {"S", "<cmd>PounceRepeat<CR>"}
+            vnoremap {"s", "<cmd>Pounce<CR>"}
+        end,
         config = function()
             require("pounce")
         end
     }
 
     -- Find and replace
-    use "brooth/far.vim"
     use {
         "windwp/nvim-spectre",
         opt = true,
         module = "spectre",
         wants = {"plenary.nvim", "popup.nvim"},
         requires = {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim"},
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            nnoremap {"<leader>R", ":lua require('spectre').open()<CR>"}
+        end,
         config = function()
             require("spectre").setup {
                 mapping = {
@@ -161,29 +190,31 @@ local function plugins(use)
                 end
             }
         end,
-        requires = {
-            "JoosepAlviste/nvim-ts-context-commentstring"
-        }
+        after = "nvim-ts-context-commentstring"
+        -- requires = {
+        --     {
+        --         "JoosepAlviste/nvim-ts-context-commentstring",
+        --         after = "nvim-treesitter"
+        --     }
+        -- }
     }
 
-    -- use {
-    --     "michaelb/sniprun",
-    --     run = "bash ./install.sh",
-    --     config = function()
-    --         require "sniprun".run()
-    --     end
-    -- }
+    -- TODO: figure out better formatting
+    use {
+        "sbdchd/neoformat",
+        setup = require("config.format").setup,
+        config = require("config.format").config
+    }
 
-    -- NEEDS FIX
-    -- use {"dstein64/startuptime.vim", cmd = "StartupTime"}
-
-    -- Cnsider
-    -- use 'hoob3rt/lualine.nvim'
-
-    use {"sbdchd/neoformat", config = [[require("config.format")]]}
-    use {"mbbill/undotree", cmd = "UndotreeToggle"}
+    use {
+        "mbbill/undotree",
+        cmd = "UndotreeToggle",
+        setup = function()
+            vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
+        end
+    }
     use "ludovicchabant/vim-gutentags"
-    -- use "christoomey/vim-tmux-navigator"
+
     use {
         "aserowy/tmux.nvim",
         event = {"VimEnter"},
@@ -192,51 +223,38 @@ local function plugins(use)
         end
     }
 
+    use {
+        disable = true,
+        "olimorris/persisted.nvim",
+        config = function()
+            require("persisted").setup {
+                autoload = true
+            }
+        end
+    }
+
+    use {
+        "AndrewRadev/splitjoin.vim",
+        keys = {"gJ", "gS"}
+    }
+
     use "tpope/vim-repeat"
     use "tpope/vim-surround"
     use "kevinhwang91/nvim-bqf"
     use "mg979/vim-visual-multi"
     use "svermeulen/vim-cutlass"
     use {"jpalardy/vim-slime", cmd = {"SlimeConfig"}}
-    use {"thaerkh/vim-workspace", config = [[require("config.sessions")]]}
     use {"folke/todo-comments.nvim", config = [[require("config.todo-comments")]]}
     use {"rafcamlet/nvim-luapad"}
     use "jparise/vim-graphql"
     use "sunjon/Shade.nvim"
+
+    -- TODO: figure out if useful
     -- use { "vuki656/package-info.nvim", config = {"require('package-info').setup()"} }
 
-    -- use {
-    --     "NTBBloodbath/rest.nvim",
-    --     requires = {"nvim-lua/plenary.nvim"},
-    --     config = function()
-    --         require("rest-nvim").setup(
-    --             {
-    --                 -- Open request results in a horizontal split
-    --                 result_split_horizontal = false,
-    --                 -- Skip SSL verification, useful for unknown certificates
-    --                 skip_ssl_verification = false,
-    --                 -- Highlight request on run
-    --                 highlight = {
-    --                     enabled = true,
-    --                     timeout = 150
-    --                 },
-    --                 result = {
-    --                     -- toggle showing URL, HTTP info, headers at top the of result window
-    --                     show_url = true,
-    --                     show_http_info = true,
-    --                     show_headers = true
-    --                 },
-    --                 -- Jump to request line on run
-    --                 jump_to_request = false,
-    --                 env_file = ".env",
-    --                 custom_dynamic_variables = {}
-    --             }
-    --         )
-    --     end
-    -- }
-
     -- Markdown
-    use "mattn/calendar-vim"
+    -- use "mattn/calendar-vim"
+    use "renerocksai/calendar-vim"
     use "reedes/vim-pencil"
     use "plasticboy/vim-markdown"
     use {
@@ -244,13 +262,221 @@ local function plugins(use)
         run = function()
             vim.fn["mkdp#util#install"]()
         end,
-        ft = {"vimwiki", "markdown", "vim-plug"}
+        ft = {"markdown", "vim-plug"},
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            nnoremap {"<leader>mp", ":MarkdownPreview<CR>"}
+        end
     }
 
-    use {"vimwiki/vimwiki", config = [[require("config.markdown")]]}
+    use {"mzlogin/vim-markdown-toc"}
+    use {
+        "renerocksai/telekasten.nvim",
+        module = "telekasten",
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
 
+            nnoremap {
+                "<leader>zf",
+                function()
+                    require("telekasten").find_notes()
+                end
+            }
+            nnoremap {
+                "<leader>zd",
+                function()
+                    require("telekasten").find_daily_notes()
+                end
+            }
+            nnoremap {
+                "<leader>zg",
+                function()
+                    require("telekasten").search_notes()
+                end
+            }
+            nnoremap {
+                "<leader>zz",
+                function()
+                    require("telekasten").follow_link()
+                end
+            }
+            nnoremap {
+                "<leader>zT",
+                function()
+                    require("telekasten").goto_today()
+                end
+            }
+            nnoremap {
+                "<leader>zW",
+                function()
+                    require("telekasten").goto_thisweek()
+                end
+            }
+            nnoremap {
+                "<leader>zw",
+                function()
+                    require("telekasten").find_weekly_notes()
+                end
+            }
+            nnoremap {
+                "<leader>zn",
+                function()
+                    require("telekasten").new_note()
+                end
+            }
+            nnoremap {
+                "<leader>zN",
+                function()
+                    require("telekasten").new_templated_note()
+                end
+            }
+            nnoremap {
+                "<leader>zy",
+                function()
+                    require("telekasten").yank_notelink()
+                end
+            }
+            nnoremap {
+                "<leader>zc",
+                function()
+                    require("telekasten").show_calendar()
+                end
+            }
+            nnoremap {"<leader>zC", "CalendarT<CR>"}
+            nnoremap {
+                "<leader>zi",
+                function()
+                    require("telekasten").paste_img_and_link()
+                end
+            }
+            nnoremap {
+                "<leader>zt",
+                function()
+                    require("telekasten").toggle_todo()
+                end
+            }
+            nnoremap {
+                "<leader>zb",
+                function()
+                    require("telekasten").show_backlinks()
+                end
+            }
+            nnoremap {
+                "<leader>zF",
+                function()
+                    require("telekasten").find_friends()
+                end
+            }
+            nnoremap {
+                "<leader>zp",
+                function()
+                    require("telekasten").preview_img()
+                end
+            }
+            nnoremap {
+                "<leader>zm",
+                function()
+                    require("telekasten").browse_media()
+                end
+            }
+            nnoremap {
+                "<leader>za",
+                function()
+                    require("telekasten").show_tags()
+                end
+            }
+            nnoremap {
+                "<leader>#",
+                function()
+                    require("telekasten").show_tags()
+                end
+            }
+            nnoremap {
+                "<leader>zr",
+                function()
+                    require("telekasten").rename_note()
+                end
+            }
+            nnoremap {
+                "<leader>z",
+                function()
+                    require("telekasten").panel()
+                end
+            }
+        end,
+        config = function()
+            local home = vim.fn.expand("~/zettelkasten")
+            require("telekasten").setup {
+                home = home,
+                -- if true, telekasten will be enabled when opening a note within the configured home
+                take_over_my_home = true,
+                -- auto-set telekasten filetype: if false, the telekasten filetype will not be used
+                --                               and thus the telekasten syntax will not be loaded either
+                auto_set_filetype = true,
+                dailies = home .. "/" .. "daily",
+                weeklies = home .. "/" .. "weekly",
+                templates = home .. "/" .. "templates",
+                image_subdir = "img",
+                extension = ".md",
+                follow_creates_nonexisting = true,
+                dailies_create_nonexisting = true,
+                weeklies_create_nonexisting = true,
+                template_new_note = home .. "/" .. "templates/new_note.md",
+                template_new_daily = home .. "/" .. "templates/daily.md",
+                template_new_weekly = home .. "/" .. "templates/weekly.md",
+                image_link_style = "markdown",
+                plug_into_calendar = true,
+                calendar_opts = {
+                    -- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
+                    weeknm = 4,
+                    calendar_monday = 1,
+                    -- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
+                    calendar_mark = "left-fit"
+                },
+                -- telescope actions behavior
+                close_after_yanking = false,
+                insert_after_inserting = true,
+                tag_notation = "#tag",
+                command_palette_theme = "dropdown",
+                show_tags_theme = "dropdown",
+                subdirs_in_links = true,
+                -- template_handling
+                -- What to do when creating a new note via `new_note()` or `follow_link()`
+                -- to a non-existing note
+                -- - prefer_new_note: use `new_note` template
+                -- - smart: if day or week is detected in title, use daily / weekly templates (default)
+                -- - always_ask: always ask before creating a note
+                template_handling = "smart",
+                -- path handling:
+                --   this applies to:
+                --     - new_note()
+                --     - new_templated_note()
+                --     - follow_link() to non-existing note
+                --
+                --   it does NOT apply to:
+                --     - goto_today()
+                --     - goto_thisweek()
+                --
+                --   Valid options:
+                --     - smart: put daily-looking notes in daily, weekly-looking ones in weekly,
+                --              all other ones in home, except for notes/with/subdirs/in/title.
+                --              (default)
+                --
+                --     - prefer_home: put all notes in home except for goto_today(), goto_thisweek()
+                --                    except for notes with subdirs/in/title.
+                --
+                --     - same_as_current: put all new notes in the dir of the current note if
+                --                        present or else in home
+                --                        except for notes/with/subdirs/in/title.
+                new_note_location = "smart",
+                -- should all links be updated when a file is renamed
+                rename_update_links = true
+            }
+        end
+    }
     use {
         "vhyrro/neorg",
+        disable = true, -- TODO: enable or remove
         after = "nvim-treesitter",
         config = function()
             require("config.neorg").setup()
@@ -260,14 +486,15 @@ local function plugins(use)
 
     use {
         "kristijanhusak/orgmode.nvim",
+        disable = true, -- TODO: enable or remove
         after = "nvim-treesitter",
         config = function()
-            -- require("orgmode").setup(
-            --     {
-            --         org_agenda_files = {"~/org/*"},
-            --         org_default_notes_file = "~/org/refile.org"
-            --     }
-            -- )
+            require("orgmode").setup(
+                {
+                    org_agenda_files = {"~/org/*"},
+                    org_default_notes_file = "~/org/refile.org"
+                }
+            )
         end
     }
 
@@ -277,14 +504,13 @@ local function plugins(use)
     }
 
     use {
-        "mizlan/iswap.nvim",
-        cmd = {"ISwapWith"},
-        config = [[require("iswap").setup()]]
-    }
-
-    use {
         "sindrets/winshift.nvim",
         cmd = {"WinShift"},
+        setup = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            nnoremap {"<C-w>m", ":WinShift<CR>"}
+            nnoremap {"<C-w><C-m>", ":WinShift<CR>"}
+        end,
         config = function()
             require("winshift").setup(
                 {
@@ -333,15 +559,27 @@ local function plugins(use)
     }
 
     use {
+        disable = true, -- TODO: enable or remove
         "glacambre/firenvim",
         run = function()
             vim.fn["firenvim#install"](0)
         end,
         config = [[require("config.firenvim")]]
     }
-    use {"simrat39/symbols-outline.nvim", cmd = {"SymbolsOutline"}, config = [[require("config.symbol-outline")]]}
 
     use {
+        "simrat39/symbols-outline.nvim",
+        cmd = {"SymbolsOutline"},
+        setup = function()
+            require("utils.mappers").nnoremap {"<leader>v", ":SymbolsOutline<CR>"}
+        end,
+        config = function()
+            require("config.symbol-outline")
+        end
+    }
+
+    use {
+        disable = true,
         "NTBBloodbath/galaxyline.nvim",
         branch = "main",
         config = function()
@@ -353,13 +591,21 @@ local function plugins(use)
 
     use {
         "rebelot/heirline.nvim",
-        event = {"VimEnter"},
+        -- event = {"VimEnter"},
         config = function()
-            -- require("config.heirline")
+            require("config.heirline")
         end
     }
 
-    use {"kyazdani42/nvim-tree.lua", config = [[require("config.tree")]], cmd = {"NvimTreeToggle"}}
+    -- TODO: replace with something better
+    use {
+        "kyazdani42/nvim-tree.lua",
+        config = require("config.tree").config,
+        setup = require("config.tree").setup,
+        cmd = {"NvimTreeToggle"}
+    }
+
+    use "elihunter173/dirbuf.nvim"
 
     use {
         "nvim-treesitter/nvim-treesitter",
@@ -368,16 +614,43 @@ local function plugins(use)
         event = "BufRead",
         config = [[require("config.treesitter")]],
         requires = {
-            "JoosepAlviste/nvim-ts-context-commentstring",
+            -- "JoosepAlviste/nvim-ts-context-commentstring",
             "nvim-treesitter/nvim-treesitter-textobjects"
         }
     }
 
     use {"windwp/nvim-ts-autotag", opt = true, after = "nvim-treesitter"}
+    use {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        after = "nvim-treesitter"
+    }
 
     -- Git
     use {
         "tpope/vim-fugitive",
+        config = function()
+            local nnoremap = require("utils.mappers").nnoremap
+            local vnoremap = require("utils.mappers").vnoremap
+            local g = vim.g
+
+            g.fugitive_gitlab_domains = {"https://gitlab.eu-west-1.mgmt.onfido.xyz/"}
+
+            nnoremap {"<leader>ge", ":GBrowse<CR>"}
+            nnoremap {"<leader>gy", ":GBrowse!<CR>"}
+            vnoremap {"<leader>ge", ":'<,'>GBrowse<CR>"}
+            vnoremap {"<leader>gy", ":'<,'>GBrowse!<CR>"}
+            nnoremap {"<leader>df", ":Gvdiffsplit origin/master<CR>"}
+            nnoremap {"<leader>dv", ":DiffviewOpen<CR>"}
+            nnoremap {"<leader>dm", ":DiffviewOpen origin/master<CR>"}
+            nnoremap {"<leader>fh", ":DiffviewFileHistory<CR>"}
+            nnoremap {"<leader>bc", ":DiffviewFileHistory<CR>"}
+            nnoremap {"<leader>dl", ":diffget //3<CR>"}
+            nnoremap {"<leader>dh", ":diffget //2<CR>"}
+            nnoremap {"<leader>gs", ":tab G<CR>"}
+            nnoremap {"<leader>gb", ":Git blame<CR>"}
+            nnoremap {"<leader>gc", ":GV<CR>"}
+            nnoremap {"<leader>dv", ":DiffviewOpen<CR>"}
+        end,
         {
             "tpope/vim-rhubarb",
             "shumphrey/fugitive-gitlab.vim",
@@ -386,6 +659,10 @@ local function plugins(use)
         {
             "kdheepak/lazygit.nvim",
             cmd = "LazyGit",
+            setup = function()
+                local nnoremap = require("utils.mappers").nnoremap
+                nnoremap {"<leader>lg", ":LazyGit<CR>"}
+            end,
             config = function()
                 vim.g.lazygit_floating_window_use_plenary = 0
             end
@@ -395,7 +672,51 @@ local function plugins(use)
         "lewis6991/gitsigns.nvim",
         event = "BufReadPre",
         requires = {"nvim-lua/plenary.nvim"},
-        config = [[require("gitsigns").setup {}]]
+        config = function()
+            require("gitsigns").setup {
+                on_attach = function(bufnr)
+                    local gs = package.loaded.gitsigns
+
+                    local function map(mode, l, r, opts)
+                        opts = opts or {}
+                        opts.buffer = bufnr
+                        vim.keymap.set(mode, l, r, opts)
+                    end
+
+                    -- Navigation
+                    map("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr = true})
+                    map("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr = true})
+
+                    -- Actions
+                    map({"n", "v"}, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+                    map({"n", "v"}, "<leader>hr", ":Gitsigns reset_hunk<CR>")
+                    map("n", "<leader>hS", gs.stage_buffer)
+                    map("n", "<leader>hu", gs.undo_stage_hunk)
+                    map("n", "<leader>hR", gs.reset_buffer)
+                    map("n", "<leader>hp", gs.preview_hunk)
+                    map(
+                        "n",
+                        "<leader>hb",
+                        function()
+                            gs.blame_line {full = true}
+                        end
+                    )
+                    map("n", "<leader>tb", gs.toggle_current_line_blame)
+                    map("n", "<leader>hd", gs.diffthis)
+                    map(
+                        "n",
+                        "<leader>hD",
+                        function()
+                            gs.diffthis("~")
+                        end
+                    )
+                    map("n", "<leader>td", gs.toggle_deleted)
+
+                    -- Text object
+                    map({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+                end
+            }
+        end
     }
 
     -- Fennel
@@ -403,91 +724,38 @@ local function plugins(use)
     use "bakpakin/fennel.vim"
 
     -- color schemes
-    -- use {
-    -- "shaunsingh/nord.nvim",
-    -- "shaunsingh/moonlight.nvim",
-    -- { "olimorris/onedark.nvim", requires = "rktjmp/lush.nvim" },
-    -- "joshdick/onedark.vim",
-    -- "wadackel/vim-dogrun",
-    -- { "npxbr/gruvbox.nvim", requires = "rktjmp/lush.nvim" },
-    -- "bluz71/vim-nightfly-guicolors",
-    -- { "marko-cerovac/material.nvim" },
-    -- "sainnhe/edge",
-    -- { "embark-theme/vim", as = "embark" },
-    -- "norcalli/nvim-base16.lua",
-    -- "RRethy/nvim-base16",
-    -- "novakne/kosmikoa.nvim",
-    -- "glepnir/zephyr-nvim",
-    -- "ghifarit53/tokyonight-vim"
-    -- "sainnhe/sonokai",
-    -- "morhetz/gruvbox",
-    -- "arcticicestudio/nord-vim",
-    -- "drewtempelmeyer/palenight.vim",
-    -- "Th3Whit3Wolf/onebuddy",
-    -- "christianchiarulli/nvcode-color-schemes.vim",
-    -- "Th3Whit3Wolf/one-nvim"
-    --
-    -- Plug 'sainnhe/gruvbox-material'
-    -- Plug 'npxbr/gruvbox.nvim'
-    -- Plug 'eddyekofo94/gruvbox-flat.nvim'
-
-    -- Plug 'tjdevries/colorbuddy.vim'
-    -- Plug 'tjdevries/gruvbuddy.nvim'
-    -- "
-    -- Plug 'shaunsingh/nord.nvim'
-    -- Plug 'ayu-theme/ayu-vim'
-    -- Plug 'rktjmp/lush.nvim'
-    -- Plug 'drewtempelmeyer/palenight.vim'
-    -- Plug 'flazz/vim-colorschemes'
-    -- Plug 'sainnhe/sonokai'
-    -- Plug 'Dualspc/spaceodyssey'
-    -- Plug 'sonph/onehalf', { 'rtp': 'vim' }
-    -- Plug 'glepnir/zephyr-nvim'
-    -- Plug 'rafamadriz/neon'
-
-    -- "eddyekofo94/gruvbox-flat.nvim",
-    -- "folke/tokyonight.nvim"
-    -- config = [[vim.cmd("colorscheme tokyonight")]]
-    -- }
 
     use {
         "folke/tokyonight.nvim",
+        disable = true,
         config = function()
             vim.g.tokyonight_style = "night"
-            -- vim.cmd("colorscheme tokyonight")
+            vim.cmd("colorscheme tokyonight")
         end
     }
 
     use {
         "rebelot/kanagawa.nvim",
+        disable = false
+        -- config = function()
+        --     vim.cmd("colorscheme kanagawa")
+        -- end
+    }
+
+    use {
+        "glepnir/zephyr-nvim",
+        disable = true,
         config = function()
-            vim.cmd("colorscheme kanagawa")
+            require("zephyr")
+            local zephyr = require("zephyr")
+            zephyr.highlight("Tabline", {fg = zephyr.base6, bg = zephyr.base2})
+            zephyr.highlight("TabLineFill", {fg = zephyr.base6, bg = zephyr.base2})
+            zephyr.highlight("TabLineSel", {fg = zephyr.blue, bg = zephyr.bg})
+            vim.cmd("colorscheme zephyr")
         end
     }
 
-    use {
-        "eddyekofo94/gruvbox-flat.nvim"
-        -- config = function()
-        --     vim.g.gruvbox_flat_style = "dark"
-        --     vim.g.gruvbox_flat_style = "hard"
-        --     vim.g.gruvbox_theme = {TabLineSel = {bg = "black", fg = "blue"}}
-        --     vim.cmd("colorscheme gruvbox-flat")
-        -- end
-    }
-
-    use {
-        "glepnir/zephyr-nvim"
-        -- config = function()
-        --     require("zephyr")
-        --     local zephyr = require("zephyr")
-        --     zephyr.highlight("Tabline", {fg = zephyr.base6, bg = zephyr.base2})
-        --     zephyr.highlight("TabLineFill", {fg = zephyr.base6, bg = zephyr.base2})
-        --     zephyr.highlight("TabLineSel", {fg = zephyr.blue, bg = zephyr.bg})
-        --     vim.cmd("colorscheme zephyr")
-        -- end
-    }
-
-    --  Should check
+    -- TODO: check
     -- use(
     --     {
     --         "TimUntersberger/neogit",
@@ -498,74 +766,15 @@ local function plugins(use)
     --     }
     -- )
 
-    -- -- Statusline
-    -- use(
-    --     {
-    --         "hoob3rt/lualine.nvim",
-    --         event = "VimEnter",
-    --         config = [[require('config.lualine')]],
-    --         wants = "nvim-web-devicons"
-    --     }
-    -- )
-
-    -- use(
-    --     {
-    --         "norcalli/nvim-colorizer.lua",
-    --         event = "BufReadPre",
-    --         config = function()
-    --             require("config.colorizer")
-    --         end
-    --     }
-    -- )
-
-    -- use({"npxbr/glow.nvim", cmd = "Glow"})
-
-    -- use(
-    --     {
-    --         "plasticboy/vim-markdown",
-    --         opt = true,
-    --         requires = "godlygeek/tabular",
-    --         ft = "markdown"
-    --     }
-    -- )
-    -- use(
-    --     {
-    --         "iamcco/markdown-preview.nvim",
-    --         run = function()
-    --             vim.fn["mkdp#util#install"]()
-    --         end,
-    --         cmd = "MarkdownPreview"
-    --     }
-    -- )
-
-    -- -- use { "tjdevries/train.nvim", cmd = { "TrainClear", "TrainTextObj", "TrainUpDown", "TrainWord" } }
-
-    -- -- use({ "wfxr/minimap.vim", config = function()
-    -- --   require("config.minimap")
-    -- -- end })
-
-    -- use(
-    --     {
-    --         "phaazon/hop.nvim",
-    --         keys = {"gh", "s"},
-    --         cmd = {"HopWord", "HopChar1"},
-    --         config = function()
-    --             require("util").nmap("gh", "<cmd>HopWord<CR>")
-    --             -- require("util").nmap("s", "<cmd>HopChar1<CR>")
-    --             -- you can configure Hop the way you like here; see :h hop-config
-    --             require("hop").setup({})
-    --         end
-    --     }
-    -- )
-
-    -- use({"mjlbach/babelfish.nvim", module = "babelfish"})
-
     use {
         "folke/zen-mode.nvim",
         cmd = "ZenMode",
         opt = true,
         config = function()
-            require("zen-mode").setup({plugins = {tmux = true}})
+            require("zen-mode").setup({})
+        end,
+        setup = function()
+            require("utils.mappers").nnoremap {"<leader>ze", ":ZenMode<CR>", nil}
         end
     }
 
@@ -577,28 +786,28 @@ local function plugins(use)
         end
     }
 
-    -- use(
-    --     {
-    --         "RRethy/vim-illuminate",
-    --         event = "CursorHold",
-    --         module = "illuminate",
-    --         config = function()
-    --             vim.g.Illuminate_delay = 1000
-    --         end
-    --     }
-    -- )
+    use {
+        "Shatur/neovim-session-manager",
+        config = function()
+            require("session_manager").setup {
+                autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir
+            }
+        end
+    }
 
-    -- -- use({ "wellle/targets.vim" })
+    use {
+        "bennypowers/nvim-regexplainer",
+        keys = "gR",
+        config = function()
+            require "regexplainer".setup()
+        end,
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim"
+        }
+    }
 
-    -- -- use("DanilaMihailov/vim-tips-wiki")
-    -- use("nanotee/luv-vimdocs")
-    -- use(
-    --     {
-    --         "andymass/vim-matchup",
-    --         event = "CursorMoved"
-    --     }
-    -- )
-    -- use({"camspiers/snap", rocks = {"fzy"}, module = "snap"})
+    use {"camspiers/snap", rocks = {"fzy"}}
 end
 
 local disable_distribution_plugins = function()
