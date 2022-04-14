@@ -18,3 +18,7 @@ yarn
 
 */raycast/extensions
 */raycast/node_modules
+
+*/pgcli/history
+*/pgcli/log
+
