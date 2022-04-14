@@ -5,7 +5,6 @@ local cmp = require("cmp")
 cmp.setup {
     snippet = {
         expand = function(args)
-            -- For `luasnip` user.
             require("luasnip").lsp_expand(args.body)
         end
     },
@@ -14,7 +13,11 @@ cmp.setup {
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<C-e>"] = cmp.mapping.close(),
-        ["<CR>"] = cmp.mapping.confirm({select = true})
+        ["<CR>"] = cmp.mapping.confirm({select = true}),
+        ["<C-j>"] = cmp.mapping.select_next_item(),
+        ["<C-k>"] = cmp.mapping.select_prev_item(),
+        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ["<C-p>"] = cmp.mapping.select_prev_item()
     },
     sources = {
         {name = "nvim_lsp"},
@@ -28,8 +31,15 @@ cmp.setup {
     formatting = {
         format = require("config.kind").cmp_format()
     },
-    documentation = {
-        border = {"╭", "─", "╮", "│", "╯", "─", "╰", "│"}
+    window = {
+        completion = {
+            border = "rounded",
+            winhighlight = "FloatBorder:None,Normal:None"
+        },
+        documentation = {
+            border = "rounded",
+            winhighlight = "FloatBorder:None,Normal:None"
+        }
     },
     experimental = {
         ghost_text = {
@@ -37,3 +47,16 @@ cmp.setup {
         }
     }
 }
+
+cmp.setup.cmdline(
+    ":",
+    {
+        sources = {
+            {name = "cmdline"}
+        },
+        view = {
+            entries = "wildmenu"
+        }
+    }
+)
+

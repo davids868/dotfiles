@@ -64,8 +64,8 @@ nnoremap {"<", "<<"}
 nnoremap {">", ">>"}
 
 -- Better incsearch
-cnoremap {"<c-j>", "<c-g>"}
-cnoremap {"<c-k>", "<c-t>"}
+-- cnoremap {"<c-j>", "<c-g>"}
+-- cnoremap {"<c-k>", "<c-t>"}
 
 -- navigating command mode
 cnoremap {"<c-h>", "<left>"}
