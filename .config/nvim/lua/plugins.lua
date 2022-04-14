@@ -689,17 +689,6 @@ local function plugins(use)
 		end,
 	})
 
-	-- Fennel
-	use({ "Olical/aniseed", tag = "v3.16.0", disable = true })
-	use("bakpakin/fennel.vim")
-	use({
-		disable = true,
-		"rktjmp/hotpot.nvim",
-		config = function()
-			require("hotpot")
-		end,
-	})
-
 	-- color schemes
 
 	use({
