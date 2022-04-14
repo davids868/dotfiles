@@ -5,38 +5,36 @@ local M = {}
 -- end
 
 local bootstrap = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	local fn = vim.fn
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
-    if fn.empty(fn.glob(install_path)) > 0 then
-        print "Downloading packer.nvim..."
-        fn.system({"git", "clone", "https://github.com/wbthomason/packer.nvim", install_path})
-    end
+	if fn.empty(fn.glob(install_path)) > 0 then
+		print("Downloading packer.nvim...")
+		fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path })
+	end
 
-    vim.cmd([[packadd packer.nvim]])
+	vim.cmd([[packadd packer.nvim]])
 end
 
 local config = {
-    profile = {
-        enable = true,
-        threshold = 0 -- the amount in ms that a plugins load time must be over for it to be included in the profile
-        -- max_jobs = 50
-    }
+	profile = {
+		enable = true,
+		threshold = 0, -- the amount in ms that a plugins load time must be over for it to be included in the profile
+		-- max_jobs = 50
+	},
 }
 
 M.setup = function(fn)
-    -- HACK: see https://github.com/wbthomason/packer.nvim/issues/180
-    vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
+	-- HACK: see https://github.com/wbthomason/packer.nvim/issues/180
+	vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
 
-    bootstrap()
+	bootstrap()
 
-    local packer = require("packer")
-    packer.init(config)
-    return packer.startup(
-        function(use)
-            fn(use)
-        end
-    )
+	local packer = require("packer")
+	packer.init(config)
+	return packer.startup(function(use)
+		fn(use)
+	end)
 end
 
 return M

@@ -1,6 +1,6 @@
 local setup = function()
-    vim.api.nvim_exec(
-        [[
+	vim.api.nvim_exec(
+		[[
                 hi LspReferenceRead cterm=bold ctermbg=red guibg=#464646
                 hi LspReferenceText cterm=bold ctermbg=red guibg=#464646
                 hi LspReferenceWrite cterm=bold ctermbg=red guibg=#464646
@@ -10,8 +10,8 @@ local setup = function()
                   autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
                 augroup END
             ]],
-        false
-    )
+		false
+	)
 end
 
-return {setup = setup}
+return { setup = setup }

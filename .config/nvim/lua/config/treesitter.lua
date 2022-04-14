@@ -1,34 +1,34 @@
 local languages = {
-    "bash",
-    "c",
-    "clojure",
-    "cmake",
-    "commonlisp",
-    "cpp",
-    "css",
-    "elixir",
-    "erlang",
-    "fennel",
-    "go",
-    "graphql",
-    "html",
-    "http",
-    "javascript",
-    "jsdoc",
-    "json",
-    "lua",
-    "python",
-    "regex",
-    "ruby",
-    "rust",
-    "scss",
-    "toml",
-    "tsx",
-    "typescript",
-    "vim",
-    "yaml",
-    "org",
-    "norg"
+	"bash",
+	"c",
+	"clojure",
+	"cmake",
+	"commonlisp",
+	"cpp",
+	"css",
+	"elixir",
+	"erlang",
+	"fennel",
+	"go",
+	"graphql",
+	"html",
+	"http",
+	"javascript",
+	"jsdoc",
+	"json",
+	"lua",
+	"python",
+	"regex",
+	"ruby",
+	"rust",
+	"scss",
+	"toml",
+	"tsx",
+	"typescript",
+	"vim",
+	"yaml",
+	"org",
+	"norg",
 }
 -- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 
@@ -49,28 +49,28 @@ local languages = {
 --     }
 -- }
 
-require "nvim-treesitter.configs".setup {
-    ensure_installed = languages,
-    highlight = {
-        enable = true
-        -- disable = {"org"}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
-        -- additional_vim_regex_highlighting = {"org"} -- Required since TS highlighter doesn't support all syntax features (conceal)
-    },
-    rainbow = {
-        enable = false,
-        extended_mode = true -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-    },
-    autotag = {
-        enable = true
-    },
-    context_commentstring = {
-        enable = true
-    },
-    keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner"
-    }
-}
+require("nvim-treesitter.configs").setup({
+	ensure_installed = languages,
+	highlight = {
+		enable = true,
+		-- disable = {"org"}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
+		-- additional_vim_regex_highlighting = {"org"} -- Required since TS highlighter doesn't support all syntax features (conceal)
+	},
+	rainbow = {
+		enable = false,
+		extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+	},
+	autotag = {
+		enable = true,
+	},
+	context_commentstring = {
+		enable = true,
+	},
+	keymaps = {
+		-- You can use the capture groups defined in textobjects.scm
+		["af"] = "@function.outer",
+		["if"] = "@function.inner",
+		["ac"] = "@class.outer",
+		["ic"] = "@class.inner",
+	},
+})
