@@ -196,14 +196,6 @@ local function plugins(use)
 		-- }
 	})
 
-	-- TODO: figure out better formatting
-	use({
-		disable = true,
-		"sbdchd/neoformat",
-		setup = require("config.format").setup,
-		config = require("config.format").config,
-	})
-
 	use({
 		"mbbill/undotree",
 		cmd = "UndotreeToggle",
@@ -540,15 +532,6 @@ local function plugins(use)
 			require("config.telescope")
 			require("config.telescope.mapping")
 		end,
-	})
-
-	use({
-		disable = true,
-		"gelguy/wilder.nvim",
-		config = function()
-			require("config.wilder")
-		end,
-		requires = { { "romgrk/fzy-lua-native", after = "wilder.nvim" } },
 	})
 
 	use({
