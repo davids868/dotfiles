@@ -61,6 +61,7 @@ local on_attach = function(client)
 end
 
 require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
+require("config.lsp.null-ls")
 
 vim.notify = function(msg, log_level, _opts)
     if msg:match("exit code") then
