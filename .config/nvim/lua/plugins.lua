@@ -773,12 +773,19 @@ local function plugins(use)
 		},
 	})
 
+	-- take a look at later time as a faster telescope alernative
 	use({
 		disable = true,
 		"camspiers/snap",
 		rocks = { "fzy" },
 		config = function()
-			require("config.snap")
+			local snap = require("snap")
+
+			snap.maps({
+				{ "<Leader>fb", snap.config.file({ producer = "ripgrep.file" }) },
+				{ "<Leader>fo", snap.config.file({ producer = "vim.oldfile" }) },
+				{ "<Leader>ff", snap.config.vimgrep({}) },
+			})
 		end,
 	})
 end
