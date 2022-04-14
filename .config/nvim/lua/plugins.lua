@@ -58,18 +58,13 @@ local function plugins(use)
     end,
   }
 
-  -- TODO: look into refactoring plugin
-  -- use {
-  --     "ThePrimeagen/refactoring.nvim",
-  --     requires = {
-  --         {"nvim-lua/plenary.nvim"},
-  --         {"nvim-treesitter/nvim-treesitter"}
-  --     }
-  --     -- config = function()
-  --     --     require("config.refactoring")
-  --     -- end
-  -- }
-  --
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+  }
   use {
     "ThePrimeagen/harpoon",
     keys = { "<space>hh" },

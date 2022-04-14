@@ -19,6 +19,15 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 local on_attach = function(client)
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[
+      augroup LspFormatting
+          autocmd! * <buffer>
+          autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+      augroup END
+    ]]
+  end
+
   if client.name == "tsserver" then
     local ts_utils = require "nvim-lsp-ts-utils"
     -- ts_utils.setup_client(client)
@@ -27,7 +36,7 @@ local on_attach = function(client)
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
   if client.resolved_capabilities.document_highlight then
-    -- require("config.lsp.highlight").setup()
+    require("config.lsp.highlight").setup()
   end
 
   -- Mappings.
@@ -61,7 +70,7 @@ local on_attach = function(client)
 end
 
 require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
-require "config.lsp.null-ls"
+require("config.lsp.null-ls").setup(on_attach)
 
 vim.notify = function(msg, log_level, _opts)
   if msg:match "exit code" then
