@@ -17,9 +17,6 @@ local dropdown =
     layout_config = {width = 0.5}
 }
 
--- local action_set = require('telescope.actions.set')
--- local _ = require("nvim-nonicons")
-
 require("telescope").setup {
     defaults = {
         prompt_prefix = "   ",
@@ -47,9 +44,10 @@ require("telescope").setup {
         dynamic_preview_title = true,
         mappings = {
             i = {
-                -- ["<C-x>"] = false,
-                ["<esc>"] = actions.close,
                 ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist
+            },
+            n = {
+                ["<Space>q"] = actions.close
             }
         },
         vimgrep_arguments = {
@@ -130,10 +128,6 @@ function M.edit_zsh()
     }
 end
 
--- function M.commands()
---     builtin.commands(dropdown)
--- end
-
 function M.builtin()
     builtin.builtin(dropdown)
 end
@@ -149,10 +143,6 @@ function M.git_files()
     end
 end
 
--- function M.lsp_code_actions()
---     builtin.lsp_code_actions(dropdown)
--- end
-
 function M.live_grep()
     builtin.live_grep {
         file_ignore_patterns = {".git/*"}
@@ -165,13 +155,6 @@ function M.grep_prompt()
         search = vim.fn.input("Grep String > ")
     }
 end
-
--- function M.grep_string()
---     builtin.grep_string {
---         shorten_path = true,
---         search = vim.fn.input("Grep String > ")
---     }
--- end
 
 function M.grep_visual_selection(opts)
     opts = opts or {}
@@ -208,16 +191,6 @@ function M.grep_last_search(opts)
     builtin.grep_string(opts)
 end
 
--- function M.oldfiles()
---     if true then
---         require("telescope").extensions.frecency.frecency()
---     end
---     if pcall(require("telescope").load_extension, "frecency") then
---     else
---         builtin.oldfiles {layout_strategy = "vertical"}
---     end
--- end
-
 function M.my_plugins()
     builtin.find_files {
         cwd = "~/plugins/"
@@ -245,7 +218,6 @@ function M.buffers()
 end
 
 function M.buffer_lines()
-    -- builtin.current_buffer_fuzzy_find(dropdown)
     builtin.current_buffer_fuzzy_find()
 end
 
