@@ -1,4 +1,4 @@
-require("core.options")
-require("core.autocmd")
-require("core.colors")
-require("core.mappings")
+require "core.options"
+require "core.autocmd"
+require "core.colors"
+require "core.mappings"

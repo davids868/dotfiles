@@ -64,5 +64,5 @@ g.mkdp_command_for_global = 1
 g.python3_host_prog = "~/.asdf/installs/python/3.9.7/bin/python"
 
 if vim.fn.isdirectory(vim.env.PWD .. "/node_modules") then
-	vim.env.PATH = vim.env.PATH .. ":" .. vim.env.PWD .. "/node_modules/.bin"
+  vim.env.PATH = vim.env.PATH .. ":" .. vim.env.PWD .. "/node_modules/.bin"
 end

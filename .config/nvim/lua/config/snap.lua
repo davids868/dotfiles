@@ -1,4 +1,4 @@
-local snap = require("snap")
+local snap = require "snap"
 
 -- snap.run {
 --     producer = snap.get "consumer.fzy"(snap.get "producer.ripgrep.file"),
@@ -14,8 +14,8 @@ local snap = require("snap")
 --     views = {snap.get "preview.help"}
 -- }
 
-snap.maps({
-	{ "<Leader>fb", snap.config.file({ producer = "ripgrep.file" }) },
-	{ "<Leader>fo", snap.config.file({ producer = "vim.oldfile" }) },
-	{ "<Leader>ff", snap.config.vimgrep({}) },
-})
+snap.maps {
+  { "<Leader>fb", snap.config.file { producer = "ripgrep.file" } },
+  { "<Leader>fo", snap.config.file { producer = "vim.oldfile" } },
+  { "<Leader>ff", snap.config.vimgrep {} },
+}

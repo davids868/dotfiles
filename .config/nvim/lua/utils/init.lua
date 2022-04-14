@@ -1,1 +1,1 @@
-require("utils.global_functions")
+require "utils.global_functions"

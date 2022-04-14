@@ -1,9 +1,9 @@
 if not pcall(require, "telescope") then
-	return
+  return
 end
 
 local telemap = require("utils.mappers").telemap
-local sorters = require("telescope.sorters")
+local sorters = require "telescope.sorters"
 
 vim.api.nvim_set_keymap("c", "<c-r><c-r>", "<Plug>(TelescopeFuzzyCommandSearch)", { noremap = false, nowait = true })
 
@@ -12,11 +12,11 @@ telemap("v", "<leader>F", "grep_visual_selection")
 telemap("n", "<leader>fl", "buffer_lines")
 telemap("n", "<leader>fp", "grep_prompt")
 telemap("n", "<leader>fw", "grep_string", {
-	short_path = true,
-	hidden = true,
-	word_match = "-w",
-	only_sort_text = true,
-	sorter = sorters.get_fzy_sorter(),
+  short_path = true,
+  hidden = true,
+  word_match = "-w",
+  only_sort_text = true,
+  sorter = sorters.get_fzy_sorter(),
 })
 telemap("n", "<leader>/", "grep_last_search")
 telemap("n", "<leader>F", "live_grep")
