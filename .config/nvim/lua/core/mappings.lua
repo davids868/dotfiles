@@ -47,6 +47,9 @@ inoremap {"<C-s>", "<Esc>:w<CR>"}
 nnoremap {"<leader>W", ":noa w<CR>"}
 nnoremap {"<leader>e", ":e!<CR>"}
 
+-- quickfix
+nnoremap {"<leader>co", ":copen<CR>"}
+
 -- Window resize
 nnoremap {"<M-j>", ":resize -2<CR>"}
 nnoremap {"<M-k>", ":resize +2<CR>"}
