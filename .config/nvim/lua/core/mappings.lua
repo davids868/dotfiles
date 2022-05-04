@@ -24,6 +24,7 @@ vnoremap { "/", "y/<C-R>0" }
 -- Yanks
 nnoremap { "Y", "y$" }
 nnoremap { "<leader>Y", "ggyG<C-o>" }
+nnoremap { "yA", "ggyG<C-o>" }
 
 -- Move code blocks
 vnoremap { "K", ":m '<-2gv<CR>gv" }
