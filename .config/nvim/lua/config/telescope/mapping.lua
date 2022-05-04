@@ -2,41 +2,30 @@ if not pcall(require, "telescope") then
   return
 end
 
-local telemap = require("utils.mappers").telemap
-local sorters = require "telescope.sorters"
+local cnoremap = require("utils.mappers").cnoremap
+local vnoremap = require("utils.mappers").vnoremap
+local nnoremap = require("utils.mappers").nnoremap
+local pickers = require "config.telescope.pickers"
 
-vim.api.nvim_set_keymap("c", "<c-r><c-r>", "<Plug>(TelescopeFuzzyCommandSearch)", { noremap = false, nowait = true })
+cnoremap { "<c-r><c-r>", "<Plug>(TelescopeFuzzyCommandSearch)", { nowait = true } }
 
--- Search
-telemap("v", "<leader>F", "grep_visual_selection")
-telemap("n", "<leader>fl", "buffer_lines")
-telemap("n", "<leader>fp", "grep_prompt")
-telemap("n", "<leader>fw", "grep_string", {
-  short_path = true,
-  hidden = true,
-  word_match = "-w",
-  only_sort_text = true,
-  sorter = sorters.get_fzy_sorter(),
-})
-telemap("n", "<leader>/", "grep_last_search")
-telemap("n", "<leader>F", "live_grep")
-telemap("n", "<leader>,", "edit_neovim")
-telemap("n", "<leader>p", "git_files")
-telemap("n", "<leader>o", "find_files")
-telemap("n", "<leader>go", "git_branches")
-telemap("n", "<leader><space>", "commands")
--- map_tele("n", "<leader>rr", "oldfiles")
-
--- map_tele("<leader>fv", "find_nvim_source")
--- map_tele("n", "<leader>s", "lsp_document_symbols")
--- map_tele("n", "<leader>S", "lsp_dynamic_workspace_symbols")
-telemap("n", "<leader>D", "lsp_workspace_diagnostics")
-telemap("n", "<leader>s", "current_buffer_tags")
-telemap("n", "<leader>S", "tags")
-telemap("n", "<leader>ht", "help_tags")
-telemap("n", "<leader>ho", "vim_options")
-telemap("n", "<leader>tl", "builtin")
-telemap("n", "<leader>tr", "resume")
-telemap("n", "<leader>ft", "filetypes")
-
-return telemap
+vnoremap { "<leader>F", pickers.grep_curr_string }
+nnoremap { "<leader>fl", pickers.current_buffer_fuzzy_find }
+nnoremap { "<leader>fp", pickers.grep_prompt }
+nnoremap { "<leader>fw", pickers.grep_curr_string }
+nnoremap { "<leader>/", pickers.grep_last_search }
+nnoremap { "<leader>F", pickers.live_grep }
+nnoremap { "<leader>,", pickers.edit_neovim }
+nnoremap { "<leader>p", pickers.git_files }
+nnoremap { "<leader>o", pickers.find_files }
+nnoremap { "<leader>go", pickers.git_branches }
+nnoremap { "<leader><space>", pickers.commands }
+nnoremap { "<leader>gr", pickers.lsp_references }
+nnoremap { "<leader>D", pickers.diagnostics }
+nnoremap { "<leader>s", pickers.current_buffer_tags }
+nnoremap { "<leader>S", pickers.tags }
+nnoremap { "<leader>ht", pickers.help_tags }
+nnoremap { "<leader>ho", pickers.vim_options }
+nnoremap { "<leader>tl", pickers.builtin }
+nnoremap { "<leader>tr", pickers.resume }
+nnoremap { "<leader>ft", pickers.filetypes }

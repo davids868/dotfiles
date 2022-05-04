@@ -24,20 +24,4 @@ M.map = function(t)
   vim.keymap.set("", t[1], t[2], { silent = true })
 end
 
-TelescopeMapArgs = TelescopeMapArgs or {}
-
-M.telemap = function(mode, key, f, options, buffer)
-  local map_key = vim.api.nvim_replace_termcodes(key .. f, true, true, true)
-
-  TelescopeMapArgs[map_key] = options or {}
-
-  local rhs = string.format("<cmd>lua require('config.telescope')['%s'](TelescopeMapArgs['%s'])<CR>", f, map_key)
-
-  if not buffer then
-    vim.keymap.set(mode, key, rhs)
-  else
-    vim.keymap.set(mode, key, rhs, { silent = true, buffer = 0 })
-  end
-end
-
 return M

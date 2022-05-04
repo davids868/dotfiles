@@ -1,13 +1,5 @@
-if not pcall(require, "telescope") then
-  return
-end
-
-local actions = require "telescope.actions"
-local sorters = require "telescope.sorters"
-local themes = require "telescope.themes"
-
 local builtin = require "telescope.builtin"
-
+local themes = require "telescope.themes"
 local dropdown = themes.get_dropdown {
   winblend = 10,
   border = true,
@@ -16,78 +8,16 @@ local dropdown = themes.get_dropdown {
   layout_config = { width = 0.5 },
 }
 
-require("telescope").setup {
-  defaults = {
-    prompt_prefix = "   ",
-    selection_caret = "❯ ",
-    winblend = 10,
-    layout_strategy = "horizontal",
-    layout_config = {
-      prompt_position = "top",
-      -- preview_cutoff = 120,
-      horizontal = {
-        width_padding = 0.1,
-        height_padding = 0.1,
-        preview_width = 0.6,
-      },
-      vertical = {
-        width_padding = 0.05,
-        height_padding = 1,
-        preview_height = 0.5,
-      },
-    },
-    selection_strategy = "reset",
-    sorting_strategy = "ascending",
-    scroll_strategy = "cycle",
-    color_devicons = true,
-    dynamic_preview_title = true,
-    mappings = {
-      i = {
-        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-      },
-      n = {
-        ["<Space>q"] = actions.close,
-      },
-    },
-    vimgrep_arguments = {
-      "rg",
-      "--color=never",
-      "--no-heading",
-      "--with-filename",
-      "--line-number",
-      "--column",
-      "--smart-case",
-      "--hidden",
-      -- "--glob='!.git/*'"
-    },
-    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-    file_sorter = sorters.get_fzy_sorter,
-    file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-    grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-    qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-  },
-  extensions = {
-    fzy_native = {
-      override_generic_sorter = false,
-      override_file_sorter = true,
-    },
-    -- fzf_writer = {
-    --   use_highlighter = false,
-    --   minimum_grep_characters = 6,
-    -- },
-  },
-}
-
--- Load the fzy native extension at the start.
-pcall(require("telescope").load_extension, "fzy_native")
-pcall(require("telescope").load_extension, "gh")
-pcall(require("telescope").load_extension, "cheat")
-pcall(require("telescope").load_extension, "dap")
-pcall(require("telescope").load_extension, "arecibo")
-
--- require("telescope").load_extension("fzf")
-
 local M = {}
+
+function M.grep_curr_string()
+  builtin.grep_string {
+    short_path = true,
+    hidden = true,
+    word_match = "-w",
+    only_sort_text = true,
+  }
+end
 
 function M.edit_neovim()
   builtin.find_files {
