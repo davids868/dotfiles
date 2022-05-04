@@ -35,6 +35,7 @@ local function plugins(use)
   }
 
   use {
+    disable = true,
     "folke/trouble.nvim",
     event = "BufReadPre",
     cmd = { "TroubleToggle", "Trouble" },
@@ -44,6 +45,7 @@ local function plugins(use)
   }
 
   use {
+    disable = true,
     "tami5/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
     -- cmd = {"Lspsaga"},
     config = function()

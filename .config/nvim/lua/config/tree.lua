@@ -6,7 +6,6 @@ M.config = function()
   require("nvim-tree").setup {
     disable_netrw = false,
     hijack_netrw = true,
-    update_to_buf_dir = { enable = false },
     update_focused_file = {
       enable = true,
     },
@@ -30,13 +29,11 @@ M.config = function()
   function NvimTreeOSOpen()
     local lib = require "nvim-tree.lib"
     local node = lib.get_node_at_cursor()
-    dump(node.absolute_path)
+    vim.pretty_print(node.absolute_path)
     if node then
       vim.fn.jobstart("open '" .. node.absolute_path .. "' &", { detach = true })
     end
   end
-
-  vim.g.nvim_tree_bindings = {}
 
   require("nvim-tree.events").on_nvim_tree_ready(function()
     vim.cmd "NvimTreeRefresh"
