@@ -1,4 +1,4 @@
-vim.o.completeopt = "menuone,noselect,noinsert"
+vim.o.completeopt = "menu,menuone,noselect"
 
 local cmp = require "cmp"
 
@@ -11,12 +11,15 @@ cmp.setup {
   mapping = {
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-    ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.close(),
     ["<CR>"] = cmp.mapping.confirm { select = true },
-    ["<C-j>"] = cmp.mapping.select_next_item(),
-    ["<C-k>"] = cmp.mapping.select_prev_item(),
-    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-n>"] = function()
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+      end
+    end,
     ["<C-p>"] = cmp.mapping.select_prev_item(),
   },
   sources = {
@@ -30,6 +33,9 @@ cmp.setup {
   },
   formatting = {
     format = require("config.kind").cmp_format(),
+  },
+  completion = {
+    autocomplete = { "InsertEnter", "TextChanged" },
   },
   window = {
     completion = {
