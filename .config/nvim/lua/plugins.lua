@@ -2,19 +2,9 @@ local packer = require "utils.packer"
 
 local function plugins(use)
   use { "wbthomason/packer.nvim" }
-  use {
-    "lewis6991/impatient.nvim",
-    config = function()
-      require("impatient").enable_profile()
-    end,
-  }
+  use { "lewis6991/impatient.nvim" }
 
-  use {
-    "kyazdani42/nvim-web-devicons",
-    config = function()
-      require("nvim-web-devicons").setup()
-    end,
-  }
+  use "kyazdani42/nvim-web-devicons"
 
   use { "nvim-lua/plenary.nvim", module = "plenary" }
   use { "nvim-lua/popup.nvim", module = "popup" }
