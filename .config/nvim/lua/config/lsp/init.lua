@@ -1,10 +1,9 @@
 require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
-require "config.lsp.diagnostics"
+-- lequire "config.lsp.diagnostics"
 local nvim_lsp = require "lspconfig"
 
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
-local telemap = require("utils.mappers").telemap
 local nnoremap = require("utils.mappers").nnoremap
 local vnoremap = require("utils.mappers").vnoremap
 
@@ -18,30 +17,54 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   },
 }
 
-local on_attach = function(client)
-  if client.resolved_capabilities.document_formatting then
-    vim.cmd [[
-      augroup LspFormatting
-          autocmd! * <buffer>
-          autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-      augroup END
-    ]]
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local lsp_formatting = function(bufnr)
+  vim.lsp.buf.format {
+    filter = function(clients)
+      return vim.tbl_filter(function(client)
+        return client.name ~= "tsserver"
+      end, clients)
+    end,
+    bufnr = bufnr,
+  }
+end
+
+local on_attach = function(client, bufnr)
+  if client.supports_method "textDocument/formatting" then
+    vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        lsp_formatting(bufnr)
+      end,
+    })
   end
 
-  if client.name == "tsserver" then
-    local ts_utils = require "nvim-lsp-ts-utils"
-    -- ts_utils.setup_client(client)
+  if client.name == "null-ls" then
+    client.server_capabilities.documentFormatting = false
   end
+
+  -- if client.name == "tsserver" then
+  --   -- local ts_utils = require "nvim-lsp-ts-utils"
+  --   -- ts_utils.setup_client(clientj
+  --   --
+  --   client.server_capabilities.documentFormatting = false
+  --   client.server_capabilities.document_range_formatting = false
+  -- end
+  --
+  -- if client.name == "stylelint_lsp" then
+  --   client.server_capabilities.documentFormatting = false
+  --   client.server_capabilities.document_range_formatting = false
+  -- end
 
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
-  if client.resolved_capabilities.document_highlight then
-    require("config.lsp.highlight").setup()
-  end
+  -- if client.server_capabilities.document_highlight then
+  -- require("config.lsp.highlight").setup()
+  -- end
 
   -- Mappings.
-  telemap("n", "<leader>gr", "lsp_references")
-
   nnoremap { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" }
   nnoremap { "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>" }
   nnoremap { "<leader>gv", ":vsp<cr> <cmd>lua vim.lsp.buf.definition()<CR>" }
