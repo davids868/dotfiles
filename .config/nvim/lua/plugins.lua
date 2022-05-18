@@ -23,6 +23,13 @@ local function plugins(use)
       "folke/lua-dev.nvim",
     },
   }
+  use "jose-elias-alvarez/null-ls.nvim"
+  use {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup {}
+    end,
+  }
 
   use {
     disable = true,
@@ -35,7 +42,6 @@ local function plugins(use)
   }
 
   use {
-    disable = true,
     "tami5/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
     -- cmd = {"Lspsaga"},
     config = function()
@@ -52,14 +58,14 @@ local function plugins(use)
 
   use {
     "ThePrimeagen/refactoring.nvim",
+    disable = false,
     requires = {
       { "nvim-lua/plenary.nvim" },
-      { "nvim-treesitter/nvim-treesitter" },
     },
   }
   use {
     "ThePrimeagen/harpoon",
-    keys = { "<space>hh" },
+    module = { "harpoon.ui", "harpoon.mark" },
     requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
     setup = function()
       local nnoremap = require("utils.mappers").nnoremap
@@ -175,12 +181,6 @@ local function plugins(use)
       }
     end,
     after = "nvim-ts-context-commentstring",
-    -- requires = {
-    --     {
-    --         "JoosepAlviste/nvim-ts-context-commentstring",
-    --         after = "nvim-treesitter"
-    --     }
-    -- }
   }
 
   use {
@@ -201,11 +201,18 @@ local function plugins(use)
   }
 
   use {
-    disable = true,
-    "olimorris/persisted.nvim",
+    "kwkarlwang/bufresize.nvim",
     config = function()
-      require("persisted").setup {
-        autoload = true,
+      require("bufresize").setup {
+        register = {
+          keys = {},
+          trigger_events = { "BufWinEnter", "WinEnter" },
+        },
+        resize = {
+          keys = {},
+          trigger_events = { "VimResized" },
+          increment = false,
+        },
       }
     end,
   }
@@ -221,19 +228,16 @@ local function plugins(use)
   use "mg979/vim-visual-multi"
   use "svermeulen/vim-cutlass"
   use { "jpalardy/vim-slime", cmd = { "SlimeConfig" } }
-  use { "folke/todo-comments.nvim", config = [[require("config.todo-comments")]] }
   use { "rafcamlet/nvim-luapad" }
   use "jparise/vim-graphql"
   use "sunjon/Shade.nvim"
-
-  -- TODO: figure out if useful
-  -- use { "vuki656/package-info.nvim", config = {"require('package-info').setup()"} }
 
   -- Markdown
   -- use "mattn/calendar-vim"
   use "renerocksai/calendar-vim"
   use "reedes/vim-pencil"
-  use "plasticboy/vim-markdown"
+  use { disable = true, "preservim/vim-markdown" }
+
   use {
     "iamcco/markdown-preview.nvim",
     run = function()
@@ -385,10 +389,7 @@ local function plugins(use)
       local home = vim.fn.expand "~/zettelkasten"
       require("telekasten").setup {
         home = home,
-        -- if true, telekasten will be enabled when opening a note within the configured home
         take_over_my_home = true,
-        -- auto-set telekasten filetype: if false, the telekasten filetype will not be used
-        --                               and thus the telekasten syntax will not be loaded either
         auto_set_filetype = true,
         dailies = home .. "/" .. "daily",
         weeklies = home .. "/" .. "weekly",
@@ -404,49 +405,18 @@ local function plugins(use)
         image_link_style = "markdown",
         plug_into_calendar = true,
         calendar_opts = {
-          -- calendar week display mode: 1 .. 'WK01', 2 .. 'WK 1', 3 .. 'KW01', 4 .. 'KW 1', 5 .. '1'
           weeknm = 4,
           calendar_monday = 1,
-          -- calendar mark: where to put mark for marked days: 'left', 'right', 'left-fit'
           calendar_mark = "left-fit",
         },
-        -- telescope actions behavior
         close_after_yanking = false,
         insert_after_inserting = true,
         tag_notation = "#tag",
         command_palette_theme = "dropdown",
         show_tags_theme = "dropdown",
         subdirs_in_links = true,
-        -- template_handling
-        -- What to do when creating a new note via `new_note()` or `follow_link()`
-        -- to a non-existing note
-        -- - prefer_new_note: use `new_note` template
-        -- - smart: if day or week is detected in title, use daily / weekly templates (default)
-        -- - always_ask: always ask before creating a note
         template_handling = "smart",
-        -- path handling:
-        --   this applies to:
-        --     - new_note()
-        --     - new_templated_note()
-        --     - follow_link() to non-existing note
-        --
-        --   it does NOT apply to:
-        --     - goto_today()
-        --     - goto_thisweek()
-        --
-        --   Valid options:
-        --     - smart: put daily-looking notes in daily, weekly-looking ones in weekly,
-        --              all other ones in home, except for notes/with/subdirs/in/title.
-        --              (default)
-        --
-        --     - prefer_home: put all notes in home except for goto_today(), goto_thisweek()
-        --                    except for notes with subdirs/in/title.
-        --
-        --     - same_as_current: put all new notes in the dir of the current note if
-        --                        present or else in home
-        --                        except for notes/with/subdirs/in/title.
         new_note_location = "smart",
-        -- should all links be updated when a file is renamed
         rename_update_links = true,
       }
     end,
@@ -503,6 +473,7 @@ local function plugins(use)
   }
 
   use {
+    -- disable = true,
     "nvim-telescope/telescope.nvim",
     -- opt = true,
     -- cmd = {"Telescope"},
@@ -515,11 +486,16 @@ local function plugins(use)
       "nvim-telescope/telescope-fzy-native.nvim",
       -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
     },
+    -- module = "config.telescope",
+    -- setup = function()
+    -- end,
     config = function()
       require "config.telescope"
       require "config.telescope.mapping"
     end,
   }
+
+  use { "michaelb/sniprun", run = "bash ./install.sh" }
 
   use {
     disable = true, -- TODO: enable or remove
@@ -577,16 +553,12 @@ local function plugins(use)
     event = "BufRead",
     config = [[require("config.treesitter")]],
     requires = {
-      -- "JoosepAlviste/nvim-ts-context-commentstring",
+      "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
   }
 
   use { "windwp/nvim-ts-autotag", opt = true, after = "nvim-treesitter" }
-  use {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    after = "nvim-treesitter",
-  }
 
   -- Git
   use {
@@ -696,30 +668,6 @@ local function plugins(use)
   }
 
   use {
-    "glepnir/zephyr-nvim",
-    disable = true,
-    config = function()
-      require "zephyr"
-      local zephyr = require "zephyr"
-      zephyr.highlight("Tabline", { fg = zephyr.base6, bg = zephyr.base2 })
-      zephyr.highlight("TabLineFill", { fg = zephyr.base6, bg = zephyr.base2 })
-      zephyr.highlight("TabLineSel", { fg = zephyr.blue, bg = zephyr.bg })
-      vim.cmd "colorscheme zephyr"
-    end,
-  }
-
-  -- TODO: check
-  -- use(
-  --     {
-  --         "TimUntersberger/neogit",
-  --         cmd = "Neogit",
-  --         config = function()
-  --             require("config.neogit")
-  --         end
-  --     }
-  -- )
-
-  use {
     "folke/zen-mode.nvim",
     cmd = "ZenMode",
     opt = true,
@@ -744,6 +692,7 @@ local function plugins(use)
     config = function()
       require("session_manager").setup {
         autoload_mode = require("session_manager.config").AutoloadMode.CurrentDir,
+        autosave_only_in_session = true,
       }
     end,
   }
