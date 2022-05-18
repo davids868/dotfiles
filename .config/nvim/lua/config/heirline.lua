@@ -138,15 +138,9 @@ function M.setup()
       end
     end,
     hl = { fg = utils.get_highlight("Directory").fg },
-    utils.make_flexible_component(2, {
-      provider = function(self)
-        return self.lfilename
-      end,
-    }, {
-      provider = function(self)
-        return vim.fn.pathshorten(self.lfilename)
-      end,
-    }),
+    provider = function(self)
+      return self.lfilename
+    end,
   }
 
   local FileFlags = {
