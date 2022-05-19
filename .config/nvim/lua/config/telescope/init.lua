@@ -46,6 +46,7 @@ require("telescope").setup {
         ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
       },
       n = {
+        ["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
         ["<Space>q"] = actions.close,
       },
     },
