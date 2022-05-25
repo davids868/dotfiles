@@ -650,22 +650,10 @@ local function plugins(use)
 
   -- color schemes
 
-  use {
-    "folke/tokyonight.nvim",
-    disable = true,
-    config = function()
-      vim.g.tokyonight_style = "night"
-      vim.cmd "colorscheme tokyonight"
-    end,
-  }
+  use { "rebelot/kanagawa.nvim", }
 
-  use {
-    "rebelot/kanagawa.nvim",
-    disable = false,
-    -- config = function()
-    --     vim.cmd("colorscheme kanagawa")
-    -- end
-  }
+  use { 'Mofiqul/dracula.nvim' }
+
 
   use {
     "folke/zen-mode.nvim",
