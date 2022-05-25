@@ -4,4 +4,7 @@ vim.fn.sign_define("DiagnosticSignInfo", { text = "", texthl = "DiagnosticSig
 vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
 
 vim.cmd "highlight WinSeparator guibg=None guifg=#54546D"
-vim.cmd "colorscheme kanagawa"
+
+if pcall(require, "kanagawa") then
+  vim.cmd "colorscheme kanagawa"
+end
