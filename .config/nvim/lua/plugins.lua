@@ -695,6 +695,7 @@ local function plugins(use)
         autosave_only_in_session = true,
       }
     end,
+    require = { "nvim-lua/plenary.nvim" },
   }
 
   use {
