@@ -31,7 +31,6 @@ opt.colorcolumn = "80"
 opt.signcolumn = "yes"
 -- opt.winminwidth = 5
 opt.background = "dark"
-opt.showtabline = 2
 opt.laststatus = 3
 
 -- needs testing
