@@ -1,4 +1,4 @@
-.DS_Store
+k.DS_Store
 .netrwhist
 yarn
 .mypy_cache
@@ -22,3 +22,4 @@ yarn
 */pgcli/history
 */pgcli/log
 
+.hammerspoon/init.lua
