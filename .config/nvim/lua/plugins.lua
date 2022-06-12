@@ -9,8 +9,6 @@ local function plugins(use)
   use { "nvim-lua/plenary.nvim", module = "plenary" }
   use { "nvim-lua/popup.nvim", module = "popup" }
 
-  use { "dstein64/vim-startuptime", cmd = "StartupTime" }
-
   -- LSP
   use {
     "neovim/nvim-lspconfig",
@@ -32,16 +30,6 @@ local function plugins(use)
   }
 
   use {
-    disable = true,
-    "folke/trouble.nvim",
-    event = "BufReadPre",
-    cmd = { "TroubleToggle", "Trouble" },
-    config = function()
-      require("trouble").setup { auto_open = false }
-    end,
-  }
-
-  use {
     "tami5/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
     -- cmd = {"Lspsaga"},
     config = function()
@@ -58,7 +46,7 @@ local function plugins(use)
 
   use {
     "ThePrimeagen/refactoring.nvim",
-    disable = false,
+    disable = true,
     requires = {
       { "nvim-lua/plenary.nvim" },
     },
@@ -217,11 +205,6 @@ local function plugins(use)
     end,
   }
 
-  use {
-    "AndrewRadev/splitjoin.vim",
-    keys = { "gJ", "gS" },
-  }
-
   use "tpope/vim-repeat"
   use "tpope/vim-surround"
   use "kevinhwang91/nvim-bqf"
@@ -230,7 +213,6 @@ local function plugins(use)
   use { "jpalardy/vim-slime", cmd = { "SlimeConfig" } }
   use { "rafcamlet/nvim-luapad" }
   use "jparise/vim-graphql"
-  use "sunjon/Shade.nvim"
 
   -- Markdown
   -- use "mattn/calendar-vim"
@@ -518,17 +500,6 @@ local function plugins(use)
   }
 
   use {
-    disable = true,
-    "NTBBloodbath/galaxyline.nvim",
-    branch = "main",
-    config = function()
-      require "config.galaxyline"
-      -- require("galaxyline.themes.eviline")
-    end,
-    requires = "kyazdani42/nvim-web-devicons",
-  }
-
-  use {
     "rebelot/heirline.nvim",
     -- event = {"VimEnter"},
     config = function()
@@ -650,10 +621,9 @@ local function plugins(use)
 
   -- color schemes
 
-  use { "rebelot/kanagawa.nvim", }
+  use { "rebelot/kanagawa.nvim" }
 
-  use { 'Mofiqul/dracula.nvim' }
-
+  use { "Mofiqul/dracula.nvim" }
 
   use {
     "folke/zen-mode.nvim",
