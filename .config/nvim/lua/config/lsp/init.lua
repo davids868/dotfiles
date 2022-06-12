@@ -1,5 +1,4 @@
 require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
--- lequire "config.lsp.diagnostics"
 local nvim_lsp = require "lspconfig"
 
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
@@ -45,24 +44,7 @@ local on_attach = function(client, bufnr)
     client.server_capabilities.documentFormatting = false
   end
 
-  -- if client.name == "tsserver" then
-  --   -- local ts_utils = require "nvim-lsp-ts-utils"
-  --   -- ts_utils.setup_client(clientj
-  --   --
-  --   client.server_capabilities.documentFormatting = false
-  --   client.server_capabilities.document_range_formatting = false
-  -- end
-  --
-  -- if client.name == "stylelint_lsp" then
-  --   client.server_capabilities.documentFormatting = false
-  --   client.server_capabilities.document_range_formatting = false
-  -- end
-
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
-
-  -- if client.server_capabilities.document_highlight then
-  -- require("config.lsp.highlight").setup()
-  -- end
 
   -- Mappings.
   nnoremap { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" }
@@ -70,13 +52,8 @@ local on_attach = function(client, bufnr)
   nnoremap { "<leader>gv", ":vsp<cr> <cmd>lua vim.lsp.buf.definition()<CR>" }
   nnoremap { "<leader>gx", ":sp<cr> <cmd>lua vim.lsp.buf.definition()<CR>" }
   nnoremap { "<leader>gt", ":tab split<cr><cmd>lua vim.lsp.buf.definition()<CR>" }
-  -- nnoremap {"<leader>gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>"}
-  -- nnoremap {"<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>"}
-  -- nnoremap {"<leader>i", "vim.lsp.diagnostic.show_line_diagnostics()<CR>"}
-  nnoremap { "<leader>dq", "<cmd>lua vim.lsp.diagnostic.set_qflist()<CR>" }
 
-  nnoremap { "<leader>gi", "<cmd>lua require('lspsaga.provider').lsp_finder()<CR>" }
-  nnoremap { "K", "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>" }
+  nnoremap { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }
   -- nnoremap {"K", "vim.lsp.buf.hover()"}
   nnoremap { "<leader>i", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>" }
   nnoremap { "gp", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>" }
@@ -85,17 +62,15 @@ local on_attach = function(client, bufnr)
   nnoremap { "<leader>a", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>" }
   vnoremap { "<leader>a", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>" }
 
-  nnoremap { "<leader>dd", "<cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>" }
-  nnoremap { "[d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>" }
-  nnoremap { "]d", "<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>" }
-  -- nnoremap {"<C-u>", "require('lspsaga.action').smart_scroll_with_saga(-1)"}
-  -- nnoremap {"<C-d>", "require('lspsaga.action').smart_scroll_with_saga(1)"}
+  nnoremap { "<leader>dd", "<cmd>lua vim.diagnostic.open_float()<CR>" }
+  nnoremap { "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>" }
+  nnoremap { "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>" }
 end
 
 require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
 require("config.lsp.null-ls").setup(on_attach)
 
-vim.notify = function(msg, log_level, _opts)
+vim.notify = function(msg, log_level, _)
   if msg:match "exit code" then
     return
   end
