@@ -34,6 +34,7 @@ M.setup = function(on_attach)
       null_ls.builtins.formatting.prettier.with {
         prefer_local = "node_modules/.bin",
       },
+      null_ls.builtins.formatting.nixfmt,
     },
   }
 end
