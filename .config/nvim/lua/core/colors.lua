@@ -6,5 +6,9 @@ vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSig
 vim.cmd "highlight WinSeparator guibg=None guifg=#54546D"
 
 if pcall(require, "kanagawa") then
+  require("kanagawa").setup {
+    globalStatus = true,
+  }
+
   vim.cmd "colorscheme kanagawa"
 end

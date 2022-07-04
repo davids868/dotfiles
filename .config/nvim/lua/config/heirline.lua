@@ -599,7 +599,9 @@ function M.setup()
           filetype = { "^git.*", "fugitive" },
         }
       end,
-      provider = "",
+      init = function()
+        vim.opt_local.winbar = nil
+      end,
     },
     { -- A special winbar for terminals
       condition = function()
