@@ -31,7 +31,10 @@
   { "," "System Preferences" }
   { :n "Notes" }
   { :o "Orion" }
-  { :g "Gmail" }
+  { :g "OnfidoGmail" }
   { :a "AWS VPN Client" }
   { :p "1Password 7" }
+  { :y "YouTube" }
+  { :k "Monkeytype" }
+  { :z "zoom.us" }
   ])
