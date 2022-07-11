@@ -16,7 +16,7 @@ zstyle ':autocomplete:*' insert-unambiguous yes
 zstyle ':autocomplete:*' widget-style menu-select
 
 
-znap source marlonrichert/zsh-autocomplete
+# znap source marlonrichert/zsh-autocomplete
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 
@@ -25,17 +25,19 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export MANPAGER=more
 
 # fancy prompt
-znap eval starship 'starship init zsh --print-full-init'
+znap prompt sindresorhus/pure
 
 # simple prompt
 # autoload -U colors && colors	# Load colors
 # PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}"$'\n'"$%b "
 
-znap prompt
+# znap prompt
 
 # setopt autocd		# Automatically cd into typed directory.
 # stty stop undef		# Disable ctrl-s to freeze terminal.
 # setopt interactive_comments
+
+export FZF_CTRL_T_COMMAND="fd --hidden --follow --exclude '.git' --exclude 'node_modules'"
 
 # History in cache directory:
 export HISTSIZE=1000000   # the number of items for the internal history list
@@ -65,9 +67,6 @@ else
 fi
 
 export XDG_CONFIG_HOME=$HOME/.config
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # 10ms for key sequences
 KEYTIMEOUT=10
@@ -238,21 +237,22 @@ eval "$(direnv hook zsh)"
 fpath=(${ASDF_DIR}/completions $fpath)
 
 # Aliases
-alias ..='cd ..'
-alias ...='cd ../..'
+alias cd=z
 alias ls='exa'
 alias ll='exa -lbsnew'
 alias la='exa -lbasnew'
 alias kk='k9s -c ctx'
-# alias cat=bat
+alias kprod='k9s --context prod-eu'
+alias kdev='k9s --context dev'
+alias kpre='k9s --context pre-prod'
+alias cat=bat
 alias conf='cd ~/.config'
 alias wiki='nvim -c VimwikiIndex'
 alias lg=lazygit
 alias cdr="cd $(git rev-parse --show-toplevel)"
-alias btm="btm --color=gruvbox --basic"
 
 # vim
-alias p='nvim `fzf --preview="bat --color always {}"`'
+alias p='nvim `fzf`'
 
 # Git
 alias gst='git status -sb'
@@ -273,5 +273,12 @@ alias dcdn='docker compose down'
 alias dcpull='docker compose pull'
 alias dcstart='docker compose start'
 
+# jrnl
+alias j='jrnl'
+alias je='j --edit'
+alias jel='je -1'
+alias jo='jrnl --format fancy -on'
+alias jot='jrnl --format fancy -on today'
+alias joy='jrnl --format fancy -on yesterday'
 
 export PATH="$HOME/.poetry/bin:$PATH"
