@@ -1,3 +1,35 @@
+require"nvim-lsp-installer".setup {automatic_installation = true}
+
+-- {{{ Temp. fix for nvim-lsp-installer not getting PATHs right
+-- (I know this isn't that good, but it will work for me, until the issue gets fixed)
+--
+
+-- Set some variables
+local nvimDataFolder = os.getenv("XDG_DATA_HOME")
+local lspFolder      = nvimDataFolder .. "/nvim/lsp_servers/"
+vim.fn.setenv("LSP_FOLDER", lspFolder)
+
+-- Paths for all the LSPs I installed
+local paths = {
+  os.getenv("PATH"),
+  lspFolder .. "vimls/node_modules/.bin/",
+  lspFolder .. "jsonls/node_modules/.bin/",
+  lspFolder .. "solargraph/bin/",
+  lspFolder .. "cssls/node_modules/.bin/",
+  lspFolder .. "pyright/node_modules/.bin/",
+  lspFolder .. "tsserver/node_modules/.bin/",
+  lspFolder .. "stylelint_lsp/node_modules/.bin/",
+  lspFolder .. "sumneko_lua/extension/server/bin/",
+  lspFolder .. "terraformls/",
+  lspFolder .. "gopls/",
+  lspFolder .. "clangd/clangd/bin",
+  lspFolder .. "rnix/bin",
+}
+
+-- Add all lsp paths to the $PATH
+vim.fn.setenv("PATH", table.concat(paths, ":") )
+-- }}}
+
 require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
 local nvim_lsp = require "lspconfig"
 

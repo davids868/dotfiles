@@ -79,6 +79,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
   nvim_lsp.gopls.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.terraformls.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.clangd.setup { on_attach = on_attach, capabilities = capabilities }
+  nvim_lsp.rnix.setup { on_attach = on_attach, capabilities = capabilities }
 
   -- setup_diagls(nvim_lsp, on_attach)
 

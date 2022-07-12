@@ -11,15 +11,18 @@ local function plugins(use)
 
   -- LSP
   use {
-    "neovim/nvim-lspconfig",
-    opt = true,
-    event = "BufReadPre",
-    config = [[require("config.lsp")]],
-    requires = {
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
-      "jose-elias-alvarez/null-ls.nvim",
-      "folke/lua-dev.nvim",
-    },
+    "williamboman/nvim-lsp-installer",
+    {
+      "neovim/nvim-lspconfig",
+      opt = true,
+      event = "BufReadPre",
+      config = [[require("config.lsp")]],
+      requires = {
+        "jose-elias-alvarez/nvim-lsp-ts-utils",
+        "jose-elias-alvarez/null-ls.nvim",
+        "folke/lua-dev.nvim",
+      },
+    }
   }
   use "jose-elias-alvarez/null-ls.nvim"
   use {
@@ -509,6 +512,7 @@ local function plugins(use)
 
   -- TODO: replace with something better
   use {
+    disable = true,
     "kyazdani42/nvim-tree.lua",
     config = require("config.tree").config,
     setup = require("config.tree").setup,
@@ -516,6 +520,25 @@ local function plugins(use)
   }
 
   use "elihunter173/dirbuf.nvim"
+
+  use {
+    "luukvbaal/nnn.nvim",
+    config = function()
+      local builtin = require("nnn").builtin
+      mappings = {
+        { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
+        { "<C-s>", builtin.open_in_split },     -- open file(s) in split
+        { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
+        { "<C-p>", builtin.open_in_preview },   -- open file in preview split keeping nnn focused
+        { "l", builtin.open },   -- open file in preview split keeping nnn focused
+        { "<C-y>", builtin.copy_to_clipboard }, -- copy file(s) to clipboard
+        { "<C-w>", builtin.cd_to_path },        -- cd to file directory
+        { "<C-e>", builtin.populate_cmdline },  -- populate cmdline (:) with file(s)
+      }
+      require("nnn").setup({ picker = { cmd = 'nnn -dH' } , mappings = mappings })
+      require("utils.mappers").nnoremap { "<leader>n", ":NnnPicker %<CR>" }
+    end
+  }
 
   use {
     "nvim-treesitter/nvim-treesitter",
