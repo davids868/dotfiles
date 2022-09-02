@@ -5,8 +5,13 @@
 (hs.alert.show "Hammerspoon Loaded" 0.4)
 
 ; use the SpoonInstall Spoon easy installing+loading of Spoons
-;; (hs.loadSpoon :SpoonInstall)
-;; (local install (. spoon :SpoonInstall))
+(hs.loadSpoon :SpoonInstall)
+(local install (. spoon :SpoonInstall))
+(: install :andUse :HoldToQuit)
+
+(set spoon.HoldToQuit.duration 0.5)
+(: spoon.HoldToQuit :init)
+(: spoon.HoldToQuit :start)
 
 (fn launch [application]
   (fn []
@@ -24,17 +29,18 @@
 (launchers [
   { :t "alacritty" }
   { :c "Google Chrome" }
-  { :v "VMware Fusion" }
+  { :v "NixOS" }
   { :s "Slack" }
   { :m "Spotify" }
   { :w "whatsapp" }
   { "," "System Preferences" }
-  { :n "Notes" }
+  { :n "Notion" }
   { :o "Orion" }
   { :g "OnfidoGmail" }
   { :a "AWS VPN Client" }
-  { :p "1Password 7" }
+  { :p "1Password" }
   { :y "YouTube" }
   { :k "Monkeytype" }
   { :z "zoom.us" }
+  { :e "excalidraw" }
   ])

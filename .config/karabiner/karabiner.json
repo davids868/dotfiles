@@ -8,10 +8,10 @@
         {
             "complex_modifications": {
                 "parameters": {
-                    "basic.simultaneous_threshold_milliseconds": 20,
+                    "basic.simultaneous_threshold_milliseconds": 200,
                     "basic.to_delayed_action_delay_milliseconds": 500,
                     "basic.to_if_alone_timeout_milliseconds": 500,
-                    "basic.to_if_held_down_threshold_milliseconds": 500,
+                    "basic.to_if_held_down_threshold_milliseconds": 1000,
                     "mouse_motion_to_scroll.speed": 100
                 },
                 "rules": [
@@ -268,6 +268,19 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 834,
+                        "vendor_id": 1452
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": true,
+                    "simple_modifications": []
                 }
             ],
             "fn_function_keys": [
@@ -397,7 +410,62 @@
                 "delay_milliseconds_before_open_device": 1000
             },
             "selected": false,
-            "simple_modifications": [],
+            "simple_modifications": [
+                {
+                    "from": {
+                        "key_code": "right_command"
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_control"
+                        }
+                    ]
+                },
+                {
+                    "from": {
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        },
+                        "simultaneous": [
+                            {
+                                "key_code": "d"
+                            },
+                            {
+                                "key_code": "f"
+                            }
+                        ]
+                    },
+                    "to": [
+                        {
+                            "key_code": "tab"
+                        }
+                    ]
+                },
+                {
+                    "from": {
+                        "modifiers": {
+                            "optional": [
+                                "any"
+                            ]
+                        },
+                        "simultaneous": [
+                            {
+                                "key_code": "j"
+                            },
+                            {
+                                "key_code": "k"
+                            }
+                        ]
+                    },
+                    "to": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ]
+                }
+            ],
             "virtual_hid_keyboard": {
                 "country_code": 0,
                 "indicate_sticky_modifier_keys_state": true,
