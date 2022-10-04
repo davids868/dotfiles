@@ -25,6 +25,7 @@ local config = {
 }
 
 M.setup = function(fn)
+  vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "12.5")
   bootstrap()
 
   local packer = require "packer"
