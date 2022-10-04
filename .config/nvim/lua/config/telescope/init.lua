@@ -145,7 +145,7 @@ end
 
 function M.live_grep()
   builtin.live_grep {
-    file_ignore_patterns = { ".git/*" },
+    file_ignore_patterns = { ".git/*", "tags" },
   }
 end
 
