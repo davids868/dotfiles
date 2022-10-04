@@ -71,15 +71,24 @@ configs[server_name] = {
 local setup = function(nvim_lsp, on_attach, capabilities)
   -- nvim_lsp.efm.setup {on_attach = on_attach, capabilities = capabilities}
   nvim_lsp.vimls.setup { on_attach = on_attach, capabilities = capabilities }
-  nvim_lsp.tsserver.setup { on_attach = on_attach, capabilities = capabilities }
+  nvim_lsp.tsserver.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_dir = function (pattern)
+      local root = util.root_pattern("package.json", "tsconfig.json", ".git")(pattern);
+      return root or vim.loop.cwd();
+    end
+  }
   nvim_lsp.solargraph.setup { on_attach = on_attach, capabilities = capabilities }
   -- nvim_lsp.sorbet.setup {on_attach = on_attach, capabilities = capabilities}
   nvim_lsp.jsonls.setup { on_attach = on_attach, capabilities = capabilities }
   -- nvim_lsp.graphql.setup {on_attach = on_attach, capabilities = capabilities}
   nvim_lsp.gopls.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.terraformls.setup { on_attach = on_attach, capabilities = capabilities }
-  nvim_lsp.clangd.setup { on_attach = on_attach, capabilities = capabilities }
+  -- nvim_lsp.clangd.setup { on_attach = on_attach, capabilities = capabilities }
+  nvim_lsp.ccls.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.rnix.setup { on_attach = on_attach, capabilities = capabilities }
+  -- nvim_lsp.typeprof.setup { on_attach = on_attach, capabilities = capabilities }
 
   -- setup_diagls(nvim_lsp, on_attach)
 
@@ -114,7 +123,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     settings = {
       python = {
         pythonPath = vim.env.VIRTUAL_PYTHON_PATH,
-        venvPath = "/Users/david.sapiro/Library/Caches/pypoetry/virtualenvs/",
+        venvPath = "/home/davids/.cache/pypoetry/virtualenvs/",
         analysis = {
           autoSearchPaths = true,
           useLibraryCodeForTypes = true,

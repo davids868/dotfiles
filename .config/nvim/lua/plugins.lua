@@ -11,7 +11,8 @@ local function plugins(use)
 
   -- LSP
   use {
-    "williamboman/nvim-lsp-installer",
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
     {
       "neovim/nvim-lspconfig",
       opt = true,
@@ -33,17 +34,18 @@ local function plugins(use)
   }
 
   use {
-    "tami5/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
+    "glepnir/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
     -- cmd = {"Lspsaga"},
     config = function()
       require("lspsaga").init_lsp_saga {
-        code_action_prompt = {
+        code_action_lightbulb = {
           enable = true,
-          sign = false,
+          sign = true,
+          enable_in_insert = false,
           sign_priority = 20,
-          virtual_text = true,
-        },
-      }
+          virtual_text = false,
+      },
+    }
     end,
   }
 
@@ -209,7 +211,16 @@ local function plugins(use)
   }
 
   use "tpope/vim-repeat"
-  use "tpope/vim-surround"
+  use {
+    "kylechui/nvim-surround",
+    config = function()
+      require("nvim-surround").setup()
+      vim.keymap.set("o", "ir", "i[")
+      vim.keymap.set("o", "ar", "a[")
+      vim.keymap.set("o", "ia", "i<")
+      vim.keymap.set("o", "aa", "a<")
+    end
+  }
   use "kevinhwang91/nvim-bqf"
   use "mg979/vim-visual-multi"
   use "svermeulen/vim-cutlass"
@@ -514,8 +525,8 @@ local function plugins(use)
   use {
     disable = true,
     "kyazdani42/nvim-tree.lua",
-    config = require("config.tree").config,
-    setup = require("config.tree").setup,
+    -- config = require("config.tree").config,
+    -- setup = require("config.tree").setup,
     cmd = { "NvimTreeToggle" },
   }
 
@@ -530,7 +541,7 @@ local function plugins(use)
         { "<C-s>", builtin.open_in_split },     -- open file(s) in split
         { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
         { "<C-p>", builtin.open_in_preview },   -- open file in preview split keeping nnn focused
-        { "l", builtin.open },   -- open file in preview split keeping nnn focused
+        -- { "l", builtin.open },   -- open file in preview split keeping nnn focused
         { "<C-y>", builtin.copy_to_clipboard }, -- copy file(s) to clipboard
         { "<C-w>", builtin.cd_to_path },        -- cd to file directory
         { "<C-e>", builtin.populate_cmdline },  -- populate cmdline (:) with file(s)
@@ -541,6 +552,7 @@ local function plugins(use)
   }
 
   use {
+    -- disable = true, -- TODO: enable or remove
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
     opt = true,
@@ -549,6 +561,7 @@ local function plugins(use)
     requires = {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
+      "nvim-treesitter/nvim-treesitter-context"
     },
   }
 
@@ -572,8 +585,8 @@ local function plugins(use)
         nnoremap { "<leader>df", ":Gvdiffsplit origin/master<CR>" }
         nnoremap { "<leader>dv", ":DiffviewOpen<CR>" }
         nnoremap { "<leader>dm", ":DiffviewOpen origin/master<CR>" }
-        nnoremap { "<leader>fh", ":DiffviewFileHistory<CR>" }
-        nnoremap { "<leader>bc", ":DiffviewFileHistory<CR>" }
+        nnoremap { "<leader>fh", ":DiffviewFileHistory %<CR>" }
+        nnoremap { "<leader>bc", ":DiffviewFileHistory %<CR>" }
         nnoremap { "<leader>dl", ":diffget //3<CR>" }
         nnoremap { "<leader>dh", ":diffget //2<CR>" }
         nnoremap { "<leader>gs", ":tab G<CR>" }

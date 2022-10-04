@@ -1,4 +1,7 @@
-require"nvim-lsp-installer".setup {automatic_installation = true}
+require("mason").setup()
+require("mason-lspconfig").setup {
+    automatic_installation = true
+}
 
 -- {{{ Temp. fix for nvim-lsp-installer not getting PATHs right
 -- (I know this isn't that good, but it will work for me, until the issue gets fixed)
@@ -22,8 +25,11 @@ local paths = {
   lspFolder .. "sumneko_lua/extension/server/bin/",
   lspFolder .. "terraformls/",
   lspFolder .. "gopls/",
-  lspFolder .. "clangd/clangd/bin",
+  -- lspFolder .. "clangd/clangd/bin",
+  lspFolder .. "ccls/ccls/bin",
   lspFolder .. "rnix/bin",
+  lspFolder .. "prettier/node_modules/.bin/",
+  lspFolder .. "stylua/",
 }
 
 -- Add all lsp paths to the $PATH
@@ -51,11 +57,11 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 local lsp_formatting = function(bufnr)
   vim.lsp.buf.format {
-    filter = function(clients)
-      return vim.tbl_filter(function(client)
-        return client.name ~= "tsserver"
-      end, clients)
-    end,
+    -- filter = function(clients)
+    --   return vim.tbl_filter(function(client)
+    --     return client.name ~= "tsserver"
+    --   end, clients)
+    -- end,
     bufnr = bufnr,
   }
 end
@@ -72,9 +78,9 @@ local on_attach = function(client, bufnr)
     })
   end
 
-  if client.name == "null-ls" then
-    client.server_capabilities.documentFormatting = false
-  end
+  -- if client.name == "null-ls" then
+  --   client.server_capabilities.documentFormatting = false
+  -- end
 
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -90,13 +96,15 @@ local on_attach = function(client, bufnr)
   nnoremap { "<leader>i", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>" }
   nnoremap { "gp", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>" }
 
-  nnoremap { "<leader>rn", "<cmd>lua require('lspsaga.rename').rename()<CR>" }
+  nnoremap { "<leader>rn", "<cmd>Lspsaga rename<CR>", { silent = true } }
   nnoremap { "<leader>a", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>" }
   vnoremap { "<leader>a", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>" }
 
   nnoremap { "<leader>dd", "<cmd>lua vim.diagnostic.open_float()<CR>" }
   nnoremap { "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>" }
   nnoremap { "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>" }
+
+  nnoremap { "<leader>ia", "<cmd>TSLspImportAll<CR>" }
 end
 
 require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
