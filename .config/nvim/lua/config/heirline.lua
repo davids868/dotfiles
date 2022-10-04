@@ -583,7 +583,7 @@ function M.setup()
         }
       end
     end,
-    init = utils.pick_child_on_condition,
+    fallthrough = false,
     SpecialStatusline,
     TerminalStatusline,
     InactiveStatusline,
@@ -591,7 +591,7 @@ function M.setup()
   }
 
   local WinBars = {
-    init = utils.pick_child_on_condition,
+    fallthrough = false,
     { -- Hide the winbar for special buffers
       condition = function()
         return conditions.buffer_matches {
