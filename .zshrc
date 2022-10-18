@@ -63,7 +63,7 @@ bindkey "^N" down-line-or-history
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='nvim'
+  export EDITOR='nvim --clean -u ~/.vimrc'
 fi
 
 export XDG_CONFIG_HOME=$HOME/.config
@@ -111,7 +111,7 @@ n ()
 }
 
 # C
-export CC=/usr/local/Cellar/gcc/11.2.0_3/bin/gcc-11
+export CC=/usr/local/Cellar/gcc/12.2.0/bin/gcc-12
 
 # golang
 export GOPATH=$HOME/dev/go
@@ -124,14 +124,20 @@ export KERL_BUILD_DOCS="yes"
 
 # python
 export PYTHONBREAKPOINT=ipdb.set_trace
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 venv() {
-  export VIRTUAL_PYTHON_PATH=$(poetry env info --path)/bin/python
+  export VENV_PATH=$(poetry env info --path)
 }
 
 # lua
 znap function _luarocks luarocks 'eval "$(luarocks path --bin)"'
 compctl -K    _luarocks luarocks
+
+# Liquibase
+export LIQUIBASE_HOME=/usr/local/opt/liquibase/libexec
 
 export BAT_THEME="TwoDark"
 
@@ -281,4 +287,3 @@ alias jo='jrnl --format fancy -on'
 alias jot='jrnl --format fancy -on today'
 alias joy='jrnl --format fancy -on yesterday'
 
-export PATH="$HOME/.poetry/bin:$PATH"
