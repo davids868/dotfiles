@@ -28,19 +28,20 @@
 
 (launchers [
   { :t "alacritty" }
-  { :c "Google Chrome" }
-  { :v "NixOS" }
+  { :f "Firefox" }
+  { :c "Brave Browser" }
+  { :v "alacritty" }
   { :s "Slack" }
   { :m "Spotify" }
   { :w "whatsapp" }
   { "," "System Preferences" }
   { :n "Notion" }
   { :o "Orion" }
-  { :g "OnfidoGmail" }
+  { :g "Mail" }
   { :a "AWS VPN Client" }
   { :p "1Password" }
   { :y "YouTube" }
   { :k "Monkeytype" }
-  { :z "zoom.us" }
+  { :z "Google Meet" }
   { :e "excalidraw" }
   ])
