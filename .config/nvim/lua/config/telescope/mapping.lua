@@ -22,8 +22,8 @@ nnoremap { "<leader>go", pickers.git_branches }
 nnoremap { "<leader><space>", pickers.commands }
 nnoremap { "<leader>gr", pickers.lsp_references }
 nnoremap { "<leader>D", pickers.diagnostics }
-nnoremap { "<leader>s", pickers.current_buffer_tags }
-nnoremap { "<leader>S", pickers.tags }
+nnoremap { "<leader>s", pickers.lsp_document_symbols }
+nnoremap { "<leader>S", pickers.lsp_dynamic_workspace_symbols }
 nnoremap { "<leader>ht", pickers.help_tags }
 nnoremap { "<leader>ho", pickers.vim_options }
 nnoremap { "<leader>tl", pickers.builtin }

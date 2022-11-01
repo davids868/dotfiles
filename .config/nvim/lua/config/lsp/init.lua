@@ -36,7 +36,7 @@ local paths = {
 vim.fn.setenv("PATH", table.concat(paths, ":") )
 -- }}}
 
-require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
+-- require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
 local nvim_lsp = require "lspconfig"
 
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }

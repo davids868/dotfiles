@@ -19,12 +19,13 @@ local function plugins(use)
       event = "BufReadPre",
       config = [[require("config.lsp")]],
       requires = {
-        "jose-elias-alvarez/nvim-lsp-ts-utils",
+        "jose-elias-alvarez/typescript.nvim",
         "jose-elias-alvarez/null-ls.nvim",
         "folke/lua-dev.nvim",
       },
-    }
+    },
   }
+  use "jose-elias-alvarez/typescript.nvim"
   use "jose-elias-alvarez/null-ls.nvim"
   use {
     "j-hui/fidget.nvim",
@@ -44,8 +45,8 @@ local function plugins(use)
           enable_in_insert = false,
           sign_priority = 20,
           virtual_text = false,
-      },
-    }
+        },
+      }
     end,
   }
 
@@ -183,7 +184,7 @@ local function plugins(use)
       vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
     end,
   }
-  use "ludovicchabant/vim-gutentags"
+  use { disable = true, "ludovicchabant/vim-gutentags" }
 
   use {
     "aserowy/tmux.nvim",
@@ -195,6 +196,8 @@ local function plugins(use)
 
   use {
     "kwkarlwang/bufresize.nvim",
+    disable=true,
+
     config = function()
       require("bufresize").setup {
         register = {
@@ -219,7 +222,7 @@ local function plugins(use)
       vim.keymap.set("o", "ar", "a[")
       vim.keymap.set("o", "ia", "i<")
       vim.keymap.set("o", "aa", "a<")
-    end
+    end,
   }
   use "kevinhwang91/nvim-bqf"
   use "mg979/vim-visual-multi"
@@ -537,18 +540,18 @@ local function plugins(use)
     config = function()
       local builtin = require("nnn").builtin
       mappings = {
-        { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
-        { "<C-s>", builtin.open_in_split },     -- open file(s) in split
-        { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
-        { "<C-p>", builtin.open_in_preview },   -- open file in preview split keeping nnn focused
+        { "<C-t>", builtin.open_in_tab }, -- open file(s) in tab
+        { "<C-s>", builtin.open_in_split }, -- open file(s) in split
+        { "<C-v>", builtin.open_in_vsplit }, -- open file(s) in vertical split
+        { "<C-p>", builtin.open_in_preview }, -- open file in preview split keeping nnn focused
         -- { "l", builtin.open },   -- open file in preview split keeping nnn focused
         { "<C-y>", builtin.copy_to_clipboard }, -- copy file(s) to clipboard
-        { "<C-w>", builtin.cd_to_path },        -- cd to file directory
-        { "<C-e>", builtin.populate_cmdline },  -- populate cmdline (:) with file(s)
+        { "<C-w>", builtin.cd_to_path }, -- cd to file directory
+        { "<C-e>", builtin.populate_cmdline }, -- populate cmdline (:) with file(s)
       }
-      require("nnn").setup({ picker = { cmd = 'nnn -dH' } , mappings = mappings })
+      require("nnn").setup { picker = { cmd = "nnn -dH" }, mappings = mappings }
       require("utils.mappers").nnoremap { "<leader>n", ":NnnPicker %<CR>" }
-    end
+    end,
   }
 
   use {
@@ -561,7 +564,7 @@ local function plugins(use)
     requires = {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-treesitter-context"
+      "nvim-treesitter/nvim-treesitter-context",
     },
   }
 
@@ -582,9 +585,9 @@ local function plugins(use)
         nnoremap { "<leader>gy", ":GBrowse!<CR>" }
         vnoremap { "<leader>ge", ":'<,'>GBrowse<CR>" }
         vnoremap { "<leader>gy", ":'<,'>GBrowse!<CR>" }
-        nnoremap { "<leader>df", ":Gvdiffsplit origin/master<CR>" }
+        nnoremap { "<leader>df", ":Gvdiffsplit origin/HEAD<CR>" }
         nnoremap { "<leader>dv", ":DiffviewOpen<CR>" }
-        nnoremap { "<leader>dm", ":DiffviewOpen origin/master<CR>" }
+        nnoremap { "<leader>dm", ":DiffviewOpen origin/HEAD<CR>" }
         nnoremap { "<leader>fh", ":DiffviewFileHistory %<CR>" }
         nnoremap { "<leader>bc", ":DiffviewFileHistory %<CR>" }
         nnoremap { "<leader>dl", ":diffget //3<CR>" }

@@ -20,8 +20,17 @@ M.setup = function(on_attach)
       null_ls.builtins.diagnostics.zsh,
       null_ls.builtins.diagnostics.hadolint,
       null_ls.builtins.formatting.stylua,
-      null_ls.builtins.formatting.black,
-      null_ls.builtins.formatting.isort,
+      -- null_ls.builtins.diagnostics.pylint.with({
+      --   diagnostics_postprocess = function(diagnostic)
+      --     diagnostic.code = diagnostic.message_id
+      --   end,
+      -- }),
+      null_ls.builtins.formatting.black.with {
+        command = vim.env.VENV_PATH .. "/bin/black",
+      },
+      null_ls.builtins.formatting.isort.with {
+        command = vim.env.VENV_PATH .. "/bin/isort",
+      },
       null_ls.builtins.formatting.buf,
       null_ls.builtins.formatting.gofmt,
       null_ls.builtins.formatting.goimports,

@@ -137,7 +137,7 @@ function M.find_files()
 end
 
 function M.git_files()
-  local ok = pcall(require("telescope.builtin").git_files, dropdown)
+  local ok = pcall(require("telescope.builtin").git_files({ show_untracked = true }), dropdown)
   if not ok then
     require("telescope.builtin").find_files()
   end
