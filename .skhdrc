@@ -77,16 +77,16 @@
 # ############################################################### #
 
 # focus window
-alt - l : yabai -m window --focus east
-alt - k : yabai -m window --focus north
-alt - j : yabai -m window --focus south
-alt - h : yabai -m window --focus west
+cmd + alt - l : yabai -m window --focus east
+cmd + alt - k : yabai -m window --focus north
+cmd + alt - j : yabai -m window --focus south
+cmd + alt - h : yabai -m window --focus west
 
 # swap managed window
-cmd + alt - l : yabai -m window --swap east
-cmd + alt - k : yabai -m window --swap north
-cmd + alt - j : yabai -m window --swap south
-cmd + alt - h : yabai -m window --swap west
+# cmd + alt - l : yabai -m window --swap east
+# cmd + alt - k : yabai -m window --swap north
+# cmd + alt - j : yabai -m window --swap south
+# cmd + alt - h : yabai -m window --swap west
 
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
