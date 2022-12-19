@@ -8,9 +8,6 @@ local nvim_lsp = require "lspconfig"
 
 vim.g.completion_matching_strategy_list = { "exact", "substring", "fuzzy" }
 
-local nnoremap = require("utils.mappers").nnoremap
-local vnoremap = require("utils.mappers").vnoremap
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -54,26 +51,32 @@ local on_attach = function(client, bufnr)
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
   -- Mappings.
-  nnoremap { "gr", "<cmd>lua vim.lsp.buf.references()<CR>" }
-  nnoremap { "<leader>gd", "<cmd>lua vim.lsp.buf.definition()<CR>" }
-  nnoremap { "<leader>gv", ":vsp<cr> <cmd>lua vim.lsp.buf.definition()<CR>" }
-  nnoremap { "<leader>gx", ":sp<cr> <cmd>lua vim.lsp.buf.definition()<CR>" }
-  nnoremap { "<leader>gt", ":tab split<cr><cmd>lua vim.lsp.buf.definition()<CR>" }
+  vim.keymap.set("n", "gr", vim.lsp.buf.references)
+  vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition)
+  vim.keymap.set("n", "<leader>gv", function()
+    vim.cmd "vsp"
+    vim.lsp.buf.definition()
+  end)
+  vim.keymap.set("n", "<leader>gx", function()
+    vim.cmd "sp"
+    vim.lsp.buf.definition()
+  end)
+  vim.keymap.set("n", "<leader>gt", function()
+    vim.cmd "tab split"
+    vim.lsp.buf.definition()
+  end)
 
-  nnoremap { "K", "<cmd>lua vim.lsp.buf.hover()<CR>" }
-  -- nnoremap {"K", "vim.lsp.buf.hover()"}
-  nnoremap { "<leader>i", "<cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>" }
-  nnoremap { "gp", "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>" }
+  vim.keymap.set("n", "K", vim.lsp.buf.hover)
 
-  nnoremap { "<leader>rn", "<cmd>Lspsaga rename<CR>", { silent = true } }
-  nnoremap { "<leader>a", "<cmd>lua require('lspsaga.codeaction').code_action()<CR>" }
-  vnoremap { "<leader>a", "<cmd>'<,'>lua require('lspsaga.codeaction').range_code_action()<CR>" }
+  vim.keymap.set("n", "<leader>rn", ":Lspsaga rename<CR>", { silent = true })
+  vim.keymap.set("n", "<leader>a", ":Lspsaga code_action<CR>")
+  vim.keymap.set("v", "<leader>a", ":Lspsaga range_code_action<CR>")
 
-  nnoremap { "<leader>dd", "<cmd>lua vim.diagnostic.open_float()<CR>" }
-  nnoremap { "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>" }
-  nnoremap { "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>" }
+  vim.keymap.set("n", "<leader>dd", vim.diagnostic.open_float)
+  vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+  vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 
-  nnoremap { "<leader>ia", "<cmd>TSLspImportAll<CR>" }
+  vim.keymap.set("n", "<leader>ia", ":TSLspImportAll<CR>")
 end
 
 require("config.lsp.sources").setup(nvim_lsp, on_attach, capabilities)
