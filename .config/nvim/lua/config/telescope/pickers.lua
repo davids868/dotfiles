@@ -62,7 +62,7 @@ function M.builtin()
 end
 
 function M.find_files()
-  builtin.find_files { no_ignore = true }
+   require "telescope.builtin".find_files { no_ignore = true, hidden = true }
 end
 
 function M.git_files()
