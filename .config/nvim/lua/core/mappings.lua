@@ -50,6 +50,10 @@ nnoremap { "<leader>e", ":e!<CR>" }
 
 -- quickfix
 nnoremap { "<leader>co", ":copen<CR>" }
+nnoremap { "<leader>cn", ":colder<CR>" }
+nnoremap { "<leader>cp", ":cnewer<CR>" }
+nnoremap { "<leader>cj", ":cnext<CR>" }
+nnoremap { "<leader>ck", ":cprev<CR>" }
 
 -- Window resize
 nnoremap { "<M-j>", ":resize -2<CR>" }
