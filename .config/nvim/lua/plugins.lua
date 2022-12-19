@@ -669,7 +669,7 @@ local function plugins(use)
     cmd = "ZenMode",
     opt = true,
     config = function()
-      require("zen-mode").setup {}
+      require("zen-mode").setup { window = { width = 200 } }
     end,
     setup = function()
       require("utils.mappers").nnoremap { "<leader>ze", ":ZenMode<CR>", nil }
