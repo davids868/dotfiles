@@ -16,9 +16,12 @@ g.firenvim_config = {
 }
 
 cmd [[
-au BufEnter gitlab* set filetype=markdown
+au BufEnter github* set filetype=markdown
 if exists('g:started_by_firenvim')
   set laststatus=0
-  set showtabline=1
+  set showtabline=0
+  set signcolumn=no
+  set nonumber
+  set winbar=""
 endif
 ]]

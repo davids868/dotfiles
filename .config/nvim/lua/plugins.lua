@@ -497,7 +497,7 @@ local function plugins(use)
   use { "michaelb/sniprun", run = "bash ./install.sh" }
 
   use {
-    disable = true, -- TODO: enable or remove
+    disable = false, -- TODO: enable or remove
     "glacambre/firenvim",
     run = function()
       vim.fn["firenvim#install"](0)
