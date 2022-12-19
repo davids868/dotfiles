@@ -280,16 +280,16 @@ live_config_reload: true
 key_bindings:
   - { key: N, mods: Super, action: SpawnNewInstance }
   - { key: L, mods: Super, action: ClearLogNotice }
-  - { key: J, mods: Alt, chars: "\ej" }
-  - { key: K, mods: Alt, chars: "\ek" }
-  - { key: H, mods: Alt, chars: "\eh" }
-  - { key: L, mods: Alt, chars: "\el" }
+  - { key: J, mods: Alt|Option, chars: "\ej" }
+  - { key: K, mods: Alt|Option, chars: "\ek" }
+  - { key: H, mods: Alt|Option, chars: "\eh" }
+  - { key: L, mods: Alt|Option, chars: "\el" }
 
-  - { key: Left, mods: Alt, chars: "\eb" }
-  - { key: Right, mods: Alt, chars: "\ee" }
-  - { key: Left, mods: Command, chars: "\eOH", mode: AppCursor }
+  - { key: Left, mods: Alt|Option, chars: "\eb" }
+  - { key: Right, mods: Alt|Option, chars: "\ee" }
+  - { key: Left, mods: Alt|Option, chars: "\eOH", mode: AppCursor }
   # Home
-  - { key: Right, mods: Command, chars: "\eOF", mode: AppCursor }
+  - { key: Right, mods: Alt|Option, chars: "\eOF", mode: AppCursor }
   # End
   # (Windows, Linux, and BSD only)
   #- { key: V,        mods: Control|Shift, action: Paste            }

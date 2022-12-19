@@ -25,6 +25,8 @@ M.setup = function(on_attach)
       --     diagnostic.code = diagnostic.message_id
       --   end,
       -- }),
+      null_ls.builtins.diagnostic.mypy,
+      null_ls.builtins.diagnostic.pylint,
       null_ls.builtins.formatting.black.with {
         command = vim.env.VENV_PATH .. "/bin/black",
       },
