@@ -5,7 +5,7 @@ yarn
 *.log
 
 */nnn/.selection
-*/nnn/plugins
+*/nnn/plugins**
 
 */nvim/session
 */nvim/lua/fnl
@@ -16,12 +16,10 @@ yarn
 */lazygit/**/*.patch
 */lazygit/state.yml
 
-*/raycast/extensions
-*/raycast/node_modules
-
 */pgcli/history
 */pgcli/log
-
+*/litecli/history
+*/litecli/log
 
 */karabiner/automatic_backups
 
@@ -30,4 +28,8 @@ yarn
 */configstore
 */kfp
 */raycast
-
+*/fish
+*/k9s
+*/Dadroit\/Viewer
+*/kitty
+*/sql-language-server
