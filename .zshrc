@@ -22,6 +22,7 @@ znap source zsh-users/zsh-syntax-highlighting
 
 zmodload zsh/zprof
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH="$HOME/.rd/bin:$PATH"
 export MANPAGER=more
 
 # fancy prompt
@@ -71,8 +72,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 # 10ms for key sequences
 KEYTIMEOUT=10
 
-source "/Users/david.sapiro/Library/Application Support/creds/nexus"
-
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
@@ -82,6 +81,8 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
+
+# add-zsh-hook -Uz chpwd(){ source <(tea -Eds) }  #tea
 
 # nnn
 export NNN_PLUG='d:diff;v:imgview;p:preview-tui;z:autojump;e:dragdrop'
@@ -111,7 +112,7 @@ n ()
 }
 
 # C
-export CC=/usr/local/Cellar/gcc/12.2.0/bin/gcc-12
+# export CC=/usr/local/Cellar/gcc@11/11.3.0/bin/gcc-11
 
 # golang
 export GOPATH=$HOME/dev/go
@@ -124,12 +125,14 @@ export KERL_BUILD_DOCS="yes"
 
 # python
 export PYTHONBREAKPOINT=ipdb.set_trace
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 venv() {
   export VENV_PATH=$(poetry env info --path)
+  PYTHON_V=`ls $VENV_PATH/lib`
+  export EXTRA_PATH=$VENV_PATH/$PYTHON_V
 }
 
 # lua
@@ -177,14 +180,6 @@ pre_prod_pod_shell () {
   kubectx pre-prod
   pod=$(kubectl -n pre-prod top pod --sort-by cpu | grep $1 | sort -k 2 | head -n1 | awk '{print $1}')
   kubectl -n pre-prod exec ${pod} -it -c ${2-main} -- bash;
-}
-
-creds_aws_login_all() {
-  creds aws login -n Development tf-engineers-role
-  creds aws login -n Pre-Prod tf-oncall-role
-  creds aws login -n Production tf-oncall-role
-  creds aws login -n Silo tf-engineers-role
-  export AWS_PROFILE=Development
 }
 
 secret_db_connection() {
@@ -244,6 +239,7 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 # Aliases
 alias cd=z
+alias ..='cd ..'
 alias ls='exa'
 alias ll='exa -lbsnew'
 alias la='exa -lbasnew'
@@ -252,7 +248,6 @@ alias kprod='k9s --context prod-eu'
 alias kdev='k9s --context dev'
 alias kpre='k9s --context pre-prod'
 alias cat=bat
-alias conf='cd ~/.config'
 alias wiki='nvim -c VimwikiIndex'
 alias lg=lazygit
 alias cdr="cd $(git rev-parse --show-toplevel)"
@@ -286,4 +281,13 @@ alias jel='je -1'
 alias jo='jrnl --format fancy -on'
 alias jot='jrnl --format fancy -on today'
 alias joy='jrnl --format fancy -on yesterday'
+
+# poetry
+alias pt='poetry'
+alias ptsh='source $(poetry env info -p)/bin/activate'
+
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
 
