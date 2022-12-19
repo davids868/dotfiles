@@ -1,0 +1,74 @@
+[alias]
+	prettylog = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(r) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+	root = "rev-parse --show-toplevel"
+
+[branch]
+	autosetuprebase = "always"
+
+[color]
+	ui = true
+
+[core]
+	askPass = ""
+	excludesFile = "~/.gitignore"
+	filemode = false
+	ignorecase = false
+
+[credential]
+	helper = "store"
+
+[delta]
+	features = "decorations"
+	whitespace-error-style = "22 reverse"
+
+[delta "decorations"]
+	commit-decoration-style = "blue ol"
+	commit-style = "raw"
+	file-style = "omit"
+	hunk-header-decoration-style = "blue box"
+	hunk-header-file-style = "red"
+	hunk-header-line-number-style = "#067a00"
+	hunk-header-style = "file line-number syntax"
+
+[delta "interactive"]
+	keep-plus-minus-markers = false
+
+[github]
+	user = "davids868"
+
+[init]
+	defaultBranch = "main"
+
+[interactive]
+	diffFilter = "diffFilter = delta --color-only --features=interactive"
+
+[merge]
+	tool = "vimdiff3"
+
+[mergetool]
+	path = "nvim"
+
+[pager]
+	diff = "delta"
+	log = "delta"
+	reflog = "delta"
+	show = "delta"
+
+[push]
+	default = "tracking"
+
+[user]
+	email = "david.sapiro@gmail.com"
+	name = "David Sapiro"
+
+[vimdiff]
+	path = "nvim"
+
+[vimdiff3]
+	path = "nvim"
+
+[includeIf "gitdir:~/work/"]
+	path = "~/work/.gitconfig"
+
+[includeIf "gitdir:/host/encord/work/"]
+	path = "~/work/.gitconfig"
