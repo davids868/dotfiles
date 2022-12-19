@@ -449,20 +449,25 @@ function M.setup()
       self.cwd = vim.fn.fnamemodify(cwd, ":~")
     end,
     hl = { fg = colors.blue, bold = true },
-    utils.make_flexible_component(1, {
-      provider = function(self)
-        local trail = self.cwd:sub(-1) == "/" and "" or "/"
-        return self.icon .. self.cwd .. trail .. " "
-      end,
-    }, {
-      provider = function(self)
-        local cwd = vim.fn.pathshorten(self.cwd)
-        local trail = self.cwd:sub(-1) == "/" and "" or "/"
-        return self.icon .. cwd .. trail .. " "
-      end,
-    }, {
-      provider = "",
-    }),
+    {
+      flexible = 1,
+      {
+        provider = function(self)
+          local trail = self.cwd:sub(-1) == "/" and "" or "/"
+          return self.icon .. self.cwd .. trail .. " "
+        end,
+      },
+      {
+        provider = function(self)
+          local cwd = vim.fn.pathshorten(self.cwd)
+          local trail = self.cwd:sub(-1) == "/" and "" or "/"
+          return self.icon .. cwd .. trail .. " "
+        end,
+      },
+      {
+        provider = "",
+      },
+    },
   }
 
   local HelpFilename = {

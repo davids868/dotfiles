@@ -1,40 +1,7 @@
 require("mason").setup()
 require("mason-lspconfig").setup {
-    automatic_installation = true
+  automatic_installation = true,
 }
-
--- {{{ Temp. fix for nvim-lsp-installer not getting PATHs right
--- (I know this isn't that good, but it will work for me, until the issue gets fixed)
---
-
--- Set some variables
-local nvimDataFolder = os.getenv("XDG_DATA_HOME")
-local lspFolder      = nvimDataFolder .. "/nvim/lsp_servers/"
-vim.fn.setenv("LSP_FOLDER", lspFolder)
-
--- Paths for all the LSPs I installed
-local paths = {
-  os.getenv("PATH"),
-  lspFolder .. "vimls/node_modules/.bin/",
-  lspFolder .. "jsonls/node_modules/.bin/",
-  lspFolder .. "solargraph/bin/",
-  lspFolder .. "cssls/node_modules/.bin/",
-  lspFolder .. "pyright/node_modules/.bin/",
-  lspFolder .. "tsserver/node_modules/.bin/",
-  lspFolder .. "stylelint_lsp/node_modules/.bin/",
-  lspFolder .. "sumneko_lua/extension/server/bin/",
-  lspFolder .. "terraformls/",
-  lspFolder .. "gopls/",
-  -- lspFolder .. "clangd/clangd/bin",
-  lspFolder .. "ccls/ccls/bin",
-  lspFolder .. "rnix/bin",
-  lspFolder .. "prettier/node_modules/.bin/",
-  lspFolder .. "stylua/",
-}
-
--- Add all lsp paths to the $PATH
-vim.fn.setenv("PATH", table.concat(paths, ":") )
--- }}}
 
 -- require "config.lsp.tsserver"() -- also define the commands for lsp-utils so thy are available in telescope
 local nvim_lsp = require "lspconfig"
@@ -67,6 +34,8 @@ local lsp_formatting = function(bufnr)
 end
 
 local on_attach = function(client, bufnr)
+  require("sqls").on_attach(client, bufnr)
+
   if client.supports_method "textDocument/formatting" then
     vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -78,9 +47,9 @@ local on_attach = function(client, bufnr)
     })
   end
 
-  -- if client.name == "null-ls" then
-  --   client.server_capabilities.documentFormatting = false
-  -- end
+  if client.server_capabilities.documentHighlightProvider then
+    require("config.lsp.highlight").setup()
+  end
 
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 

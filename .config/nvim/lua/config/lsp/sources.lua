@@ -70,7 +70,7 @@ configs[server_name] = {
 
 local setup = function(nvim_lsp, on_attach, capabilities)
   -- nvim_lsp.efm.setup {on_attach = on_attach, capabilities = capabilities}
-  require("typescript").setup{
+  require("typescript").setup {
     disable_commands = false, -- prevent the plugin from creating Vim commands
     debug = false, -- enable debug logging for commands
     go_to_source_definition = {
@@ -79,12 +79,13 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     server = {
       on_attach = on_attach,
       capabilities = capabilities,
-      root_dir = function (pattern)
-        local root = util.root_pattern("package.json", "tsconfig.json", ".git")(pattern);
-        return root or vim.loop.cwd();
-      end
+      root_dir = function(pattern)
+        local root = util.root_pattern("package.json", "tsconfig.json", ".git")(pattern)
+        return root or vim.loop.cwd()
+      end,
     },
   }
+  -- nvim_lsp.denols.setup {}
   nvim_lsp.vimls.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.solargraph.setup { on_attach = on_attach, capabilities = capabilities }
   -- nvim_lsp.sorbet.setup {on_attach = on_attach, capabilities = capabilities}
@@ -96,6 +97,25 @@ local setup = function(nvim_lsp, on_attach, capabilities)
   nvim_lsp.ccls.setup { on_attach = on_attach, capabilities = capabilities }
   -- nvim_lsp.rnix.setup { on_attach = on_attach, capabilities = capabilities }
   nvim_lsp.tailwindcss.setup { on_attach = on_attach, capabilities = capabilities }
+  -- nvim_lsp.sqlls.setup {
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   root_dir = util.find_git_ancestor,
+  -- }
+  nvim_lsp.sqls.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      sqls = {
+        connections = {
+          {
+            driver = "postgresql",
+            dataSourceName = "host=10.145.192.5 port=5432 user=postgres password='$Cord$$$1.00' dbname=postgres sslmode=disable",
+          },
+        },
+      },
+    },
+  }
 
   -- nvim_lsp.typeprof.setup { on_attach = on_attach, capabilities = capabilities }
 
@@ -126,15 +146,13 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     },
   }
 
-  nvim_lsp.pyright.setup {
+  local pyright_settings = {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
       python = {
-        pythonPath = vim.env.VENV_PATH .. "/bin/python",
         venvPath = "/home/davids/.cache/pypoetry/virtualenvs/",
         analysis = {
-          extraPaths = { vim.env.VENV_PATH .. "lib/python" },
           autoSearchPaths = true,
           useLibraryCodeForTypes = true,
         },
@@ -142,12 +160,18 @@ local setup = function(nvim_lsp, on_attach, capabilities)
     },
   }
 
-  local sumneko_root_path = "/Users/david.sapiro/personal/lua-language-server"
-  local sumneko_binary = sumneko_root_path .. "/bin/macOS/lua-language-server"
+  local venv = vim.env.VENV_PATH
+
+  if venv then
+    pyright_settings.settings.python.pythonPath = venv .. "/bin/python"
+    pyright_settings.settings.python.analysis.extraPaths = { vim.env.VENV_PATH .. "lib/python" }
+  end
+
+  nvim_lsp.pyright.setup { pyright_settings }
+
   nvim_lsp.sumneko_lua.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
     settings = {
       Lua = {
         runtime = {
