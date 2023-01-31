@@ -102,20 +102,20 @@ local setup = function(nvim_lsp, on_attach, capabilities)
   --   capabilities = capabilities,
   --   root_dir = util.find_git_ancestor,
   -- }
-  nvim_lsp.sqls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
-      sqls = {
-        connections = {
-          {
-            driver = "postgresql",
-            dataSourceName = "host=10.145.192.5 port=5432 user=postgres password='$Cord$$$1.00' dbname=postgres sslmode=disable",
-          },
-        },
-      },
-    },
-  }
+  -- nvim_lsp.sqls.setup {
+  --   on_attach = on_attach,
+  --   capabilities = capabilities,
+  --   settings = {
+  --     sqls = {
+  --       connections = {
+  --         {
+  --           driver = "postgresql",
+  --           dataSourceName = "host=10.145.192.5 port=5432 user=postgres password='$Cord$$$1.00' dbname=postgres sslmode=disable",
+  --         },
+  --       },
+  --     },
+  --   },
+  -- }
 
   -- nvim_lsp.typeprof.setup { on_attach = on_attach, capabilities = capabilities }
 

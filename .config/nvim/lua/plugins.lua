@@ -26,6 +26,7 @@ local function plugins(use)
     },
   }
   use "jose-elias-alvarez/typescript.nvim"
+  -- use "nanotee/sqls.nvim"
   use "jose-elias-alvarez/null-ls.nvim"
   use {
     "j-hui/fidget.nvim",

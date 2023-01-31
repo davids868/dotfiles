@@ -45,6 +45,13 @@ M.setup = function(on_attach)
     null_ls.builtins.formatting.nixfmt,
     null_ls.builtins.formatting.black.with(venv_command "black"),
     null_ls.builtins.formatting.isort.with(venv_command "isort"),
+    -- null_ls.builtins.formatting.sqlformat,
+    null_ls.builtins.formatting.sqlfluff.with {
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    },
+    null_ls.builtins.diagnostics.sqlfluff.with {
+      extra_args = { "--dialect", "postgres" }, -- change to your dialect
+    },
   }
 
   null_ls.setup {
