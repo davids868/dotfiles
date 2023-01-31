@@ -1,5 +1,6 @@
 {
     "global": {
+        "ask_for_confirmation_before_quitting": true,
         "check_for_updates_on_startup": true,
         "show_in_menu_bar": true,
         "show_profile_name_in_menu_bar": true,
@@ -372,7 +373,7 @@
                         "vendor_id": 49835
                     },
                     "ignore": true,
-                    "manipulate_caps_lock_led": true,
+                    "manipulate_caps_lock_led": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
@@ -385,8 +386,8 @@
                         "product_id": 14649,
                         "vendor_id": 49835
                     },
-                    "ignore": false,
-                    "manipulate_caps_lock_led": true,
+                    "ignore": true,
+                    "manipulate_caps_lock_led": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
@@ -587,7 +588,7 @@
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },
-            "selected": false,
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": {
@@ -728,7 +729,7 @@
                         "vendor_id": 49835
                     },
                     "ignore": true,
-                    "manipulate_caps_lock_led": true,
+                    "manipulate_caps_lock_led": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
@@ -741,8 +742,8 @@
                         "product_id": 14649,
                         "vendor_id": 49835
                     },
-                    "ignore": false,
-                    "manipulate_caps_lock_led": true,
+                    "ignore": true,
+                    "manipulate_caps_lock_led": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
@@ -957,7 +958,7 @@
             "parameters": {
                 "delay_milliseconds_before_open_device": 1000
             },
-            "selected": true,
+            "selected": false,
             "simple_modifications": [],
             "virtual_hid_keyboard": {
                 "country_code": 0,
