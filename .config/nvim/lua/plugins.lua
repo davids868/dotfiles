@@ -484,6 +484,8 @@ local function plugins(use)
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-symbols.nvim",
       "nvim-telescope/telescope-fzy-native.nvim",
+      "debugloop/telescope-undo.nvim",
+
       -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
     },
     -- module = "config.telescope",

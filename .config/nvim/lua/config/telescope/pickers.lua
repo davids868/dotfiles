@@ -1,3 +1,4 @@
+local extensions = require("telescope").extensions
 local builtin = require "telescope.builtin"
 local themes = require "telescope.themes"
 local dropdown = themes.get_dropdown {
@@ -62,7 +63,7 @@ function M.builtin()
 end
 
 function M.find_files()
-   require "telescope.builtin".find_files { no_ignore = true, hidden = true }
+  require("telescope.builtin").find_files { no_ignore = true, hidden = true }
 end
 
 function M.git_files()
@@ -172,6 +173,10 @@ end
 
 function M.lsp_document_symbols()
   builtin.lsp_document_symbols()
+end
+
+function M.undo()
+  extensions.undo.undo()
 end
 
 for k, v in pairs(M) do

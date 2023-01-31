@@ -72,6 +72,7 @@ require("telescope").setup {
       override_generic_sorter = false,
       override_file_sorter = true,
     },
+    undo = {},
     -- fzf_writer = {
     --   use_highlighter = false,
     --   minimum_grep_characters = 6,
@@ -80,6 +81,7 @@ require("telescope").setup {
 }
 
 -- Load the fzy native extension at the start.
+pcall(require("telescope").load_extension, "undo")
 pcall(require("telescope").load_extension, "fzy_native")
 pcall(require("telescope").load_extension, "gh")
 pcall(require("telescope").load_extension, "cheat")
