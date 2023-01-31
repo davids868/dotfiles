@@ -1,7 +1,4 @@
-if pcall(require, "impatient") then
-  require("impatient").enable_profile()
-end
-
 require "core"
-require "plugins"
+require("utils.lazy_bootstrap").bootstrap()
 require "utils"
+require("lazy").setup "plugins"

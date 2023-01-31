@@ -1,58 +1,56 @@
-local packer = require "utils.packer"
+return {
+  { "lewis6991/impatient.nvim" },
 
-local function plugins(use)
-  use { "wbthomason/packer.nvim" }
-  use { "lewis6991/impatient.nvim" }
+  "nvim-tree/nvim-web-devicons",
 
-  use "kyazdani42/nvim-web-devicons"
-
-  use { "nvim-lua/plenary.nvim", module = "plenary" }
-  use { "nvim-lua/popup.nvim", module = "popup" }
+  { "nvim-lua/plenary.nvim" },
+  { "nvim-lua/popup.nvim" },
 
   -- LSP
-  use {
+  {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     {
       "neovim/nvim-lspconfig",
-      opt = true,
+      lazy = true,
       event = "BufReadPre",
-      config = [[require("config.lsp")]],
-      requires = {
+      config = function()
+        require "config.lsp"
+      end,
+      dependencies = {
         "jose-elias-alvarez/typescript.nvim",
         "jose-elias-alvarez/null-ls.nvim",
         "folke/lua-dev.nvim",
       },
     },
-  }
-  use "jose-elias-alvarez/typescript.nvim"
-  -- use "nanotee/sqls.nvim"
-  use "jose-elias-alvarez/null-ls.nvim"
-  use {
+  },
+  "jose-elias-alvarez/typescript.nvim",
+  -- "nanotee/sqls.nvim"
+  "jose-elias-alvarez/null-ls.nvim",
+  {
     "j-hui/fidget.nvim",
     config = function()
       require("fidget").setup {}
     end,
-  }
+  },
 
-  use {
+  {
     "glepnir/lspsaga.nvim",
     event = "BufRead",
     config = function()
       require("lspsaga").setup {}
     end,
-    requires = { { "nvim-tree/nvim-web-devicons" } },
-  }
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
 
-  use {
+  {
     "hrsh7th/nvim-cmp",
     event = { "BufEnter" },
-    opt = true,
+    lazy = true,
     config = function()
       require "config.cmp"
     end,
-    wants = { "LuaSnip" },
-    requires = {
+    dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -60,7 +58,7 @@ local function plugins(use)
       "saadparwaiz1/cmp_luasnip",
       {
         "L3MON4D3/LuaSnip",
-        wants = "friendly-snippets",
+        dependencies = { "friendly-snippets" },
         config = function()
           require "config.snips"
         end,
@@ -74,10 +72,10 @@ local function plugins(use)
         end,
       },
     },
-  }
+  },
 
   -- DAP
-  use {
+  {
     "mfussenegger/nvim-dap",
     config = function()
       local dap = require "dap"
@@ -87,20 +85,19 @@ local function plugins(use)
         args = { "-m", "debugpy.adapter" },
       }
     end,
-  }
+  },
 
-  use {
+  {
     "ThePrimeagen/refactoring.nvim",
-    disable = true,
-    requires = {
+    enabled = false,
+    dependencies = {
       { "nvim-lua/plenary.nvim" },
     },
-  }
-  use {
+  },
+  {
     "ThePrimeagen/harpoon",
-    module = { "harpoon.ui", "harpoon.mark" },
-    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
-    setup = function()
+    dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
       nnoremap { "<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>" }
       nnoremap { "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>" }
@@ -117,12 +114,12 @@ local function plugins(use)
     config = function()
       require("harpoon").setup()
     end,
-  }
+  },
 
-  use {
+  {
     "rlane/pounce.nvim",
     cmd = { "Pounce", "PounceRepeat" },
-    setup = function()
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
       local vnoremap = require("utils.mappers").vnoremap
       nnoremap { "s", "<cmd>Pounce<CR>" }
@@ -132,16 +129,14 @@ local function plugins(use)
     config = function()
       require "pounce"
     end,
-  }
+  },
 
   -- Find and replace
-  use {
+  {
     "windwp/nvim-spectre",
-    opt = true,
-    module = "spectre",
-    wants = { "plenary.nvim", "popup.nvim" },
-    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
-    setup = function()
+    lazy = true,
+    dependencies = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
       nnoremap { "<leader>R", ":lua require('spectre').open()<CR>" }
     end,
@@ -155,9 +150,9 @@ local function plugins(use)
         },
       }
     end,
-  }
+  },
 
-  use {
+  {
     "numToStr/Comment.nvim",
     config = function()
       require("Comment").setup {
@@ -181,27 +176,27 @@ local function plugins(use)
         end,
       }
     end,
-    after = "nvim-ts-context-commentstring",
-  }
+    dependencies = { "nvim-ts-context-commentstring" },
+  },
 
-  use {
+  {
     "mbbill/undotree",
     cmd = "UndotreeToggle",
-    setup = function()
+    init = function()
       vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
     end,
-  }
-  use { disable = true, "ludovicchabant/vim-gutentags" }
+  },
+  { enabled = false, "ludovicchabant/vim-gutentags" },
 
-  use {
+  {
     "aserowy/tmux.nvim",
     event = { "VimEnter" },
     config = function()
       require "config.tmux"
     end,
-  }
+  },
 
-  use {
+  {
     "kwkarlwang/bufresize.nvim",
     config = function()
       require("bufresize").setup {
@@ -216,10 +211,10 @@ local function plugins(use)
         },
       }
     end,
-  }
+  },
 
-  use "tpope/vim-repeat"
-  use {
+  "tpope/vim-repeat",
+  {
     "kylechui/nvim-surround",
     config = function()
       require("nvim-surround").setup()
@@ -228,37 +223,37 @@ local function plugins(use)
       vim.keymap.set("o", "ia", "i<")
       vim.keymap.set("o", "aa", "a<")
     end,
-  }
-  use "kevinhwang91/nvim-bqf"
-  use "mg979/vim-visual-multi"
-  use "svermeulen/vim-cutlass"
-  use { "jpalardy/vim-slime", cmd = { "SlimeConfig" } }
-  use { "rafcamlet/nvim-luapad" }
-  use "jparise/vim-graphql"
+  },
+  "kevinhwang91/nvim-bqf",
+  "mg979/vim-visual-multi",
+  "svermeulen/vim-cutlass",
+  { "jpalardy/vim-slime", cmd = { "SlimeConfig" } },
+  { "rafcamlet/nvim-luapad" },
+  "jparise/vim-graphql",
 
   -- Markdown
-  -- use "mattn/calendar-vim"
-  use "renerocksai/calendar-vim"
-  use "reedes/vim-pencil"
-  use { disable = true, "preservim/vim-markdown" }
+  -- "mattn/calendar-vim"
+  "renerocksai/calendar-vim",
+  "reedes/vim-pencil",
+  { enabled = false, "preservim/vim-markdown" },
 
-  use {
+  {
     "iamcco/markdown-preview.nvim",
-    run = function()
+    build = function()
       vim.fn["mkdp#util#install"]()
     end,
     ft = { "markdown", "vim-plug" },
-    setup = function()
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
       nnoremap { "<leader>mp", ":MarkdownPreview<CR>" }
     end,
-  }
+  },
 
-  use { "mzlogin/vim-markdown-toc" }
-  use {
+  { "mzlogin/vim-markdown-toc" },
+  {
     "renerocksai/telekasten.nvim",
-    module = "telekasten",
-    setup = function()
+    lazy = true,
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
 
       nnoremap {
@@ -424,38 +419,39 @@ local function plugins(use)
         rename_update_links = true,
       }
     end,
-  }
-  use {
+  },
+  {
     "vhyrro/neorg",
-    disable = true, -- TODO: enable or remove
-    after = "nvim-treesitter",
+    enabled = false, -- TODO: enable or remove
     config = function()
       require("config.neorg").setup()
     end,
-    requires = "nvim-lua/plenary.nvim",
-  }
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter" },
+  },
 
-  use {
+  {
     "kristijanhusak/orgmode.nvim",
-    disable = true, -- TODO: enable or remove
-    after = "nvim-treesitter",
+    enabled = false, -- TODO: enable or remove
+    dependencies = { "nvim-treesitter" },
     config = function()
       require("orgmode").setup {
         org_agenda_files = { "~/org/*" },
         org_default_notes_file = "~/org/refile.org",
       }
     end,
-  }
+  },
 
-  use {
+  {
     "norcalli/nvim-colorizer.lua",
-    config = [[require("colorizer").setup()]],
-  }
+    config = function()
+      require("colorizer").setup()
+    end,
+  },
 
-  use {
+  {
     "sindrets/winshift.nvim",
     cmd = { "WinShift" },
-    setup = function()
+    init = function()
       local nnoremap = require("utils.mappers").nnoremap
       nnoremap { "<C-w>m", ":WinShift<CR>" }
       nnoremap { "<C-w><C-m>", ":WinShift<CR>" }
@@ -474,14 +470,14 @@ local function plugins(use)
         },
       }
     end,
-  }
+  },
 
-  use {
-    -- disable = true,
+  {
+    -- enabled = false,
     "nvim-telescope/telescope.nvim",
-    -- opt = true,
+    -- lazy = true,
     -- cmd = {"Telescope"},
-    requires = {
+    dependencies = {
       "nvim-telescope/telescope-z.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-lua/popup.nvim",
@@ -490,20 +486,19 @@ local function plugins(use)
       "nvim-telescope/telescope-fzy-native.nvim",
       "debugloop/telescope-undo.nvim",
 
-      -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
+      -- { "nvim-telescope/telescope-frecency.nvim", dependencies = "tami5/sql.nvim" },
     },
-    -- module = "config.telescope",
-    -- setup = function()
+    -- init = function()
     -- end,
     config = function()
       require "config.telescope"
       require "config.telescope.mapping"
     end,
-  }
+  },
 
-  use {
+  {
     "michaelb/sniprun",
-    run = "bash ./install.sh",
+    build = "bash ./install.sh",
     config = function()
       require("sniprun").setup {}
       local nnoremap = require("utils.mappers").nnoremap
@@ -512,52 +507,54 @@ local function plugins(use)
       vnoremap { "<leader>ss", ":SnipRun<CR>" }
       nnoremap { "<leader>sc", ":SnipClose<CR>" }
     end,
-  }
+  },
 
-  use {
+  {
     disable = false, -- TODO: enable or remove
     "glacambre/firenvim",
-    run = function()
+    build = function()
       vim.fn["firenvim#install"](0)
     end,
-    config = [[require("config.firenvim")]],
-  }
+    config = function()
+      require "config.firenvim"
+    end,
+  },
 
-  use {
+  {
     "simrat39/symbols-outline.nvim",
     cmd = { "SymbolsOutline" },
-    setup = function()
+    init = function()
       require("utils.mappers").nnoremap { "<leader>v", ":SymbolsOutline<CR>" }
     end,
     config = function()
       require "config.symbol-outline"
     end,
-  }
+  },
 
-  use {
+  {
     "rebelot/heirline.nvim",
     -- event = {"VimEnter"},
     config = function()
       require "config.heirline"
     end,
-  }
+  },
 
   -- TODO: replace with something better
-  use {
-    disable = true,
+  {
+    enabled = false,
     "kyazdani42/nvim-tree.lua",
     -- config = require("config.tree").config,
     -- setup = require("config.tree").setup,
     cmd = { "NvimTreeToggle" },
-  }
+  },
 
-  use "elihunter173/dirbuf.nvim"
+  "elihunter173/dirbuf.nvim",
 
-  use {
+  {
     "luukvbaal/nnn.nvim",
     config = function()
       local builtin = require("nnn").builtin
-      mappings = {
+      local mappings = {
         { "<C-t>", builtin.open_in_tab }, -- open file(s) in tab
         { "<C-s>", builtin.open_in_split }, -- open file(s) in split
         { "<C-v>", builtin.open_in_vsplit }, -- open file(s) in vertical split
@@ -570,26 +567,28 @@ local function plugins(use)
       require("nnn").setup { picker = { cmd = "nnn -dH" }, mappings = mappings }
       require("utils.mappers").nnoremap { "<leader>n", ":NnnPicker %<CR>" }
     end,
-  }
+  },
 
-  use {
-    -- disable = true, -- TODO: enable or remove
+  {
+    -- enabled = false, -- TODO: enable or remove
     "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    opt = true,
+    build = ":TSUpdate",
+    lazy = true,
     event = "BufRead",
-    config = [[require("config.treesitter")]],
-    requires = {
+    config = function()
+      require "config.treesitter"
+    end,
+    dependencies = {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-context",
     },
-  }
+  },
 
-  use { "windwp/nvim-ts-autotag", opt = true, after = "nvim-treesitter" }
+  { "windwp/nvim-ts-autotag", lazy = true, dependencies = { "nvim-treesitter" } },
 
   -- Git
-  use {
+  {
     {
       "tpope/vim-fugitive",
       config = function()
@@ -624,7 +623,7 @@ local function plugins(use)
     {
       "kdheepak/lazygit.nvim",
       cmd = "LazyGit",
-      setup = function()
+      init = function()
         local nnoremap = require("utils.mappers").nnoremap
         nnoremap { "<leader>lg", ":LazyGit<CR>" }
       end,
@@ -632,11 +631,11 @@ local function plugins(use)
         vim.g.lazygit_floating_window_use_plenary = 0
       end,
     },
-  }
-  use {
+  },
+  {
     "lewis6991/gitsigns.nvim",
     event = "BufReadPre",
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("gitsigns").setup {
         on_attach = function(bufnr)
@@ -674,35 +673,35 @@ local function plugins(use)
         end,
       }
     end,
-  }
+  },
 
   -- color schemes
 
-  use { "rebelot/kanagawa.nvim" }
+  { "rebelot/kanagawa.nvim" },
 
-  use { "Mofiqul/dracula.nvim" }
+  { "Mofiqul/dracula.nvim" },
 
-  use {
+  {
     "folke/zen-mode.nvim",
     cmd = "ZenMode",
-    opt = true,
+    lazy = true,
     config = function()
       require("zen-mode").setup { window = { width = 200 } }
     end,
-    setup = function()
+    init = function()
       require("utils.mappers").nnoremap { "<leader>ze", ":ZenMode<CR>", nil }
     end,
-  }
+  },
 
-  use {
+  {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewFileHistory" },
     config = function()
       require "config.diffview"
     end,
-  }
+  },
 
-  use {
+  {
     "Shatur/neovim-session-manager",
     config = function()
       require("session_manager").setup {
@@ -711,23 +710,23 @@ local function plugins(use)
       }
     end,
     require = { "nvim-lua/plenary.nvim" },
-  }
+  },
 
-  use {
+  {
     "bennypowers/nvim-regexplainer",
-    keys = "gR",
+    lazy = true,
     config = function()
       require("regexplainer").setup()
     end,
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
-  }
+  },
 
   -- take a look at later time as a faster telescope alernative
-  use {
-    disable = true,
+  {
+    enabled = false,
     "camspiers/snap",
     rocks = { "fzy" },
     config = function()
@@ -739,33 +738,5 @@ local function plugins(use)
         { "<Leader>ff", snap.config.vimgrep {} },
       }
     end,
-  }
-end
-
-local disable_distribution_plugins = function()
-  vim.g.loaded_gzip = 1
-  vim.g.loaded_tar = 1
-  vim.g.loaded_tarPlugin = 1
-  vim.g.loaded_zip = 1
-  vim.g.loaded_zipPlugin = 1
-  vim.g.loaded_getscript = 1
-  vim.g.loaded_getscriptPlugin = 1
-  vim.g.loaded_vimball = 1
-  vim.g.loaded_vimballPlugin = 1
-  vim.g.loaded_matchit = 1
-  vim.g.loaded_matchparen = 1
-  vim.g.loaded_2html_plugin = 1
-  vim.g.loaded_logiPat = 1
-  vim.g.loaded_rrhelper = 1
-  -- vim.g.loaded_netrw = 1 -- needed for GBrowse
-  -- vim.g.loaded_netrwPlugin = 1
-  -- vim.g.loaded_netrwSettings = 1
-  -- vim.g.loaded_netrwFileHandlers = 1
-end
-
-local load_plugins = function()
-  disable_distribution_plugins()
-  packer.setup(plugins)
-end
-
-load_plugins()
+  },
+}
