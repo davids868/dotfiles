@@ -217,6 +217,13 @@ how() {
   curl cht.sh/$language/$query
 }
 
+eaptsh() {
+  cd ~/work/encord-active
+  source $(poetry env info -p)/bin/activate
+  cd -
+}
+
+
 envup() {
   local file=$([ -z "$1" ] && echo ".env" || [ -f "$1" ] && echo $1 ||  echo ".env.$1")
 
@@ -237,6 +244,9 @@ eval "$(direnv hook zsh)"
 . /usr/local/opt/asdf/libexec/asdf.sh
 fpath=(${ASDF_DIR}/completions $fpath)
 
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+
+
 # Aliases
 alias cd=z
 alias ..='cd ..'
@@ -247,7 +257,6 @@ alias kk='k9s -c ctx'
 alias kprod='k9s --context prod-eu'
 alias kdev='k9s --context dev'
 alias kpre='k9s --context pre-prod'
-alias cat=bat
 alias wiki='nvim -c VimwikiIndex'
 alias lg=lazygit
 alias cdr="cd $(git rev-parse --show-toplevel)"
@@ -286,6 +295,7 @@ alias joy='jrnl --format fancy -on yesterday'
 alias pt='poetry'
 alias ptsh='source $(poetry env info -p)/bin/activate'
 
+alias ea='encord-active'
 
 autoload -Uz compinit
 zstyle ':completion:*' menu select
