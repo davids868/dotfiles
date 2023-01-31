@@ -64,7 +64,7 @@ bindkey "^N" down-line-or-history
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='nvim --clean -u ~/.vimrc'
+  export EDITOR='nvim'
 fi
 
 export XDG_CONFIG_HOME=$HOME/.config
