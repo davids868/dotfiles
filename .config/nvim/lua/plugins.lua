@@ -36,49 +36,12 @@ local function plugins(use)
   }
 
   use {
-    "glepnir/lspsaga.nvim", -- a maintained fork of glepnir/lspsaga.nvim
-    -- cmd = {"Lspsaga"},
+    "glepnir/lspsaga.nvim",
+    event = "BufRead",
     config = function()
-      require("lspsaga").init_lsp_saga {
-        code_action_lightbulb = {
-          enable = true,
-          sign = true,
-          enable_in_insert = false,
-          sign_priority = 20,
-          virtual_text = false,
-        },
-      }
+      require("lspsaga").setup {}
     end,
-  }
-
-  use {
-    "ThePrimeagen/refactoring.nvim",
-    disable = true,
-    requires = {
-      { "nvim-lua/plenary.nvim" },
-    },
-  }
-  use {
-    "ThePrimeagen/harpoon",
-    module = { "harpoon.ui", "harpoon.mark" },
-    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
-    setup = function()
-      local nnoremap = require("utils.mappers").nnoremap
-      nnoremap { "<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>" }
-      nnoremap { "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>" }
-      nnoremap { "<leader>hm", ":lua require('harpoon.ui').nav_file(1)<CR>" }
-      nnoremap { "<leader>h,", ":lua require('harpoon.ui').nav_file(2)<CR>" }
-      nnoremap { "<leader>h.", ":lua require('harpoon.ui').nav_file(3)<CR>" }
-      nnoremap { "<leader>hj", ":lua require('harpoon.ui').nav_file(4)<CR>" }
-      nnoremap { "<leader>hk", ":lua require('harpoon.ui').nav_file(5)<CR>" }
-      nnoremap { "<leader>hl", ":lua require('harpoon.ui').nav_file(6)<CR>" }
-      nnoremap { "<leader>hu", ":lua require('harpoon.ui').nav_file(7)<CR>" }
-      nnoremap { "<leader>hi", ":lua require('harpoon.ui').nav_file(8)<CR>" }
-      nnoremap { "<leader>ho", ":lua require('harpoon.ui').nav_file(9)<CR>" }
-    end,
-    config = function()
-      require("harpoon").setup()
-    end,
+    requires = { { "nvim-tree/nvim-web-devicons" } },
   }
 
   use {
@@ -111,6 +74,49 @@ local function plugins(use)
         end,
       },
     },
+  }
+
+  -- DAP
+  use {
+    "mfussenegger/nvim-dap",
+    config = function()
+      local dap = require "dap"
+      dap.adapters.python = {
+        type = "executable",
+        command = os.getenv "HOME" .. "/.virtualenvs/tools/bin/python",
+        args = { "-m", "debugpy.adapter" },
+      }
+    end,
+  }
+
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    disable = true,
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+    },
+  }
+  use {
+    "ThePrimeagen/harpoon",
+    module = { "harpoon.ui", "harpoon.mark" },
+    requires = { "nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+    setup = function()
+      local nnoremap = require("utils.mappers").nnoremap
+      nnoremap { "<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>" }
+      nnoremap { "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>" }
+      nnoremap { "<leader>hm", ":lua require('harpoon.ui').nav_file(1)<CR>" }
+      nnoremap { "<leader>h,", ":lua require('harpoon.ui').nav_file(2)<CR>" }
+      nnoremap { "<leader>h.", ":lua require('harpoon.ui').nav_file(3)<CR>" }
+      nnoremap { "<leader>hj", ":lua require('harpoon.ui').nav_file(4)<CR>" }
+      nnoremap { "<leader>hk", ":lua require('harpoon.ui').nav_file(5)<CR>" }
+      nnoremap { "<leader>hl", ":lua require('harpoon.ui').nav_file(6)<CR>" }
+      nnoremap { "<leader>hu", ":lua require('harpoon.ui').nav_file(7)<CR>" }
+      nnoremap { "<leader>hi", ":lua require('harpoon.ui').nav_file(8)<CR>" }
+      nnoremap { "<leader>ho", ":lua require('harpoon.ui').nav_file(9)<CR>" }
+    end,
+    config = function()
+      require("harpoon").setup()
+    end,
   }
 
   use {
@@ -197,8 +203,6 @@ local function plugins(use)
 
   use {
     "kwkarlwang/bufresize.nvim",
-    disable=true,
-
     config = function()
       require("bufresize").setup {
         register = {
@@ -497,7 +501,18 @@ local function plugins(use)
     end,
   }
 
-  use { "michaelb/sniprun", run = "bash ./install.sh" }
+  use {
+    "michaelb/sniprun",
+    run = "bash ./install.sh",
+    config = function()
+      require("sniprun").setup {}
+      local nnoremap = require("utils.mappers").nnoremap
+      local vnoremap = require("utils.mappers").vnoremap
+      nnoremap { "<leader>ss", ":SnipRun<CR>" }
+      vnoremap { "<leader>ss", ":SnipRun<CR>" }
+      nnoremap { "<leader>sc", ":SnipClose<CR>" }
+    end,
+  }
 
   use {
     disable = false, -- TODO: enable or remove
