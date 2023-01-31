@@ -574,7 +574,7 @@ function M.setup()
     Align,
   }
 
-  local StatusLines = {
+  local statusline = {
     hl = function()
       if conditions.is_active() then
         return {
@@ -595,7 +595,7 @@ function M.setup()
     DefaultStatusline,
   }
 
-  local WinBars = {
+  local winbar = {
     fallthrough = false,
     { -- Hide the winbar for special buffers
       condition = function()
@@ -628,7 +628,7 @@ function M.setup()
     utils.surround({ "", "" }, colors.bright_bg, FileNameBlock),
   }
 
-  require("heirline").setup(StatusLines, WinBars)
+  require("heirline").setup { statusline = statusline, winbar = winbar }
 end
 
 vim.cmd [[
