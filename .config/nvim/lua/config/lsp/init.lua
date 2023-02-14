@@ -44,9 +44,9 @@ local on_attach = function(client, bufnr)
     })
   end
 
-  if client.server_capabilities.documentHighlightProvider then
-    require("config.lsp.highlight").setup()
-  end
+  -- if client.server_capabilities.documentHighlightProvider then
+  --   require("config.lsp.highlight").setup()
+  -- end
 
   vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 

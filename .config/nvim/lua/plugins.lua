@@ -1,6 +1,4 @@
 return {
-  { "lewis6991/impatient.nvim" },
-
   "nvim-tree/nvim-web-devicons",
 
   { "nvim-lua/plenary.nvim" },
@@ -72,6 +70,23 @@ return {
         end,
       },
     },
+  },
+
+  {
+    "tzachar/local-highlight.nvim",
+    config = function()
+      require("local-highlight").setup {
+        file_types = { "python", "tsx", "lua" },
+        hlgroup = "TSDefinitionUsage",
+      }
+    end,
+  },
+
+  {
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true,
+    keys = { { "<leader>ga", ":Neogen<cr>", desc = "Neogen" } },
   },
 
   -- DAP
@@ -239,9 +254,7 @@ return {
 
   {
     "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
+    build = "cd app && yarn install",
     ft = { "markdown", "vim-plug" },
     init = function()
       local nnoremap = require("utils.mappers").nnoremap
@@ -582,6 +595,7 @@ return {
       "JoosepAlviste/nvim-ts-context-commentstring",
       "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-treesitter-context",
+      "nvim-treesitter/nvim-treesitter-refactor",
     },
   },
 
