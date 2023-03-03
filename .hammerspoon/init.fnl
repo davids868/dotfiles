@@ -28,7 +28,7 @@
 
 (launchers [
   { :t "alacritty" }
-  { :f "Firefox" }
+  { :f "Finder" }
   { :c "Brave Browser" }
   { :v "alacritty" }
   { :s "Slack" }
