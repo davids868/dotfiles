@@ -294,6 +294,7 @@ alias joy='jrnl --format fancy -on yesterday'
 # poetry
 alias pt='poetry'
 alias ptsh='source $(poetry env info -p)/bin/activate'
+alias ptcd='cd $(poetry env info -p)'
 
 alias ea='encord-active'
 
@@ -301,3 +302,4 @@ autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
+alias lzd='lazydocker'
