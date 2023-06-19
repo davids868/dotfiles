@@ -187,7 +187,8 @@ secret_db_connection() {
 }
 
 # docker
-DOCKER_CONFIG=$HOME/.config/docker
+export DOCKER_CONFIG=$HOME/.config/docker
+export DOCKER_HOST=unix:///Users/encord/.colima/default/docker.sock
 
 dca() {
   docker attach $(docker-compose ps -q $1)
@@ -253,7 +254,7 @@ alias ..='cd ..'
 alias ls='exa'
 alias ll='exa -lbsnew'
 alias la='exa -lbasnew'
-alias kk='k9s -c ctx'
+alias kk='k9s'
 alias kprod='k9s --context prod-eu'
 alias kdev='k9s --context dev'
 alias kpre='k9s --context pre-prod'
