@@ -31,7 +31,8 @@ local languages = {
   "norg",
   "nix",
   "hcl",
-  "fish"
+  "fish",
+  "prisma",
 }
 -- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 
@@ -87,4 +88,4 @@ require("nvim-treesitter.configs").setup {
   },
 }
 
-require'treesitter-context'.setup{}
+require("treesitter-context").setup {}

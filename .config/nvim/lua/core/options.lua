@@ -1,7 +1,6 @@
 local opt = vim.opt
 local g = vim.g
 
-opt.mouse = "a"
 opt.showmode = false
 opt.showmatch = true -- show matching brackets when text indicator is over them
 opt.relativenumber = false -- Show line numbers
