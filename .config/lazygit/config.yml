@@ -1,4 +1,4 @@
-reporting: "off"
+qreporting: "off"
 startuppopupversion: 1
 services:
   "gitlab.eu-west-1.mgmt.onfido.xyz": "gitlab:gitlab.eu-west-1.mgmt.onfido.xyz"
