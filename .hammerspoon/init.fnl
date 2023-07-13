@@ -32,11 +32,13 @@
   { :c "Brave Browser" }
   { :v "alacritty" }
   { :s "Slack" }
+  { :d "Discord" }
   { :m "Spotify" }
   { :w "whatsapp" }
   { "," "System Preferences" }
-  { :n "Notion" }
-  { :o "Orion" }
+  { :n "Notes" }
+  { :t "Notion" }
+  { :o "Opera Developer" }
   { :g "Mail" }
   { :a "AWS VPN Client" }
   { :p "1Password" }
@@ -44,4 +46,6 @@
   { :k "Monkeytype" }
   { :z "Google Meet" }
   { :e "excalidraw" }
+  { :b "Beekeeper Studio" }
+  { :l "Calendar" }
   ])
