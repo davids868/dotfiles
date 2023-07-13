@@ -265,6 +265,7 @@ return {
   { "mzlogin/vim-markdown-toc" },
   {
     "renerocksai/telekasten.nvim",
+    enabled = false,
     lazy = true,
     init = function()
       local nnoremap = require("utils.mappers").nnoremap
