@@ -27,6 +27,7 @@ return {
   "jose-elias-alvarez/null-ls.nvim",
   {
     "j-hui/fidget.nvim",
+    tag = "legacy",
     config = function()
       require("fidget").setup {}
     end,
@@ -201,7 +202,7 @@ return {
       vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
     end,
   },
-  { enabled = false, "ludovicchabant/vim-gutentags" },
+  { enabled = false,        "ludovicchabant/vim-gutentags" },
 
   {
     "aserowy/tmux.nvim",
@@ -242,7 +243,7 @@ return {
   "kevinhwang91/nvim-bqf",
   "mg979/vim-visual-multi",
   "svermeulen/vim-cutlass",
-  { "jpalardy/vim-slime", cmd = { "SlimeConfig" } },
+  { "jpalardy/vim-slime",   cmd = { "SlimeConfig" } },
   { "rafcamlet/nvim-luapad" },
   "jparise/vim-graphql",
 
@@ -250,7 +251,7 @@ return {
   -- "mattn/calendar-vim"
   "renerocksai/calendar-vim",
   "reedes/vim-pencil",
-  { enabled = false, "preservim/vim-markdown" },
+  { enabled = false,           "preservim/vim-markdown" },
 
   {
     "iamcco/markdown-preview.nvim",
@@ -569,14 +570,14 @@ return {
     config = function()
       local builtin = require("nnn").builtin
       local mappings = {
-        { "<C-t>", builtin.open_in_tab }, -- open file(s) in tab
-        { "<C-s>", builtin.open_in_split }, -- open file(s) in split
-        { "<C-v>", builtin.open_in_vsplit }, -- open file(s) in vertical split
-        { "<C-p>", builtin.open_in_preview }, -- open file in preview split keeping nnn focused
+        { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
+        { "<C-s>", builtin.open_in_split },     -- open file(s) in split
+        { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
+        { "<C-p>", builtin.open_in_preview },   -- open file in preview split keeping nnn focused
         -- { "l", builtin.open },   -- open file in preview split keeping nnn focused
         { "<C-y>", builtin.copy_to_clipboard }, -- copy file(s) to clipboard
-        { "<C-w>", builtin.cd_to_path }, -- cd to file directory
-        { "<C-e>", builtin.populate_cmdline }, -- populate cmdline (:) with file(s)
+        { "<C-w>", builtin.cd_to_path },        -- cd to file directory
+        { "<C-e>", builtin.populate_cmdline },  -- populate cmdline (:) with file(s)
       }
       require("nnn").setup { picker = { cmd = "nnn -dH" }, mappings = mappings }
       require("utils.mappers").nnoremap { "<leader>n", ":NnnPicker %<CR>" }
