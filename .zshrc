@@ -308,3 +308,4 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 alias lzd='lazydocker'
+eval "$(atuin init zsh)"
