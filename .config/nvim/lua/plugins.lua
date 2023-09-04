@@ -74,6 +74,24 @@ return {
   },
 
   {
+    {
+      "codota/tabnine-nvim",
+      build = "./dl_binaries.sh",
+      config = function()
+        require("tabnine").setup {
+          disable_auto_comment = true,
+          accept_keymap = "<Tab>",
+          dismiss_keymap = "<C-]>",
+          debounce_ms = 800,
+          suggestion_color = { gui = "#808080", cterm = 244 },
+          exclude_filetypes = { "TelescopePrompt" },
+          log_file_path = nil, -- absolute path to Tabnine log file
+        }
+      end,
+    },
+  },
+
+  {
     "tzachar/local-highlight.nvim",
     config = function()
       require("local-highlight").setup {
@@ -202,7 +220,7 @@ return {
       vim.keymap.set("n", "<leader>u", ":UndotreeToggle<CR>")
     end,
   },
-  { enabled = false,        "ludovicchabant/vim-gutentags" },
+  { enabled = false, "ludovicchabant/vim-gutentags" },
 
   {
     "aserowy/tmux.nvim",
@@ -243,7 +261,7 @@ return {
   "kevinhwang91/nvim-bqf",
   "mg979/vim-visual-multi",
   "svermeulen/vim-cutlass",
-  { "jpalardy/vim-slime",   cmd = { "SlimeConfig" } },
+  { "jpalardy/vim-slime", cmd = { "SlimeConfig" } },
   { "rafcamlet/nvim-luapad" },
   "jparise/vim-graphql",
 
@@ -251,7 +269,7 @@ return {
   -- "mattn/calendar-vim"
   "renerocksai/calendar-vim",
   "reedes/vim-pencil",
-  { enabled = false,           "preservim/vim-markdown" },
+  { enabled = false, "preservim/vim-markdown" },
 
   {
     "iamcco/markdown-preview.nvim",
@@ -570,14 +588,14 @@ return {
     config = function()
       local builtin = require("nnn").builtin
       local mappings = {
-        { "<C-t>", builtin.open_in_tab },       -- open file(s) in tab
-        { "<C-s>", builtin.open_in_split },     -- open file(s) in split
-        { "<C-v>", builtin.open_in_vsplit },    -- open file(s) in vertical split
-        { "<C-p>", builtin.open_in_preview },   -- open file in preview split keeping nnn focused
+        { "<C-t>", builtin.open_in_tab }, -- open file(s) in tab
+        { "<C-s>", builtin.open_in_split }, -- open file(s) in split
+        { "<C-v>", builtin.open_in_vsplit }, -- open file(s) in vertical split
+        { "<C-p>", builtin.open_in_preview }, -- open file in preview split keeping nnn focused
         -- { "l", builtin.open },   -- open file in preview split keeping nnn focused
         { "<C-y>", builtin.copy_to_clipboard }, -- copy file(s) to clipboard
-        { "<C-w>", builtin.cd_to_path },        -- cd to file directory
-        { "<C-e>", builtin.populate_cmdline },  -- populate cmdline (:) with file(s)
+        { "<C-w>", builtin.cd_to_path }, -- cd to file directory
+        { "<C-e>", builtin.populate_cmdline }, -- populate cmdline (:) with file(s)
       }
       require("nnn").setup { picker = { cmd = "nnn -dH" }, mappings = mappings }
       require("utils.mappers").nnoremap { "<leader>n", ":NnnPicker %<CR>" }
@@ -663,8 +681,8 @@ return {
           end
 
           -- Navigation
-          map("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-          map("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+          map("n", "]h", ":Gitsigns next_hunk<CR>")
+          map("n", "[h", ":Gitsigns prev_hunk<CR>")
 
           -- Actions
           map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
