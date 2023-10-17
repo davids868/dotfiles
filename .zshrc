@@ -194,6 +194,15 @@ secret_db_connection() {
 export DOCKER_CONFIG=$HOME/.config/docker
 export DOCKER_HOST=unix:///Users/encord/.colima/default/docker.sock
 
+dbp() {
+  cd ./src/encord_active/frontend/
+  npm run build
+  cd -
+  tag="europe-docker.pkg.dev/cord-ai-platform/encord-active/encord-active:${1}"
+  docker build -t $tag .
+  docker push $tag
+}
+
 dca() {
   docker attach $(docker-compose ps -q $1)
 }
@@ -242,6 +251,11 @@ envup() {
   fi
 }
 
+vpn() {
+  cd /Users/encord/work/cord-backend/scripts
+  sudo python set_up_socks_proxy.py tun_2_socks prod & python set_up_socks_proxy.py ssh_tunnel prod
+}
+
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 
@@ -249,12 +263,28 @@ eval "$(direnv hook zsh)"
 . /usr/local/opt/asdf/libexec/asdf.sh
 fpath=(${ASDF_DIR}/completions $fpath)
 
-export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+# export PATH="/usr/local/opt/postgresql@14/bin:$PATH"
+#
+# export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+# export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+# export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#
+# export PATH="/usr/local/opt/libpq/bin:$PATH"
+# #
+# # # For compilers to find libpq you may need to set:
+# export LDFLAGS="-L/usr/local/opt/libpq/lib"
+# export CPPFLAGS="-I/usr/local/opt/libpq/include"
+# # #
+# # # For pkg-config to find libpq you may need to set:
+# export PKG_CONFIG_PATH="/usr/local/opt/libpq/lib/pkgconfig"
+
 
 
 # Aliases
 alias cd=z
 alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 alias ls='exa'
 alias ll='exa -lbsnew'
 alias la='exa -lbasnew'
@@ -276,17 +306,17 @@ alias gp='git push'
 alias glg="git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat"
 
 # Docker
-alias dc='docker compose'
-alias dcb='docker compose build'
-alias dce='docker compose exec'
-alias dcps='docker compose ps'
-alias dcrm='docker compose rm'
-alias dcr='docker compose run --rm'
-alias dcstop='docker compose stop'
-alias dcup='docker compose up -d'
-alias dcdn='docker compose down'
-alias dcpull='docker compose pull'
-alias dcstart='docker compose start'
+alias dc='docker-compose'
+alias dcb='docker-compose build'
+alias dce='docker-compose exec'
+alias dcps='docker-compose ps'
+alias dcrm='docker-compose rm'
+alias dcr='docker-compose run --rm'
+alias dcstop='docker-compose stop'
+alias dcup='docker-compose up -d'
+alias dcdn='docker-compose down'
+alias dcpull='docker-compose pull'
+alias dcstart='docker-compose start'
 
 # jrnl
 alias j='jrnl'
