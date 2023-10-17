@@ -24,6 +24,24 @@ return {
   },
   "jose-elias-alvarez/typescript.nvim",
   -- "nanotee/sqls.nvim"
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
   "jose-elias-alvarez/null-ls.nvim",
   {
     "j-hui/fidget.nvim",
