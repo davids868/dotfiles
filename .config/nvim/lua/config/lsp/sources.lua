@@ -160,6 +160,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
         analysis = {
           autoSearchPaths = true,
           useLibraryCodeForTypes = true,
+          diagnosticMode = "openFilesOnly",
         },
       },
     },
@@ -169,7 +170,7 @@ local setup = function(nvim_lsp, on_attach, capabilities)
 
   if venv then
     pyright_settings.settings.python.pythonPath = venv .. "/bin/python"
-    pyright_settings.settings.python.analysis.extraPaths = { vim.env.VENV_PATH .. "lib/python" }
+    pyright_settings.settings.python.analysis.extraPaths = { vim.env.VENV_PATH .. "lib" }
   end
 
   nvim_lsp.pyright.setup { pyright_settings }
