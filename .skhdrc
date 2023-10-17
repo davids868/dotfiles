@@ -112,6 +112,7 @@ ctrl + alt + shift - l : yabai -m window --space next; yabai -m space --focus ne
 ctrl + alt + shift - h : yabai -m window --space prev; yabai -m space --focus prev
 
 # focus monitor
+ctrl + alt - t  : yabai -m display --focus recent
 ctrl + alt - p  : yabai -m display --focus prev || yabai -m display --focus last
 ctrl + alt - n  : yabai -m display --focus next || yabai -m display --focus first
 # ctrl + alt - 3  : yabai -m display --focus 3
