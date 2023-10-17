@@ -28,7 +28,7 @@
 
 (launchers [
   { :t "alacritty" }
-  { :f "Finder" }
+  { :f "Figma" }
   { :c "Brave Browser" }
   { :v "alacritty" }
   { :s "Slack" }
@@ -47,5 +47,5 @@
   { :z "Google Meet" }
   { :e "excalidraw" }
   { :b "Beekeeper Studio" }
-  { :l "Calendar" }
+  { :l "Linear.app" }
   ])
