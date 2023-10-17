@@ -39,7 +39,7 @@ font:
     family: "MesloLGSDZ NERD FONT MONO"
     style: Bold Italic
 
-  size: 13.5
+  size: 10.5
   # Visual Bell
   #
   # Any time the BEL code is received, Alacritty "rings" the visual bell. Once
